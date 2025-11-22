@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Kaleidoscopio impulsa ideas y negocios con programas de incubación y acompañamiento creativo para inventores, hackers y visionarios."
+    />
+    <title>Kaleidoscopio | Impulsora e Incubadora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="neon-particles" aria-hidden="true"></div>
+    <header class="main-header">
+      <div class="brand">
+        <div class="triangle-logo" aria-hidden="true">
+          <svg viewBox="0 0 120 104" role="presentation">
+            <polygon points="60,4 116,100 4,100" />
+          </svg>
+        </div>
+        <div>
+          <p class="brand-label">Kaleidoscopio</p>
+          <p class="brand-sub">Impulsora & Incubadora</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <!-- Enlaces con funcionalidad smoothScroll -->
+        <a class="nav-link" onclick="smoothScroll('inicio')">Inicio</a>
+        <a class="nav-link" onclick="smoothScroll('programas')">Programas</a>
+        <a class="nav-link" onclick="smoothScroll('sobre')">Manifiesto</a>
+        <a class="glow-button nav-link" onclick="smoothScroll('programas')">Elegir Ruta</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-grid">
+          <div class="hero-visual" aria-hidden="true">
+            <div class="triangle-orbit">
+              <div class="triangle-core">
+                <svg viewBox="0 0 120 104">
+                  <polygon points="60,4 116,100 4,100" />
+                </svg>
+              </div>
+              <div class="triangle-glow"></div>
+            </div>
+          </div>
+          <div class="hero-content">
+            <p class="hero-kicker">Convocatoria 2025 · Dos caminos</p>
+            <h1>
+              <span class="hero-word hero-word--green">Evoluciona</span>
+              <span class="hero-word hero-word--blue">tu</span>
+              <span class="hero-word hero-word--yellow">invención.</span>
+              <br />
+              De la <span class="hero-word hero-word--magenta">Idea</span> al
+              <span class="hero-word hero-word--orange">Mercado</span>.
+            </h1>
+            <p class="hero-text">
+              Kaleidoscopio bifurca el camino. Ya sea que tengas una servilleta con un dibujo
+              o un prototipo funcional, tenemos el ecosistema para detonarlo.
+            </p>
+            <div class="hero-actions">
+              <!-- Botones con funcionalidad smoothScroll -->
+              <a class="glow-button nav-link" onclick="smoothScroll('programas')">Ver Programas</a>
+              <a class="ghost-button nav-link" onclick="smoothScroll('sobre')">Leer Manifiesto</a>
+            </div>
+          </div>
+        </div>
+        <div class="hero-rings" aria-hidden="true"></div>
+      </section>
+
+      <!-- SECCIÓN PROGRAMAS -->
+      <section class="programs-split section" id="programas">
+        <div class="section-header">
+          <h2>Elige tu Cohort</h2>
+          <p>Dos intensidades. Un mismo objetivo: romper el status quo.</p>
+        </div>
+
+        <div class="program-cards-container">
+          <!-- CARD IMPULSORA -->
+          <div class="program-card impulsora">
+            <div class="card-icon">💡</div>
+            <h3>Impulsora de Ideas</h3>
+            <p class="program-desc">
+              Para visionarios en fase temprana. Tienes la idea, la pasión y la "locura",
+              pero necesitas estructura, validación y el primer prototipo.
+            </p>
+            <ul class="program-features">
+              <li>Validación de Problema</li>
+              <li>Design Thinking Radical</li>
+              <li>Prototipado Rápido</li>
+              <li>Mentoría Creativa</li>
+            </ul>
+            <button
+              class="glow-button"
+              type="button"
+              data-apply-trigger
+              data-program="impulsora"
+            >
+              Aplicar a Impulsora
+            </button>
+          </div>
+
+          <!-- CARD INCUBADORA -->
+          <div class="program-card incubadora">
+            <div class="card-icon">🚀</div>
+            <h3>Incubadora de Negocios</h3>
+            <p class="program-desc">
+              Para proyectos con tracción. Ya tienes un MVP o primeras validaciones.
+              Es hora de armar el modelo de negocio, levantar capital y escalar.
+            </p>
+            <ul class="program-features">
+              <li>Estrategia Comercial</li>
+              <li>Unit Economics</li>
+              <li>Investment Readiness</li>
+              <li>Acceso a Red de Ángeles</li>
+            </ul>
+            <button
+              class="glow-button"
+              type="button"
+              data-apply-trigger
+              data-program="incubadora"
+            >
+              Aplicar a Incubadora
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="manifesto section" id="sobre">
+        <div class="section-header">
+          <h2>Manifiesto de Kaleidoscopio</h2>
+          <p>Siempre volviendo ideas en una realidad, más allá de dejarlas en papel.</p>
+        </div>
+        <div class="manifiesto-grid">
+          <article class="card">
+            <h3><span>01</span> Experimentación radical</h3>
+            <p>
+              Diseñamos laboratorios para romper patrones. Cada prototipo desafía la lógica convencional.
+            </p>
+          </article>
+          <article class="card">
+            <h3><span>02</span> Comunidades</h3>
+            <p>
+              Conectamos inventores, artistas, hackers y visionarios para mezclar talentos en infinitas posibilidades.
+            </p>
+          </article>
+          <article class="card">
+            <h3><span>03</span> Impacto</h3>
+            <p>
+              Buscamos soluciones que rompan lo convencional. La locura es solo otra manifestación de la genialidad.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section experiences" id="experiencias">
+        <div class="section-header">
+          <h2>Lo que dicen otras mentes</h2>
+        </div>
+        <div class="testimonial-grid">
+          <figure class="testimonial-card">
+            <blockquote>
+              “Entré a la Impulsora con un dibujo y salí con una patente en trámite. El caos creativo funciona.”
+            </blockquote>
+            <figcaption>Andrea · Biohacker</figcaption>
+          </figure>
+          <figure class="testimonial-card">
+            <blockquote>
+              “La Incubadora nos dio los números que nos faltaban para levantar nuestra semilla. Brutal.”
+            </blockquote>
+            <figcaption>Diego · Fintech Founder</figcaption>
+          </figure>
+          <figure class="testimonial-card">
+            <blockquote>
+              “Kaleidoscopio es un portal a otras formas de crear negocios sostenibles.”
+            </blockquote>
+            <figcaption>Lina · Diseñadora VR</figcaption>
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="main-footer">
+      <div>
+        <p class="footer-brand">Kaleidoscopio</p>
+        <p>La evolución de la innovación · 2025</p>
+      </div>
+      <div class="footer-cta">
+        <p>¿Listo para entrar al triángulo?</p>
+        <a class="glow-button nav-link" onclick="smoothScroll('programas')">Ver Cohorts</a>
+      </div>
+    </footer>
+
+    <!-- FORMULARIO MODIFICADO -->
+    <div class="form-overlay" id="formOverlay" aria-hidden="true">
+      <div class="form-container">
+        <button class="close-button" id="closeForm" aria-label="Cerrar formulario">×</button>
+
+        <div class="form-header-dynamic">
+            <h2 id="formTitle">Aplicación</h2>
+            <p class="program-badge" id="programBadge">Seleccionado</p>
+        </div>
+
+        <div class="progress-wrapper">
+          <div class="progress-bar-bg">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <p class="progress-message" id="progressMessage">Primer impulso …</p>
+        </div>
+
+        <form id="cohortForm">
+          <input type="hidden" name="programa_seleccionado" id="programSelection" value="">
+
+          <div class="form-step active" data-step="1">
+            <h3>Sección 1 · Datos personales</h3>
+            <label>
+              Nombre completo
+              <input type="text" name="nombre" required />
+            </label>
+            <label>
+              Edad
+              <input type="number" name="edad" min="15" required />
+            </label>
+            <label>
+              Correo electrónico
+              <input type="email" name="email" required />
+            </label>
+            <label>
+              Ciudad / País
+              <input type="text" name="ciudad" required />
+            </label>
+            <label>
+              Profesión o campo de estudio
+              <input type="text" name="profesion" required />
+            </label>
+          </div>
+
+          <div class="form-step" data-step="2">
+            <h3>Sección 2 · Intereses y motivación</h3>
+            <label>
+              ¿Qué te interesa de este programa específico?
+              <textarea name="interes" required></textarea>
+            </label>
+            <label>
+              ¿Qué te motiva a crear o innovar?
+              <textarea name="motivacion" required></textarea>
+            </label>
+            <div class="conditional-field" data-show-if="impulsora">
+                <label>
+                  ¿Qué significa para ti la palabra “locura”?
+                  <textarea name="locura"></textarea>
+                </label>
+            </div>
+             <div class="conditional-field" data-show-if="incubadora">
+                <label>
+                  ¿Cuál es tu visión a 5 años de la empresa?
+                  <textarea name="vision_negocio"></textarea>
+                </label>
+            </div>
+          </div>
+
+          <div class="form-step" data-step="3">
+            <h3>Sección 3 · Experiencia y equipo</h3>
+            <label>
+              ¿Tienes experiencia previa creando proyectos?
+              <textarea name="experiencia" required></textarea>
+            </label>
+            <label>
+              ¿Prefieres trabajar solo, en equipo o liderando un grupo?
+              <input type="text" name="preferencia" required />
+            </label>
+             <div class="conditional-field" data-show-if="incubadora">
+                <label>
+                  ¿Cuántos socios fundadores o empleados tienes actualmente?
+                  <input type="number" name="socios" placeholder="0" />
+                </label>
+            </div>
+          </div>
+
+          <div class="form-step" data-step="4">
+            <h3>Sección 4 · Detalles del Proyecto</h3>
+
+            <div class="conditional-group" data-show-if="impulsora">
+                <p class="optional-note">Enfócate en la creatividad de la idea.</p>
+                <label>
+                  Describe tu idea o "locura" brevemente.
+                  <textarea name="idea_desc"></textarea>
+                </label>
+                <label>
+                    ¿Qué problema crees que resuelve? (Hipótesis)
+                    <textarea name="idea_problema"></textarea>
+                </label>
+            </div>
+
+            <div class="conditional-group" data-show-if="incubadora">
+                <p class="optional-note">Enfócate en la viabilidad y tracción.</p>
+                <label>
+                  Describe tu Producto Mínimo Viable (MVP) actual.
+                  <textarea name="mvp_desc"></textarea>
+                </label>
+                <label>
+                    ¿Tienes ventas o usuarios activos? Describe tus métricas.
+                    <textarea name="metricas"></textarea>
+                </label>
+                <label>
+                    ¿Cuál es tu modelo de monetización?
+                    <textarea name="modelo_negocio"></textarea>
+                </label>
+            </div>
+          </div>
+
+          <div class="form-step" data-step="5">
+            <h3>Sección 5 · Cierre</h3>
+            <label>
+              ¿Por qué crees que deberías ser seleccionado?
+              <textarea name="razon" required></textarea>
+            </label>
+            <label class="checkbox">
+              <span>Me comprometo a cumplir con las sesiones del Cohort.</span>
+              <input type="checkbox" name="compromiso" required />
+            </label>
+          </div>
+
+          <div class="form-step" data-step="6">
+            <h3>¿Qué tipo de inventor eres?</h3>
+            <p class="optional-note">Tu perfil de energía.</p>
+            <div class="inventor-grid" role="radiogroup">
+              <div class="inventor-card" data-value="visionario" tabindex="0">
+                <h4>El visionario</h4>
+                <p>Imagina mundos nuevos.</p>
+              </div>
+              <div class="inventor-card" data-value="hacker" tabindex="0">
+                <h4>El hacker</h4>
+                <p>Rompe sistemas y lógicas.</p>
+              </div>
+              <div class="inventor-card" data-value="artista" tabindex="0">
+                <h4>El artista</h4>
+                <p>Diseña experiencias sensoriales.</p>
+              </div>
+              <div class="inventor-card" data-value="estratega" tabindex="0">
+                <h4>El estratega</h4>
+                <p>Teje rutas y planes maestros.</p>
+              </div>
+            </div>
+            <input type="hidden" name="tipo_inventor" id="tipoInventor" />
+          </div>
+
+          <div class="form-navigation">
+            <button type="button" class="ghost-button" id="prevStep">Volver</button>
+            <button type="button" class="glow-button" id="nextStep">Siguiente</button>
+            <button type="submit" class="glow-button" id="submitForm">Enviar Aplicación</button>
+          </div>
+        </form>
+        <div class="success-message" id="successMessage" hidden>
+          <h3>Solicitud Recibida</h3>
+          <p>Tu aplicación para la <span id="successProgramName">...</span> ha sido enviada al consejo.</p>
+          <button class="ghost-button" id="closeSuccess">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
