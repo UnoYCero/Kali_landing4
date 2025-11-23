@@ -31,6 +31,7 @@
       const programBadge = document.getElementById("programBadge");
       const programInput = document.getElementById("programSelection");
       const successProgramName = document.getElementById("successProgramName");
+      const formNameInput = form.querySelector('input[name="form-name"]');
 
       let currentStep = 0;
       const totalSteps = steps.length;
@@ -56,7 +57,10 @@
       const configureFormForProgram = (type) => {
           resetForm();
           programInput.value = type;
-          
+          const formName = type === "incubadora" ? "cohort-incubadora" : "cohort-impulsora";
+          formNameInput.value = formName;
+          form.setAttribute("name", formName);
+
           if (type === "incubadora") {
               formTitle.textContent = "Aplicación Incubadora";
               programBadge.textContent = "Cohort Negocios";
