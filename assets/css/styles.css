@@ -792,6 +792,15 @@
         padding: 2.5rem 1.5rem;
       }
 
+      /* Campo honeypot para Netlify */
+      .honeypot {
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+
       .success-message h3 {
         font-size: 2rem;
         margin-bottom: 1rem;
