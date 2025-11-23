@@ -13,6 +13,8 @@ const formOverlay = document.getElementById("formOverlay");
 const applyTriggers = Array.from(
   document.querySelectorAll("[data-apply-trigger]")
 );
+const menuToggle = document.getElementById("menuToggle");
+const mainNav = document.getElementById("mainNav");
 const closeForm = document.getElementById("closeForm");
 const form = document.getElementById("cohortForm");
 const steps = Array.from(document.querySelectorAll(".form-step"));
@@ -42,6 +44,32 @@ const progressPhrases = [
 ];
 const submitDefaultText = "Enviar Aplicación";
 const submittingText = "Enviando…";
+
+if (menuToggle && mainNav) {
+  const toggleMenu = () => {
+    const isOpen = mainNav.classList.toggle("open");
+    menuToggle.classList.toggle("is-active", isOpen);
+    menuToggle.setAttribute("aria-expanded", isOpen);
+  };
+
+  menuToggle.addEventListener("click", toggleMenu);
+
+  mainNav.querySelectorAll(".nav-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (mainNav.classList.contains("open")) {
+        toggleMenu();
+      }
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 960 && mainNav.classList.contains("open")) {
+      mainNav.classList.remove("open");
+      menuToggle.classList.remove("is-active");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+}
 
 const triggerForm = (event) => {
   const button = event.currentTarget;
