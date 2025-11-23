@@ -21,17 +21,22 @@
         scroll-padding-top: 100px; /* Offset para el header fijo */
       }
 
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Space Grotesk", system-ui, sans-serif;
-        background: radial-gradient(circle at top, rgba(243, 255, 62, 0.07), transparent 60%),
-          var(--bg-dark);
-        color: var(--text);
-        min-height: 100%;
-        position: relative;
-        overflow-x: hidden;
-      }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  background: radial-gradient(circle at top, rgba(243, 255, 62, 0.07), transparent 60%),
+    var(--bg-dark);
+  color: var(--text);
+  min-height: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+[hidden],
+.netlify-hidden {
+  display: none !important;
+}
 
       /* Utilidad para enlaces que actúan como botones de scroll */
       .nav-link {
