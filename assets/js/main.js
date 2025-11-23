@@ -26,11 +26,22 @@
       const inventorCards = Array.from(document.querySelectorAll(".inventor-card"));
       const tipoInventorInput = document.getElementById("tipoInventor");
 
+      // Panel de respuestas
+      const openResponses = document.getElementById("openResponses");
+      const dataOverlay = document.getElementById("dataOverlay");
+      const closeData = document.getElementById("closeData");
+      const responsesList = document.getElementById("responsesList");
+      const exportJsonBtn = document.getElementById("exportJson");
+      const exportCsvBtn = document.getElementById("exportCsv");
+      const responseCount = document.getElementById("responseCount");
+
       // Elementos nuevos para lógica condicional
       const formTitle = document.getElementById("formTitle");
       const programBadge = document.getElementById("programBadge");
       const programInput = document.getElementById("programSelection");
       const successProgramName = document.getElementById("successProgramName");
+
+      const STORAGE_KEY = "kaleidoscopio_respuestas";
 
       let currentStep = 0;
       const totalSteps = steps.length;
@@ -182,6 +193,16 @@
           highlightInvalid();
           return;
         }
+
+        const formData = new FormData(form);
+        const responseObject = Object.fromEntries(formData.entries());
+        responseObject.timestamp = new Date().toISOString();
+
+        const stored = loadResponses();
+        stored.push(responseObject);
+        saveResponses(stored);
+        renderResponses();
+
         form.setAttribute("hidden", "true");
         successMessage.hidden = false;
         progressBar.style.width = "100%";
@@ -201,6 +222,133 @@
         tipoInventorInput.value = "";
         updateStepVisibility();
       };
+
+      const loadResponses = () => {
+        const data = localStorage.getItem(STORAGE_KEY);
+        if (!data) return [];
+        try {
+          const parsed = JSON.parse(data);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          console.error("No se pudieron leer las respuestas", error);
+          return [];
+        }
+      };
+
+      const saveResponses = (responses) => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(responses));
+      };
+
+      const formatDate = (isoString) => {
+        const date = new Date(isoString);
+        return date.toLocaleString("es-ES", {
+          dateStyle: "short",
+          timeStyle: "short",
+        });
+      };
+
+      const renderResponses = () => {
+        const responses = loadResponses();
+        responsesList.innerHTML = "";
+
+        if (!responses.length) {
+          responseCount.textContent = "Aún no hay respuestas.";
+          return;
+        }
+
+        responseCount.textContent = `${responses.length} respuesta${
+          responses.length === 1 ? "" : "s"
+        } guardada${responses.length === 1 ? "" : "s"}.`;
+
+        responses
+          .slice()
+          .reverse()
+          .forEach((item, index) => {
+            const container = document.createElement("article");
+            container.className = "data-item";
+            const programLabel =
+              item.programa_seleccionado === "incubadora"
+                ? "Incubadora de Negocios"
+                : "Impulsora de Ideas";
+
+            container.innerHTML = `
+              <h4>Aplicante #${responses.length - index}</h4>
+              <div class="data-meta">
+                <span>${programLabel}</span>
+                <span>${formatDate(item.timestamp)}</span>
+                <span>${item.email || "Sin correo"}</span>
+              </div>
+            `;
+
+            const rows = document.createElement("div");
+            rows.className = "data-row";
+
+            Object.entries(item).forEach(([key, value]) => {
+              if (key === "timestamp") return;
+              const label = key.replace(/_/g, " ");
+              const row = document.createElement("div");
+              row.innerHTML = `<strong>${label}</strong><div>${
+                value || "(sin dato)"
+              }</div>`;
+              rows.appendChild(row);
+            });
+
+            container.appendChild(rows);
+            responsesList.appendChild(container);
+          });
+      };
+
+      const openDataOverlay = () => {
+        renderResponses();
+        dataOverlay.classList.add("active");
+        dataOverlay.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      };
+
+      const closeDataOverlay = () => {
+        dataOverlay.classList.remove("active");
+        dataOverlay.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      };
+
+      openResponses?.addEventListener("click", openDataOverlay);
+      closeData?.addEventListener("click", closeDataOverlay);
+
+      dataOverlay?.addEventListener("click", (event) => {
+        if (event.target === dataOverlay) {
+          closeDataOverlay();
+        }
+      });
+
+      const downloadFile = (filename, content, type = "application/json") => {
+        const blob = new Blob([content], { type });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(url);
+      };
+
+      exportJsonBtn?.addEventListener("click", () => {
+        const responses = loadResponses();
+        downloadFile(
+          "respuestas_kaleidoscopio.json",
+          JSON.stringify(responses, null, 2)
+        );
+      });
+
+      exportCsvBtn?.addEventListener("click", () => {
+        const responses = loadResponses();
+        if (!responses.length) return;
+
+        const headers = Object.keys(responses[0]);
+        const rows = responses.map((resp) =>
+          headers.map((key) => JSON.stringify(resp[key] ?? "")).join(",")
+        );
+        const csvContent = [headers.join(","), ...rows].join("\n");
+        downloadFile("respuestas_kaleidoscopio.csv", csvContent, "text/csv");
+      });
 
       inventorCards.forEach((card) => {
         const selectCard = () => {
@@ -236,6 +384,7 @@
 
       window.addEventListener("DOMContentLoaded", () => {
         updateStepVisibility();
+        renderResponses();
       });
 
       const hero = document.querySelector(".hero");
