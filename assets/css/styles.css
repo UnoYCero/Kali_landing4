@@ -653,6 +653,17 @@
         text-transform: uppercase;
       }
 
+      .form-feedback {
+        margin: 0.5rem 0 0;
+        font-size: 0.95rem;
+        color: var(--green);
+        letter-spacing: 0.02em;
+      }
+
+      .form-feedback.error {
+        color: var(--red);
+      }
+
       form {
         display: flex;
         flex-direction: column;
