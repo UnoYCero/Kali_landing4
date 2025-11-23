@@ -195,7 +195,7 @@
         setSubmittingState(false);
       };
 
-      form.addEventListener("submit", (event) => {
+      form.addEventListener("submit", async (event) => {
         event.preventDefault();
         if (!validateStep()) {
           highlightInvalid();
@@ -203,19 +203,29 @@
         }
 
         setSubmittingState(true);
-        const formData = new FormData(form);
-        const encodedData = new URLSearchParams(formData).toString();
 
-        fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: encodedData
-        })
-          .then(() => handleSuccess())
-          .catch(() => {
-            progressMessage.textContent = "No pudimos enviar tu aplicación. Inténtalo de nuevo.";
-            setSubmittingState(false);
+        const formData = new FormData(form);
+        if (!formData.has("form-name")) {
+          formData.append("form-name", formNameInput.value || form.getAttribute("name"));
+        }
+
+        try {
+          const response = await fetch(form.action || "/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(formData).toString()
           });
+
+          if (!response.ok) {
+            throw new Error("Netlify submission failed");
+          }
+
+          handleSuccess();
+        } catch (error) {
+          console.error("Error enviando el formulario", error);
+          progressMessage.textContent = "No pudimos enviar tu aplicación. Inténtalo de nuevo.";
+          setSubmittingState(false);
+        }
       });
 
       closeSuccess.addEventListener("click", () => {
