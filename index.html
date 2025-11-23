@@ -220,14 +220,20 @@
           id="cohortForm"
           name="cohort-application"
           method="POST"
-          action="/"
+          action="/?no-cache=1"
           data-netlify="true"
           netlify-honeypot="bot-field"
+          accept-charset="UTF-8"
         >
           <!-- Nombre del formulario para Netlify -->
           <input type="hidden" name="form-name" value="cohort-application" />
           <!-- Honeypot (anti-bots) -->
-          <input type="hidden" name="bot-field" />
+          <p class="honeypot" aria-hidden="true">
+            <label>
+              No completar si eres humano
+              <input type="text" name="bot-field" tabindex="-1" />
+            </label>
+          </p>
           <!-- Programa seleccionado (se llena vía JS) -->
           <input
             type="hidden"
