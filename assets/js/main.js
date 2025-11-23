@@ -39,6 +39,8 @@
         "Casi listo para romper el molde…",
         "Bienvenido al Kaleidoscopio."
       ];
+      const submitDefaultText = "Enviar Aplicación";
+      const submittingText = "Enviando…";
 
       const triggerForm = (event) => {
         const button = event.currentTarget;
@@ -176,16 +178,40 @@
         });
       };
 
+      const setSubmittingState = (isSubmitting) => {
+        submitButton.disabled = isSubmitting;
+        submitButton.textContent = isSubmitting ? submittingText : submitDefaultText;
+      };
+
+      const handleSuccess = () => {
+        form.setAttribute("hidden", "true");
+        successMessage.hidden = false;
+        progressBar.style.width = "100%";
+        progressMessage.textContent = progressPhrases[2];
+        setSubmittingState(false);
+      };
+
       form.addEventListener("submit", (event) => {
         event.preventDefault();
         if (!validateStep()) {
           highlightInvalid();
           return;
         }
-        form.setAttribute("hidden", "true");
-        successMessage.hidden = false;
-        progressBar.style.width = "100%";
-        progressMessage.textContent = progressPhrases[2];
+
+        setSubmittingState(true);
+        const formData = new FormData(form);
+        const encodedData = new URLSearchParams(formData).toString();
+
+        fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encodedData
+        })
+          .then(() => handleSuccess())
+          .catch(() => {
+            progressMessage.textContent = "No pudimos enviar tu aplicación. Inténtalo de nuevo.";
+            setSubmittingState(false);
+          });
       });
 
       closeSuccess.addEventListener("click", () => {
@@ -197,6 +223,7 @@
         currentStep = 0;
         successMessage.hidden = true;
         form.removeAttribute("hidden");
+        setSubmittingState(false);
         inventorCards.forEach((card) => card.classList.remove("selected"));
         tipoInventorInput.value = "";
         updateStepVisibility();
