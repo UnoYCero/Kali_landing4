@@ -216,7 +216,15 @@
           <p class="progress-message" id="progressMessage">Primer impulso …</p>
         </div>
 
-        <form id="cohortForm">
+        <form
+          id="cohortForm"
+          name="cohort-application"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+        >
+          <input type="hidden" name="form-name" value="cohort-application" />
+          <input type="hidden" name="bot-field" />
           <input type="hidden" name="programa_seleccionado" id="programSelection" value="">
 
           <div class="form-step active" data-step="1">
