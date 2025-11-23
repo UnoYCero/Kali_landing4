@@ -203,25 +203,15 @@
         }
 
         setSubmittingState(true);
-
         const formData = new FormData(form);
-        // Netlify requiere que el nombre del formulario viaje explícitamente
-        formData.set("form-name", form.getAttribute("name"));
-
         const encodedData = new URLSearchParams(formData).toString();
-        const action = form.getAttribute("action") || "/";
 
-        fetch(action, {
+        fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: encodedData
         })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Solicitud fallida");
-            }
-            handleSuccess();
-          })
+          .then(() => handleSuccess())
           .catch(() => {
             progressMessage.textContent = "No pudimos enviar tu aplicación. Inténtalo de nuevo.";
             setSubmittingState(false);
