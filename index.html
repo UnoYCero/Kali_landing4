@@ -196,6 +196,10 @@
       <div class="footer-cta">
         <p>¿Listo para entrar al triángulo?</p>
         <a class="glow-button nav-link" onclick="smoothScroll('programas')">Ver Cohorts</a>
+        <button class="ghost-button" id="openResponses" type="button">
+          Revisar respuestas
+        </button>
+        <p class="admin-note">Solo visible para el equipo.</p>
       </div>
     </footer>
 
@@ -364,6 +368,25 @@
           <p>Tu aplicación para la <span id="successProgramName">...</span> ha sido enviada al consejo.</p>
           <button class="ghost-button" id="closeSuccess">Cerrar</button>
         </div>
+      </div>
+    </div>
+
+    <div class="data-overlay" id="dataOverlay" aria-hidden="true">
+      <div class="data-container">
+        <button class="close-button" id="closeData" aria-label="Cerrar panel">×</button>
+        <div class="data-header">
+          <div>
+            <p class="eyebrow">Panel interno</p>
+            <h3>Respuestas recibidas</h3>
+            <p class="muted">Las respuestas se guardan en tu navegador para consulta rápida.</p>
+          </div>
+          <div class="export-actions">
+            <button class="ghost-button" id="exportJson" type="button">Descargar JSON</button>
+            <button class="glow-button" id="exportCsv" type="button">Descargar CSV</button>
+          </div>
+        </div>
+        <p class="muted" id="responseCount">Aún no hay respuestas.</p>
+        <div class="data-list" id="responsesList" role="list"></div>
       </div>
     </div>
 
