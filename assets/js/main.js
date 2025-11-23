@@ -31,6 +31,7 @@
       const programBadge = document.getElementById("programBadge");
       const programInput = document.getElementById("programSelection");
       const successProgramName = document.getElementById("successProgramName");
+      const formNameInput = form.querySelector('input[name="form-name"]');
 
       let currentStep = 0;
       const totalSteps = steps.length;
@@ -39,6 +40,8 @@
         "Casi listo para romper el molde…",
         "Bienvenido al Kaleidoscopio."
       ];
+      const submitDefaultText = "Enviar Aplicación";
+      const submittingText = "Enviando…";
 
       const triggerForm = (event) => {
         const button = event.currentTarget;
@@ -54,7 +57,10 @@
       const configureFormForProgram = (type) => {
           resetForm();
           programInput.value = type;
-          
+          const formName = type === "incubadora" ? "cohort-incubadora" : "cohort-impulsora";
+          formNameInput.value = formName;
+          form.setAttribute("name", formName);
+
           if (type === "incubadora") {
               formTitle.textContent = "Aplicación Incubadora";
               programBadge.textContent = "Cohort Negocios";
@@ -176,16 +182,50 @@
         });
       };
 
+      const setSubmittingState = (isSubmitting) => {
+        submitButton.disabled = isSubmitting;
+        submitButton.textContent = isSubmitting ? submittingText : submitDefaultText;
+      };
+
+      const handleSuccess = () => {
+        form.setAttribute("hidden", "true");
+        successMessage.hidden = false;
+        progressBar.style.width = "100%";
+        progressMessage.textContent = progressPhrases[2];
+        setSubmittingState(false);
+      };
+
       form.addEventListener("submit", (event) => {
         event.preventDefault();
         if (!validateStep()) {
           highlightInvalid();
           return;
         }
-        form.setAttribute("hidden", "true");
-        successMessage.hidden = false;
-        progressBar.style.width = "100%";
-        progressMessage.textContent = progressPhrases[2];
+
+        setSubmittingState(true);
+
+        const formData = new FormData(form);
+        // Netlify requiere que el nombre del formulario viaje explícitamente
+        formData.set("form-name", form.getAttribute("name"));
+
+        const encodedData = new URLSearchParams(formData).toString();
+        const action = form.getAttribute("action") || "/";
+
+        fetch(action, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encodedData
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Solicitud fallida");
+            }
+            handleSuccess();
+          })
+          .catch(() => {
+            progressMessage.textContent = "No pudimos enviar tu aplicación. Inténtalo de nuevo.";
+            setSubmittingState(false);
+          });
       });
 
       closeSuccess.addEventListener("click", () => {
@@ -197,6 +237,7 @@
         currentStep = 0;
         successMessage.hidden = true;
         form.removeAttribute("hidden");
+        setSubmittingState(false);
         inventorCards.forEach((card) => card.classList.remove("selected"));
         tipoInventorInput.value = "";
         updateStepVisibility();
