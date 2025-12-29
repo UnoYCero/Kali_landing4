@@ -27,6 +27,12 @@ const successMessage = document.getElementById("successMessage");
 const closeSuccess = document.getElementById("closeSuccess");
 const inventorCards = Array.from(document.querySelectorAll(".inventor-card"));
 const tipoInventorInput = document.getElementById("tipoInventor");
+const colorCards = Array.from(document.querySelectorAll(".color-card"));
+const colorAreaInput = document.getElementById("colorArea");
+const acceptTermsButton = document.getElementById("acceptTermsButton");
+const termsAcceptedInput = document.getElementById("termsAccepted");
+const termsLink = document.getElementById("viewTermsLink");
+const termsContent = document.getElementById("termsContent");
 
 // Elementos para lógica condicional
 const formTitle = document.getElementById("formTitle");
@@ -208,14 +214,29 @@ const highlightInvalid = () => {
     const invalid =
       field.hasAttribute("required") && field.value.trim() === "";
     if (field.type === "checkbox" && field.hasAttribute("required")) {
-      field.parentElement.classList.toggle("shake", !field.checked);
+      const target =
+        field.id === "termsAccepted"
+          ? acceptTermsButton || field.parentElement
+          : field.parentElement;
+      target?.classList.toggle("shake", !field.checked);
       if (!field.checked) {
-        setTimeout(() => field.parentElement.classList.remove("shake"), 400);
+        setTimeout(() => target?.classList.remove("shake"), 400);
       }
     }
     if (invalid) {
       field.classList.add("invalid");
       setTimeout(() => field.classList.remove("invalid"), 600);
+    }
+
+    if (field.id === "colorArea" && !field.value.trim()) {
+      colorCards.forEach((card) => {
+        card.classList.add("shake");
+        setTimeout(() => card.classList.remove("shake"), 400);
+      });
+    }
+    if (field.id === "termsAccepted" && !field.checked) {
+      acceptTermsButton?.classList.add("shake");
+      setTimeout(() => acceptTermsButton?.classList.remove("shake"), 400);
     }
   });
 };
@@ -223,6 +244,17 @@ const highlightInvalid = () => {
 const setSubmittingState = (isSubmitting) => {
   submitButton.disabled = isSubmitting;
   submitButton.textContent = isSubmitting ? submittingText : submitDefaultText;
+};
+
+const setTermsAcceptance = (isAccepted) => {
+  if (!termsAcceptedInput || !acceptTermsButton) return;
+  termsAcceptedInput.checked = isAccepted;
+  termsAcceptedInput.value = isAccepted ? "aceptado" : "";
+  acceptTermsButton.classList.toggle("accepted", isAccepted);
+  acceptTermsButton.setAttribute("aria-pressed", String(isAccepted));
+  acceptTermsButton.textContent = isAccepted
+    ? "Términos aceptados"
+    : "Aceptar términos y condiciones";
 };
 
 const handleSuccess = () => {
@@ -280,8 +312,22 @@ const resetForm = () => {
   successMessage.hidden = true;
   form.removeAttribute("hidden");
   setSubmittingState(false);
-  inventorCards.forEach((card) => card.classList.remove("selected"));
+  inventorCards.forEach((card) => {
+    card.classList.remove("selected");
+    card.setAttribute("aria-checked", "false");
+  });
   tipoInventorInput.value = "";
+  colorCards.forEach((card) => {
+    card.classList.remove("selected");
+    card.setAttribute("aria-checked", "false");
+  });
+  if (colorAreaInput) colorAreaInput.value = "";
+  setTermsAcceptance(false);
+  if (termsContent) termsContent.setAttribute("hidden", "true");
+  if (termsLink) {
+    termsLink.textContent = "Ver términos y condiciones";
+    termsLink.setAttribute("aria-expanded", "false");
+  }
   updateStepVisibility();
 };
 
@@ -289,8 +335,12 @@ inventorCards.forEach((card) => {
   const selectCard = () => {
     const value = card.dataset.value;
     if (!value) return;
-    inventorCards.forEach((c) => c.classList.remove("selected"));
+    inventorCards.forEach((c) => {
+      c.classList.remove("selected");
+      c.setAttribute("aria-checked", "false");
+    });
     card.classList.add("selected");
+    card.setAttribute("aria-checked", "true");
     tipoInventorInput.value = value;
   };
 
@@ -301,6 +351,48 @@ inventorCards.forEach((card) => {
       selectCard();
     }
   });
+});
+
+colorCards.forEach((card) => {
+  const selectColor = () => {
+    const value = card.dataset.color;
+    if (!value || !colorAreaInput) return;
+    colorCards.forEach((c) => {
+      c.classList.remove("selected");
+      c.setAttribute("aria-checked", "false");
+    });
+    card.classList.add("selected");
+    card.setAttribute("aria-checked", "true");
+    colorAreaInput.value = value;
+  };
+
+  card.addEventListener("click", selectColor);
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      selectColor();
+    }
+  });
+});
+
+acceptTermsButton?.addEventListener("click", () => {
+  const nextState = !(termsAcceptedInput?.checked ?? false);
+  setTermsAcceptance(nextState);
+});
+
+termsLink?.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (!termsContent) return;
+  const willShow = termsContent.hasAttribute("hidden");
+  if (willShow) {
+    termsContent.removeAttribute("hidden");
+  } else {
+    termsContent.setAttribute("hidden", "true");
+  }
+  termsLink.setAttribute("aria-expanded", String(willShow));
+  termsLink.textContent = willShow
+    ? "Ocultar términos y condiciones"
+    : "Ver términos y condiciones";
 });
 
 const animatedElements = document.querySelectorAll(
@@ -321,6 +413,7 @@ animatedElements.forEach((el) => observer.observe(el));
 
 window.addEventListener("DOMContentLoaded", () => {
   updateStepVisibility();
+  setTermsAcceptance(false);
 });
 
 const hero = document.querySelector(".hero");
