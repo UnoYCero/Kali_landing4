@@ -13,6 +13,17 @@ const formOverlay = document.getElementById("formOverlay");
 const applyTriggers = Array.from(
   document.querySelectorAll("[data-apply-trigger]")
 );
+const programOverlay = document.getElementById("programOverlay");
+const closeProgramOverlay = document.getElementById("closeProgramOverlay");
+const backToPrograms = document.getElementById("backToPrograms");
+const startRegistrationButton = document.getElementById("startRegistrationButton");
+const programDetailTitle = document.getElementById("programDetailTitle");
+const programDetailBadge = document.getElementById("programDetailBadge");
+const programDetailLead = document.getElementById("programDetailLead");
+const programDetailMeta = document.getElementById("programDetailMeta");
+const programDetailIncludes = document.getElementById("programDetailIncludes");
+const programDetailResults = document.getElementById("programDetailResults");
+const programModules = document.getElementById("programModules");
 const menuToggle = document.getElementById("menuToggle");
 const mainNav = document.getElementById("mainNav");
 const closeForm = document.getElementById("closeForm");
@@ -40,6 +51,7 @@ const programBadge = document.getElementById("programBadge");
 const programInput = document.getElementById("programSelection");
 const successProgramName = document.getElementById("successProgramName");
 const formNameInput = form.querySelector('input[name="form-name"]');
+const bodyEl = document.body;
 
 let currentStep = 0;
 const totalSteps = steps.length;
@@ -81,11 +93,127 @@ const triggerForm = (event) => {
   const button = event.currentTarget;
   const programType = button.dataset.program || "impulsora";
 
-  configureFormForProgram(programType);
+  openProgramDetails(programType);
+};
 
-  formOverlay.classList.add("active");
-  formOverlay.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
+const programContent = {
+  impulsora: {
+    title: "Impulsora de Ideas",
+    badge: "Cohort Creativo",
+    color: "var(--yellow)",
+    lead:
+      "Lleva tu idea desde una servilleta a un prototipo validado con sesiones guiadas y mentorías aplicadas.",
+    meta: ["Duración: 6 semanas", "Modalidad: Híbrida", "Enfoque: Creatividad + Prototipado"],
+    includes: [
+      "Sprints de Design Thinking radical",
+      "Laboratorios de ideación asistida",
+      "Prototipado express con expertos",
+      "Pitch inicial y retroalimentación",
+    ],
+    results: [
+      "Hipótesis de problema/solución validadas",
+      "Primer prototipo funcional o storyboard",
+      "Mapa de riesgos y próximos experimentos",
+    ],
+    modules: [
+      { title: "Semana 1 · Explosión de ideas", desc: "Explora problemas, usuarios y dolores con ejercicios creativos." },
+      { title: "Semana 2 · Diseño radical", desc: "Define la propuesta de valor con design thinking radical." },
+      { title: "Semana 3 · Prototipo express", desc: "Construye y prueba un primer prototipo tangible o digital." },
+      { title: "Semana 4 · Validación", desc: "Testea con usuarios reales y recoge evidencia accionable." },
+      { title: "Semana 5 · Iteración", desc: "Refina la solución con mentorías 1:1 y feedback del panel." },
+      { title: "Semana 6 · Demo ready", desc: "Prepara un pitch y plan de siguientes pasos." },
+    ],
+  },
+  incubadora: {
+    title: "Incubadora de Negocios",
+    badge: "Cohort Negocios",
+    color: "var(--blue)",
+    lead:
+      "Escala tu MVP con estrategia comercial, métricas claras y preparación para inversión.",
+    meta: ["Duración: 8 semanas", "Modalidad: Híbrida", "Enfoque: Negocio + Tracción"],
+    includes: [
+      "Mentorías con operadores y founders",
+      "Unit economics y pricing",
+      "Go-to-market y growth loops",
+      "Preparación para inversión ángel",
+    ],
+    results: [
+      "Métricas de tracción y funnel definidos",
+      "Modelo financiero y unit economics claros",
+      "Pitch deck listo para inversionistas",
+    ],
+    modules: [
+      { title: "Semana 1 · Diagnóstico de negocio", desc: "Revisa tu MVP, mercado y propuesta de valor." },
+      { title: "Semana 2 · Estrategia comercial", desc: "Define ICP, pricing y canales prioritarios." },
+      { title: "Semana 3 · Métricas y datos", desc: "Establece KPIs, funnels y tableros de seguimiento." },
+      { title: "Semana 4 · Producto + crecimiento", desc: "Refina features claves y experimentos de crecimiento." },
+      { title: "Semana 5 · Finanzas y unit economics", desc: "Modela ingresos, costos y runway." },
+      { title: "Semana 6 · Equipo y operación", desc: "Roles, procesos y cadencias para escalar." },
+      { title: "Semana 7 · Pitch e inversión", desc: "Prepara deck, narrativa e inversión ángel." },
+      { title: "Semana 8 · Demo y plan 90 días", desc: "Roadmap claro y compromisos de seguimiento." },
+    ],
+  },
+};
+
+const renderProgramDetails = (type) => {
+  const data = programContent[type];
+  if (!data) return;
+
+  programDetailTitle.textContent = data.title;
+  programDetailBadge.textContent = data.badge;
+  programDetailBadge.style.borderColor = data.color;
+  programDetailBadge.style.color = data.color;
+  programDetailLead.textContent = data.lead;
+
+  programDetailMeta.innerHTML = "";
+  data.meta.forEach((item) => {
+    const chip = document.createElement("div");
+    chip.className = "program-detail-chip";
+    chip.textContent = item;
+    programDetailMeta.appendChild(chip);
+  });
+
+  programDetailIncludes.innerHTML = "";
+  data.includes.forEach((item) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    programDetailIncludes.appendChild(li);
+  });
+
+  programDetailResults.innerHTML = "";
+  data.results.forEach((item) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    programDetailResults.appendChild(li);
+  });
+
+  programModules.innerHTML = "";
+  data.modules.forEach((module) => {
+    const wrapper = document.createElement("article");
+    wrapper.className = "program-module";
+    const title = document.createElement("strong");
+    title.textContent = module.title;
+    const desc = document.createElement("p");
+    desc.textContent = module.desc;
+    wrapper.appendChild(title);
+    wrapper.appendChild(desc);
+    programModules.appendChild(wrapper);
+  });
+
+  startRegistrationButton.dataset.program = type;
+};
+
+const openProgramDetails = (type) => {
+  renderProgramDetails(type);
+  programOverlay?.classList.add("active");
+  programOverlay?.setAttribute("aria-hidden", "false");
+  bodyEl.style.overflow = "hidden";
+};
+
+const closeProgramDetails = () => {
+  programOverlay?.classList.remove("active");
+  programOverlay?.setAttribute("aria-hidden", "true");
+  bodyEl.style.overflow = "";
 };
 
 const configureFormForProgram = (type) => {
@@ -128,12 +256,30 @@ const configureFormForProgram = (type) => {
 const closeOverlay = () => {
   formOverlay.classList.remove("active");
   formOverlay.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
+  bodyEl.style.overflow = "";
   resetForm();
 };
 
 applyTriggers.forEach((btn) => {
   btn.addEventListener("click", triggerForm);
+});
+
+startRegistrationButton?.addEventListener("click", (event) => {
+  const programType = event.currentTarget.dataset.program || "impulsora";
+  closeProgramDetails();
+  configureFormForProgram(programType);
+  formOverlay.classList.add("active");
+  formOverlay.setAttribute("aria-hidden", "false");
+  bodyEl.style.overflow = "hidden";
+});
+
+closeProgramOverlay?.addEventListener("click", closeProgramDetails);
+backToPrograms?.addEventListener("click", closeProgramDetails);
+
+programOverlay?.addEventListener("click", (event) => {
+  if (event.target === programOverlay) {
+    closeProgramDetails();
+  }
 });
 
 closeForm.addEventListener("click", closeOverlay);
