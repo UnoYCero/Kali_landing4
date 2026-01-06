@@ -24,6 +24,9 @@ const programDetailMeta = document.getElementById("programDetailMeta");
 const programDetailIncludes = document.getElementById("programDetailIncludes");
 const programDetailResults = document.getElementById("programDetailResults");
 const programModules = document.getElementById("programModules");
+const programVideoWrapper = document.getElementById("programVideoWrapper");
+const programVideo = document.getElementById("programVideo");
+const programVideoTitle = document.getElementById("programVideoTitle");
 const menuToggle = document.getElementById("menuToggle");
 const mainNav = document.getElementById("mainNav");
 const closeForm = document.getElementById("closeForm");
@@ -123,6 +126,7 @@ const programContent = {
       { title: "Semana 5 · Iteración", desc: "Refina la solución con mentorías 1:1 y feedback del panel." },
       { title: "Semana 6 · Demo ready", desc: "Prepara un pitch y plan de siguientes pasos." },
     ],
+    videoUrl: "https://www.youtube.com/embed/8vS1uxEV1T4",
   },
   incubadora: {
     title: "Incubadora de Negocios",
@@ -152,6 +156,7 @@ const programContent = {
       { title: "Semana 7 · Pitch e inversión", desc: "Prepara deck, narrativa e inversión ángel." },
       { title: "Semana 8 · Demo y plan 90 días", desc: "Roadmap claro y compromisos de seguimiento." },
     ],
+    videoUrl: "https://www.youtube.com/embed/k_MmR4sfl_4",
   },
 };
 
@@ -216,6 +221,22 @@ const closeProgramDetails = () => {
   bodyEl.style.overflow = "";
 };
 
+const updateProgramVideoForType = (type) => {
+  if (!programVideo || !programVideoWrapper) return;
+  const videoUrl = programContent[type]?.videoUrl;
+  if (videoUrl) {
+    programVideo.src = videoUrl;
+    programVideo.title = `Video de convocatoria · ${programContent[type]?.title ?? ""}`;
+    if (programVideoTitle) {
+      programVideoTitle.textContent = programContent[type]?.title ?? "";
+    }
+    programVideoWrapper.hidden = false;
+  } else {
+    programVideo.src = "";
+    programVideoWrapper.hidden = true;
+  }
+};
+
 const configureFormForProgram = (type) => {
   resetForm();
   programInput.value = type;
@@ -237,6 +258,8 @@ const configureFormForProgram = (type) => {
     programBadge.style.color = "var(--yellow)";
     successProgramName.textContent = "Impulsora de Ideas";
   }
+
+  updateProgramVideoForType(type);
 
   const conditionalFields = document.querySelectorAll("[data-show-if]");
   conditionalFields.forEach((field) => {
@@ -458,6 +481,7 @@ const resetForm = () => {
   successMessage.hidden = true;
   form.removeAttribute("hidden");
   setSubmittingState(false);
+  updateProgramVideoForType();
   inventorCards.forEach((card) => {
     card.classList.remove("selected");
     card.setAttribute("aria-checked", "false");

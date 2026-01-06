@@ -813,6 +813,58 @@ blockquote::after {
   text-transform: uppercase;
 }
 
+.program-video {
+  margin: 1rem 0 2.25rem;
+  padding: 1.25rem;
+  border-radius: 20px;
+  border: 1px solid rgba(62, 209, 255, 0.18);
+  background: linear-gradient(120deg, rgba(15, 16, 25, 0.92), rgba(6, 6, 8, 0.85));
+  box-shadow: 0 0 35px rgba(0, 255, 163, 0.16);
+  display: grid;
+  gap: 0.85rem;
+}
+
+.program-video__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.program-video__eyebrow {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.program-video__title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.program-video__frame {
+  position: relative;
+  padding-top: 56.25%;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(243, 255, 62, 0.2);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.program-video__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: inherit;
+}
+
 form {
   display: flex;
   flex-direction: column;
