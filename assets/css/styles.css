@@ -644,6 +644,38 @@ blockquote::after {
   margin: 0;
 }
 
+.program-media {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.program-video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(62, 209, 255, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 255, 163, 0.2);
+  background: radial-gradient(circle at 20% 20%, rgba(62, 209, 255, 0.1), transparent 45%),
+    radial-gradient(circle at 80% 30%, rgba(243, 255, 62, 0.1), transparent 40%),
+    rgba(15, 17, 30, 0.9);
+}
+
+.program-video-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.program-media-caption {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
 .program-detail-meta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
