@@ -644,25 +644,6 @@ blockquote::after {
   margin: 0;
 }
 
-.program-video {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid rgba(62, 209, 255, 0.18);
-  box-shadow: 0 0 32px rgba(62, 209, 255, 0.14);
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.program-video iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
 .program-detail-meta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

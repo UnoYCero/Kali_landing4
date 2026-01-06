@@ -24,7 +24,6 @@ const programDetailMeta = document.getElementById("programDetailMeta");
 const programDetailIncludes = document.getElementById("programDetailIncludes");
 const programDetailResults = document.getElementById("programDetailResults");
 const programModules = document.getElementById("programModules");
-const programVideo = document.getElementById("programVideo");
 const menuToggle = document.getElementById("menuToggle");
 const mainNav = document.getElementById("mainNav");
 const closeForm = document.getElementById("closeForm");
@@ -104,7 +103,6 @@ const programContent = {
     color: "var(--yellow)",
     lead:
       "Lleva tu idea desde una servilleta a un prototipo validado con sesiones guiadas y mentorías aplicadas.",
-    video: "https://www.youtube.com/embed/8vS1uxEV1T4",
     meta: ["Duración: 6 semanas", "Modalidad: Híbrida", "Enfoque: Creatividad + Prototipado"],
     includes: [
       "Sprints de Design Thinking radical",
@@ -132,7 +130,6 @@ const programContent = {
     color: "var(--blue)",
     lead:
       "Escala tu MVP con estrategia comercial, métricas claras y preparación para inversión.",
-    video: "https://www.youtube.com/embed/k_MmR4sfl_4",
     meta: ["Duración: 8 semanas", "Modalidad: Híbrida", "Enfoque: Negocio + Tracción"],
     includes: [
       "Mentorías con operadores y founders",
@@ -167,11 +164,6 @@ const renderProgramDetails = (type) => {
   programDetailBadge.style.borderColor = data.color;
   programDetailBadge.style.color = data.color;
   programDetailLead.textContent = data.lead;
-  if (programVideo) {
-    programVideo.innerHTML = data.video
-      ? `<iframe src="${data.video}" title="Video ${data.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
-      : "";
-  }
 
   programDetailMeta.innerHTML = "";
   data.meta.forEach((item) => {
