@@ -109,7 +109,7 @@
               data-apply-trigger
               data-program="impulsora"
             >
-              Aplicar a Impulsora
+              Ver convocatoria
             </button>
           </div>
 
@@ -133,7 +133,7 @@
               data-apply-trigger
               data-program="incubadora"
             >
-              Aplicar a Incubadora
+              Ver convocatoria
             </button>
           </div>
         </div>
@@ -203,6 +203,40 @@
         <a class="glow-button nav-link" onclick="smoothScroll('programas')">Ver Cohorts</a>
       </div>
     </footer>
+
+    <!-- INFORMACIÓN DE PROGRAMAS ANTES DEL REGISTRO -->
+    <div class="program-overlay" id="programOverlay" aria-hidden="true">
+      <div class="program-details">
+        <button class="close-button" id="closeProgramOverlay" aria-label="Cerrar información">×</button>
+        <p class="program-badge" id="programDetailBadge">Convocatoria</p>
+        <h2 id="programDetailTitle">Impulsora de Ideas</h2>
+        <p class="program-detail-lead" id="programDetailLead">
+          Lleva tu idea desde una servilleta a un prototipo validado con sesiones guiadas y mentorías aplicadas.
+        </p>
+        <div class="program-video" id="programVideo"></div>
+        <div class="program-detail-meta" id="programDetailMeta"></div>
+
+        <div class="program-detail-grid">
+          <article class="program-detail-card">
+            <h3>Contenido clave</h3>
+            <ul id="programDetailIncludes"></ul>
+          </article>
+          <article class="program-detail-card">
+            <h3>Resultados que te llevas</h3>
+            <ul id="programDetailResults"></ul>
+          </article>
+        </div>
+
+        <div class="program-modules" id="programModules"></div>
+
+        <div class="program-actions">
+          <button class="ghost-button" type="button" id="backToPrograms">Volver</button>
+          <button class="glow-button" type="button" id="startRegistrationButton" data-program="impulsora">
+            Iniciar registro
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- FORMULARIO MODIFICADO -->
     <div class="form-overlay" id="formOverlay" aria-hidden="true">
