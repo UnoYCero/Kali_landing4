@@ -446,7 +446,8 @@ form.addEventListener("submit", async (event) => {
   }
 
   try {
-    const response = await fetch(form.action || "/", {
+    const action = form.getAttribute("action") || "/";
+    const response = await fetch(action, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(formData).toString(),
