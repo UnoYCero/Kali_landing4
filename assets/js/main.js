@@ -450,8 +450,7 @@ form.addEventListener("submit", async (event) => {
   }
 
   try {
-    const action =
-      form.getAttribute("action") || window.location.pathname || "/";
+    const action = form.getAttribute("action") || "/";
     const response = await fetch(action, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
