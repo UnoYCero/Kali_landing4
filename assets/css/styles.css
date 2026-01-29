@@ -1247,8 +1247,10 @@ textarea {
 
   /* Ajuste móvil extra para overlay del formulario */
   .form-overlay {
-    align-items: flex-start;
+    align-items: stretch;
+    justify-items: stretch;
     padding: 1.25rem;
+    overflow-y: auto;
   }
 
   .program-details {
@@ -1261,7 +1263,9 @@ textarea {
 
   .form-container {
     padding: 1.75rem 1.25rem;
-    max-height: none;
+    max-height: calc(100vh - 2.5rem);
+    max-height: calc(100svh - 2.5rem);
+    max-height: calc(100dvh - 2.5rem);
     width: 100%;
     min-height: calc(100vh - 2.5rem);
     min-height: calc(100svh - 2.5rem);
