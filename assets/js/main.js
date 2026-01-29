@@ -65,6 +65,7 @@ const progressPhrases = [
 ];
 const submitDefaultText = "Enviar Aplicación";
 const submittingText = "Enviando…";
+let isFallbackSubmit = false;
 
 if (menuToggle && mainNav) {
   const toggleMenu = () => {
@@ -429,6 +430,9 @@ const handleSuccess = () => {
 };
 
 form.addEventListener("submit", async (event) => {
+  if (isFallbackSubmit) {
+    return;
+  }
   event.preventDefault();
   if (!validateStep()) {
     highlightInvalid();
@@ -463,6 +467,11 @@ form.addEventListener("submit", async (event) => {
     progressMessage.textContent =
       "No pudimos enviar tu aplicación. Inténtalo de nuevo.";
     setSubmittingState(false);
+    if (!form.dataset.fallbackSubmitted) {
+      form.dataset.fallbackSubmitted = "true";
+      isFallbackSubmit = true;
+      form.submit();
+    }
   }
 });
 
@@ -476,6 +485,8 @@ const resetForm = () => {
   successMessage.hidden = true;
   form.removeAttribute("hidden");
   setSubmittingState(false);
+  isFallbackSubmit = false;
+  delete form.dataset.fallbackSubmitted;
   inventorCards.forEach((card) => {
     card.classList.remove("selected");
     card.setAttribute("aria-checked", "false");
