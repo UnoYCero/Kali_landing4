@@ -623,7 +623,10 @@ blockquote::after {
 .program-details {
   width: min(1000px, 100%);
   max-height: calc(100vh - 4rem);
+  max-height: calc(100dvh - 4rem);
+  max-height: calc(100svh - 4rem);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   background: rgba(10, 12, 20, 0.96);
   border: 1px solid rgba(62, 209, 255, 0.25);
   border-radius: 28px;
@@ -767,7 +770,10 @@ blockquote::after {
 .form-container {
   width: min(960px, 100%);
   max-height: calc(100vh - 4rem);
+  max-height: calc(100dvh - 4rem);
+  max-height: calc(100svh - 4rem);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   border-radius: 32px;
   background: rgba(10, 12, 20, 0.96);
   border: 1px solid rgba(243, 255, 62, 0.2);
@@ -1245,11 +1251,22 @@ textarea {
     padding: 1.25rem;
   }
 
+  .program-details {
+    padding: 2rem 1.5rem;
+    max-height: calc(100vh - 2.5rem);
+    max-height: calc(100dvh - 2.5rem);
+    max-height: calc(100svh - 2.5rem);
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+  }
+
   .form-container {
     padding: 1.75rem 1.25rem;
     max-height: none;
     width: 100%;
     min-height: calc(100vh - 2.5rem);
+    min-height: calc(100dvh - 2.5rem);
+    min-height: calc(100svh - 2.5rem);
+    padding-bottom: calc(1.75rem + env(safe-area-inset-bottom));
   }
 
   .form-step {
