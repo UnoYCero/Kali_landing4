@@ -1028,6 +1028,7 @@ textarea {
 }
 
 .color-dot--blue { background: var(--blue); color: var(--blue); }
+.color-dot--green { background: var(--green); color: var(--green); }
 .color-dot--red { background: var(--red); color: var(--red); }
 .color-dot--yellow { background: var(--yellow); color: var(--yellow); }
 .color-dot--white { background: #ffffff; color: #ffffff; }
