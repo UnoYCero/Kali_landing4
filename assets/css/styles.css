@@ -233,6 +233,7 @@ a {
   min-height: 360px;
   display: grid;
   place-items: center;
+  pointer-events: none;
 }
 
 .triangle-orbit {
