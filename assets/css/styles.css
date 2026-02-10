@@ -19,6 +19,7 @@
 
 html {
   scroll-padding-top: 100px; /* Offset para el header fijo */
+  scroll-behavior: smooth;
 }
 
 body {
