@@ -183,6 +183,15 @@ a {
   transform: scale(1);
 }
 
+
+.main-nav a[aria-current="page"] {
+  color: var(--yellow);
+}
+
+.main-nav a[aria-current="page"]::after {
+  opacity: 1;
+  transform: scale(1);
+}
 .triangle-logo {
   width: 48px;
   height: 48px;

@@ -67,11 +67,11 @@ const submitDefaultText = "Enviar Aplicación";
 const submittingText = "Enviando…";
 let isFallbackSubmit = false;
 
-if (menuToggle && mainNav) {
+if (menuToggle && mainNav && !mainNav.dataset.menuBound) {
   const toggleMenu = () => {
     const isOpen = mainNav.classList.toggle("open");
     menuToggle.classList.toggle("is-active", isOpen);
-    menuToggle.setAttribute("aria-expanded", isOpen);
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
   };
 
   menuToggle.addEventListener("click", toggleMenu);
@@ -91,6 +91,8 @@ if (menuToggle && mainNav) {
       menuToggle.setAttribute("aria-expanded", "false");
     }
   });
+
+  mainNav.dataset.menuBound = "true";
 }
 
 const triggerForm = (event) => {
