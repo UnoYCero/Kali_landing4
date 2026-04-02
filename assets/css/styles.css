@@ -1374,3 +1374,26 @@ textarea {
     transition-duration: 0.001ms !important;
   }
 }
+
+.subpage-hero {
+  padding-top: 7rem;
+  padding-bottom: 2rem;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.section-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 960px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
