@@ -1,162 +1,101 @@
-// Nueva función para scroll suave sin afectar la URL
-function smoothScroll(id) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }
-}
-
-const formOverlay = document.getElementById("formOverlay");
-const applyTriggers = Array.from(
-  document.querySelectorAll("[data-apply-trigger]")
-);
-const programOverlay = document.getElementById("programOverlay");
-const closeProgramOverlay = document.getElementById("closeProgramOverlay");
-const backToPrograms = document.getElementById("backToPrograms");
-const startRegistrationButton = document.getElementById("startRegistrationButton");
-const programDetailTitle = document.getElementById("programDetailTitle");
-const programDetailBadge = document.getElementById("programDetailBadge");
-const programDetailLead = document.getElementById("programDetailLead");
-const programDetailMeta = document.getElementById("programDetailMeta");
-const programDetailIncludes = document.getElementById("programDetailIncludes");
-const programDetailResults = document.getElementById("programDetailResults");
-const programModules = document.getElementById("programModules");
-const programMedia = document.getElementById("programMedia");
-const programVideo = document.getElementById("programVideo");
-const programVideoCaption = document.getElementById("programVideoCaption");
-const menuToggle = document.getElementById("menuToggle");
-const mainNav = document.getElementById("mainNav");
-const closeForm = document.getElementById("closeForm");
-const form = document.getElementById("cohortForm");
-const steps = Array.from(document.querySelectorAll(".form-step"));
-const nextButton = document.getElementById("nextStep");
-const prevButton = document.getElementById("prevStep");
-const submitButton = document.getElementById("submitForm");
-const progressBar = document.getElementById("progressBar");
-const progressMessage = document.getElementById("progressMessage");
-const successMessage = document.getElementById("successMessage");
-const closeSuccess = document.getElementById("closeSuccess");
-const inventorCards = Array.from(document.querySelectorAll(".inventor-card"));
-const tipoInventorInput = document.getElementById("tipoInventor");
-const colorCards = Array.from(document.querySelectorAll(".color-card"));
-const colorAreaInput = document.getElementById("colorArea");
-const acceptTermsButton = document.getElementById("acceptTermsButton");
-const termsAcceptedInput = document.getElementById("termsAccepted");
-const termsLink = document.getElementById("viewTermsLink");
-const termsContent = document.getElementById("termsContent");
-
-// Elementos para lógica condicional
-const formTitle = document.getElementById("formTitle");
-const programBadge = document.getElementById("programBadge");
-const programInput = document.getElementById("programSelection");
-const successProgramName = document.getElementById("successProgramName");
-const formNameInput = form.querySelector('input[name="form-name"]');
+// ── Menu ─────────────────────────────────────────────────────────────────────
+const menuToggle = document.getElementById('menuToggle');
+const mainNav = document.getElementById('mainNav');
 const bodyEl = document.body;
-
-let currentStep = 0;
-const totalSteps = steps.length;
-const progressPhrases = [
-  "Tu locura se está incubando…",
-  "Casi listo para romper el molde…",
-  "Bienvenido al Kaleidoscopio.",
-];
-const submitDefaultText = "Enviar Aplicación";
-const submittingText = "Enviando…";
-let isFallbackSubmit = false;
 
 if (menuToggle && mainNav) {
   const toggleMenu = () => {
-    const isOpen = mainNav.classList.toggle("open");
-    menuToggle.classList.toggle("is-active", isOpen);
-    menuToggle.setAttribute("aria-expanded", isOpen);
+    const isOpen = mainNav.classList.toggle('open');
+    menuToggle.classList.toggle('is-active', isOpen);
+    menuToggle.setAttribute('aria-expanded', isOpen);
   };
 
-  menuToggle.addEventListener("click", toggleMenu);
-
-  mainNav.querySelectorAll(".nav-link").forEach((link) => {
-    link.addEventListener("click", () => {
-      if (mainNav.classList.contains("open")) {
-        toggleMenu();
-      }
+  menuToggle.addEventListener('click', toggleMenu);
+  mainNav.querySelectorAll('.nav-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      if (mainNav.classList.contains('open')) toggleMenu();
     });
   });
-
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 960 && mainNav.classList.contains("open")) {
-      mainNav.classList.remove("open");
-      menuToggle.classList.remove("is-active");
-      menuToggle.setAttribute("aria-expanded", "false");
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 960 && mainNav.classList.contains('open')) {
+      mainNav.classList.remove('open');
+      menuToggle.classList.remove('is-active');
+      menuToggle.setAttribute('aria-expanded', 'false');
     }
   });
 }
 
-const triggerForm = (event) => {
-  const button = event.currentTarget;
-  const programType = button.dataset.program || "impulsora";
-
-  openProgramDetails(programType);
-};
+// ── Program Details Overlay ───────────────────────────────────────────────────
+const programOverlay = document.getElementById('programOverlay');
+const closeProgramOverlay = document.getElementById('closeProgramOverlay');
+const backToPrograms = document.getElementById('backToPrograms');
+const programDetailTitle = document.getElementById('programDetailTitle');
+const programDetailBadge = document.getElementById('programDetailBadge');
+const programDetailLead = document.getElementById('programDetailLead');
+const programDetailMeta = document.getElementById('programDetailMeta');
+const programDetailIncludes = document.getElementById('programDetailIncludes');
+const programDetailResults = document.getElementById('programDetailResults');
+const programModules = document.getElementById('programModules');
+const programMedia = document.getElementById('programMedia');
+const programVideo = document.getElementById('programVideo');
+const programVideoCaption = document.getElementById('programVideoCaption');
+const applyTriggers = Array.from(document.querySelectorAll('[data-apply-trigger]'));
 
 const programContent = {
   impulsora: {
-    title: "Impulsora de Ideas",
-    badge: "Cohort Creativo",
-    color: "var(--yellow)",
-    lead:
-      "Lleva tu idea desde una servilleta a un prototipo validado con sesiones guiadas y mentorías aplicadas.",
-    videoUrl: "https://www.youtube.com/embed/8vS1uxEV1T4",
-    videoCaption: "Conoce la convocatoria de Impulsora en 45 segundos.",
-    meta: ["Duración: 6 semanas", "Modalidad: Híbrida", "Enfoque: Creatividad + Prototipado"],
+    title: 'Impulsora de Negocios',
+    badge: 'Cohort Creativo · Convocatoria Abierta',
+    color: 'var(--yellow)',
+    lead: 'Lleva tu idea desde una servilleta a un prototipo validado con sesiones guiadas y mentorías aplicadas.',
+    videoUrl: 'https://www.youtube.com/embed/8vS1uxEV1T4',
+    videoCaption: 'Conoce la convocatoria de Impulsora en 45 segundos.',
+    meta: ['Duración: 6 semanas', 'Modalidad: Híbrida', 'Enfoque: Creatividad + Prototipado'],
     includes: [
-      "Sprints de Design Thinking radical",
-      "Laboratorios de ideación asistida",
-      "Prototipado express con expertos",
-      "Pitch inicial y retroalimentación",
+      'Sprints de Design Thinking radical',
+      'Laboratorios de ideación asistida',
+      'Prototipado express con expertos',
+      'Pitch inicial y retroalimentación',
     ],
     results: [
-      "Hipótesis de problema/solución validadas",
-      "Primer prototipo funcional o storyboard",
-      "Mapa de riesgos y próximos experimentos",
+      'Hipótesis de problema/solución validadas',
+      'Primer prototipo funcional o storyboard',
+      'Mapa de riesgos y próximos experimentos',
     ],
     modules: [
-      { title: "Semana 1 · Explosión de ideas", desc: "Explora problemas, usuarios y dolores con ejercicios creativos." },
-      { title: "Semana 2 · Diseño radical", desc: "Define la propuesta de valor con design thinking radical." },
-      { title: "Semana 3 · Prototipo express", desc: "Construye y prueba un primer prototipo tangible o digital." },
-      { title: "Semana 4 · Validación", desc: "Testea con usuarios reales y recoge evidencia accionable." },
-      { title: "Semana 5 · Iteración", desc: "Refina la solución con mentorías 1:1 y feedback del panel." },
-      { title: "Semana 6 · Demo ready", desc: "Prepara un pitch y plan de siguientes pasos." },
+      { title: 'Semana 1 · Explosión de ideas', desc: 'Explora problemas, usuarios y dolores con ejercicios creativos.' },
+      { title: 'Semana 2 · Diseño radical', desc: 'Define la propuesta de valor con design thinking radical.' },
+      { title: 'Semana 3 · Prototipo express', desc: 'Construye y prueba un primer prototipo tangible o digital.' },
+      { title: 'Semana 4 · Validación', desc: 'Testea con usuarios reales y recoge evidencia accionable.' },
+      { title: 'Semana 5 · Iteración', desc: 'Refina la solución con mentorías 1:1 y feedback del panel.' },
+      { title: 'Semana 6 · Demo ready', desc: 'Prepara un pitch y plan de siguientes pasos.' },
     ],
   },
   incubadora: {
-    title: "Incubadora de Negocios",
-    badge: "Cohort Negocios",
-    color: "var(--blue)",
-    lead:
-      "Entiende el mercado, analiza las oportunidades, desarrolla tu modelo de negocio y aterriza tu idea",
-    videoUrl: "https://www.youtube.com/embed/k_MmR4sfl_4",
-    videoCaption: "Explora la convocatoria de Incubadora en un vistazo rápido.",
-    meta: ["Duración: 5 semanas", "Modalidad: Híbrida", "Enfoque: Idea + MVP"],
+    title: 'Incubadora de Ideas',
+    badge: 'Cohort Negocios',
+    color: 'var(--blue)',
+    lead: 'Entiende el mercado, analiza las oportunidades, desarrolla tu modelo de negocio y aterriza tu idea.',
+    videoUrl: 'https://www.youtube.com/embed/k_MmR4sfl_4',
+    videoCaption: 'Explora la convocatoria de Incubadora en un vistazo rápido.',
+    meta: ['Duración: 5 semanas', 'Modalidad: Híbrida', 'Enfoque: Idea + MVP'],
     includes: [
-      "Mentorías con operadores y founders",
-      "Unit economics y pricing",
-      "Go-to-market",
-      "Preparación para vender el proyecto",
+      'Mentorías con operadores y founders',
+      'Unit economics y pricing',
+      'Go-to-market',
+      'Preparación para vender el proyecto',
     ],
     results: [
-      "Métricas de tracción y funnel definidos",
-      "Modelo financiero y unit economics claros",
-      "Pitch deck listo",
+      'Métricas de tracción y funnel definidos',
+      'Modelo financiero y unit economics claros',
+      'Pitch deck listo',
     ],
     modules: [
-      { title: "Semana 1 · Problematica", desc: "Analiza y valida tu problema." },
-      { title: "Semana 2 · Entorno", desc: "Evaluación de la oportunidad y creacion del Benchmark." },
-      { title: "Semana 3 · Estructura", desc: "Estrategias de Marketing y técnias de ideación." },
-      { title: "Semana 4 · Producto ", desc: "Creacion del primer MVP." },
-      { title: "Semana 5 · Finanzas y unit economics", desc: "Prorrateo y costos." },
-      { title: "DEMO DAY · Go to market", desc: "Business canvas y desarrollo de pitch" },
+      { title: 'Semana 1 · Problemática', desc: 'Analiza y valida tu problema.' },
+      { title: 'Semana 2 · Entorno', desc: 'Evaluación de la oportunidad y creación del Benchmark.' },
+      { title: 'Semana 3 · Estructura', desc: 'Estrategias de Marketing y técnicas de ideación.' },
+      { title: 'Semana 4 · Producto', desc: 'Creación del primer MVP.' },
+      { title: 'Semana 5 · Finanzas y unit economics', desc: 'Prorrateo y costos.' },
+      { title: 'DEMO DAY · Go to market', desc: 'Business canvas y desarrollo de pitch.' },
     ],
   },
 };
@@ -171,24 +110,24 @@ const renderProgramDetails = (type) => {
   programDetailBadge.style.color = data.color;
   programDetailLead.textContent = data.lead;
 
-  programDetailMeta.innerHTML = "";
+  programDetailMeta.innerHTML = '';
   data.meta.forEach((item) => {
-    const chip = document.createElement("div");
-    chip.className = "program-detail-chip";
+    const chip = document.createElement('div');
+    chip.className = 'program-detail-chip';
     chip.textContent = item;
     programDetailMeta.appendChild(chip);
   });
 
-  programDetailIncludes.innerHTML = "";
+  programDetailIncludes.innerHTML = '';
   data.includes.forEach((item) => {
-    const li = document.createElement("li");
+    const li = document.createElement('li');
     li.textContent = item;
     programDetailIncludes.appendChild(li);
   });
 
-  programDetailResults.innerHTML = "";
+  programDetailResults.innerHTML = '';
   data.results.forEach((item) => {
-    const li = document.createElement("li");
+    const li = document.createElement('li');
     li.textContent = item;
     programDetailResults.appendChild(li);
   });
@@ -196,411 +135,155 @@ const renderProgramDetails = (type) => {
   if (programMedia && programVideo) {
     if (data.videoUrl) {
       programVideo.src = data.videoUrl;
-      programVideoCaption.textContent =
-        data.videoCaption || "Conoce la convocatoria en video.";
-      programMedia.classList.remove("d-none");
+      programVideoCaption.textContent = data.videoCaption || 'Conoce la convocatoria en video.';
+      programMedia.classList.remove('d-none');
     } else {
-      programVideo.src = "";
-      programMedia.classList.add("d-none");
+      programVideo.src = '';
+      programMedia.classList.add('d-none');
     }
   }
 
-  programModules.innerHTML = "";
+  programModules.innerHTML = '';
   data.modules.forEach((module) => {
-    const wrapper = document.createElement("article");
-    wrapper.className = "program-module";
-    const title = document.createElement("strong");
+    const wrapper = document.createElement('article');
+    wrapper.className = 'program-module';
+    const title = document.createElement('strong');
     title.textContent = module.title;
-    const desc = document.createElement("p");
+    const desc = document.createElement('p');
     desc.textContent = module.desc;
     wrapper.appendChild(title);
     wrapper.appendChild(desc);
     programModules.appendChild(wrapper);
   });
-
-  startRegistrationButton.dataset.program = type;
 };
 
 const openProgramDetails = (type) => {
   renderProgramDetails(type);
-  programOverlay?.classList.add("active");
-  programOverlay?.setAttribute("aria-hidden", "false");
-  bodyEl.style.overflow = "hidden";
+  programOverlay?.classList.add('active');
+  programOverlay?.setAttribute('aria-hidden', 'false');
+  bodyEl.style.overflow = 'hidden';
 };
 
 const closeProgramDetails = () => {
-  programOverlay?.classList.remove("active");
-  programOverlay?.setAttribute("aria-hidden", "true");
-  bodyEl.style.overflow = "";
-};
-
-const configureFormForProgram = (type) => {
-  resetForm();
-  programInput.value = type;
-  const formName =
-    type === "incubadora" ? "cohort-incubadora" : "cohort-impulsora";
-  formNameInput.value = formName;
-  form.setAttribute("name", formName);
-
-  if (type === "incubadora") {
-    formTitle.textContent = "Aplicación Incubadora";
-    programBadge.textContent = "Cohort Negocios";
-    programBadge.style.borderColor = "var(--blue)";
-    programBadge.style.color = "var(--blue)";
-    successProgramName.textContent = "Incubadora de Negocios";
-  } else {
-    formTitle.textContent = "Aplicación Impulsora";
-    programBadge.textContent = "Cohort Creativo";
-    programBadge.style.borderColor = "var(--yellow)";
-    programBadge.style.color = "var(--yellow)";
-    successProgramName.textContent = "Impulsora de Ideas";
-  }
-
-  const conditionalFields = document.querySelectorAll("[data-show-if]");
-  conditionalFields.forEach((field) => {
-    const condition = field.dataset.showIf;
-    const inputs = field.querySelectorAll("input, textarea, select");
-
-    if (condition === type) {
-      field.classList.remove("d-none");
-      inputs.forEach((i) => (i.disabled = false));
-    } else {
-      field.classList.add("d-none");
-      inputs.forEach((i) => (i.disabled = true));
-    }
-  });
-};
-
-const closeOverlay = () => {
-  formOverlay.classList.remove("active");
-  formOverlay.setAttribute("aria-hidden", "true");
-  bodyEl.style.overflow = "";
-  resetForm();
+  programOverlay?.classList.remove('active');
+  programOverlay?.setAttribute('aria-hidden', 'true');
+  bodyEl.style.overflow = '';
+  if (programVideo) programVideo.src = '';
 };
 
 applyTriggers.forEach((btn) => {
-  btn.addEventListener("click", triggerForm);
+  btn.addEventListener('click', (e) => {
+    const type = e.currentTarget.dataset.program || 'impulsora';
+    openProgramDetails(type);
+  });
 });
 
-startRegistrationButton?.addEventListener("click", (event) => {
-  const programType = event.currentTarget.dataset.program || "impulsora";
-  closeProgramDetails();
-  configureFormForProgram(programType);
-  formOverlay.classList.add("active");
-  formOverlay.setAttribute("aria-hidden", "false");
-  bodyEl.style.overflow = "hidden";
+closeProgramOverlay?.addEventListener('click', closeProgramDetails);
+backToPrograms?.addEventListener('click', closeProgramDetails);
+programOverlay?.addEventListener('click', (e) => {
+  if (e.target === programOverlay) closeProgramDetails();
 });
 
-closeProgramOverlay?.addEventListener("click", closeProgramDetails);
-backToPrograms?.addEventListener("click", closeProgramDetails);
+// ── Narrativa Modal ───────────────────────────────────────────────────────────
+const narrativaOverlay = document.getElementById('narrativaOverlay');
+const openNarrativaBtn = document.getElementById('openNarrativa');
+const closeNarrativaBtn = document.getElementById('closeNarrativa');
 
-programOverlay?.addEventListener("click", (event) => {
-  if (event.target === programOverlay) {
-    closeProgramDetails();
-  }
+const openNarrativaModal = () => {
+  narrativaOverlay?.classList.add('active');
+  narrativaOverlay?.setAttribute('aria-hidden', 'false');
+  bodyEl.style.overflow = 'hidden';
+};
+
+const closeNarrativaModal = () => {
+  narrativaOverlay?.classList.remove('active');
+  narrativaOverlay?.setAttribute('aria-hidden', 'true');
+  bodyEl.style.overflow = '';
+};
+
+openNarrativaBtn?.addEventListener('click', (e) => {
+  e.preventDefault();
+  openNarrativaModal();
+});
+closeNarrativaBtn?.addEventListener('click', closeNarrativaModal);
+narrativaOverlay?.addEventListener('click', (e) => {
+  if (e.target === narrativaOverlay) closeNarrativaModal();
 });
 
-closeForm.addEventListener("click", closeOverlay);
-formOverlay.addEventListener("click", (event) => {
-  if (event.target === formOverlay) {
-    closeOverlay();
-  }
-});
+// ── Carousel ──────────────────────────────────────────────────────────────────
+const carouselTrack = document.getElementById('carouselTrack');
+const carouselPrev = document.getElementById('carouselPrev');
+const carouselNext = document.getElementById('carouselNext');
+const carouselDotsContainer = document.getElementById('carouselDots');
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && formOverlay.classList.contains("active")) {
-    closeOverlay();
-  }
-});
+if (carouselTrack && carouselDotsContainer) {
+  const slides = Array.from(carouselTrack.querySelectorAll('.carousel-slide'));
+  let currentSlide = 0;
 
-const updateStepVisibility = () => {
-  steps.forEach((step, index) => {
-    step.classList.toggle("active", index === currentStep);
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'carousel-dot';
+    dot.setAttribute('aria-label', `Imagen ${i + 1}`);
+    dot.addEventListener('click', () => goToSlide(i));
+    carouselDotsContainer.appendChild(dot);
   });
 
-  prevButton.style.display = currentStep === 0 ? "none" : "inline-flex";
-  const isLastStep = currentStep === totalSteps - 1;
-  nextButton.style.display = isLastStep ? "none" : "inline-flex";
-  submitButton.style.display = isLastStep ? "inline-flex" : "none";
+  const dots = Array.from(carouselDotsContainer.querySelectorAll('.carousel-dot'));
 
-  const progressRatio = (currentStep + 1) / totalSteps;
-  progressBar.style.width = `${Math.round(progressRatio * 100)}%`;
-
-  if (progressRatio < 0.45) {
-    progressMessage.textContent = progressPhrases[0];
-  } else if (progressRatio < 0.85) {
-    progressMessage.textContent = progressPhrases[1];
-  } else {
-    progressMessage.textContent = progressPhrases[2];
-  }
-};
-
-const validateStep = () => {
-  const step = steps[currentStep];
-  const fields = Array.from(
-    step.querySelectorAll(
-      "input:not([disabled]), textarea:not([disabled]), select:not([disabled])"
-    )
-  );
-  return fields.every((field) => {
-    if (field.type === "checkbox") {
-      return field.checked;
-    }
-    if (field.hasAttribute("required")) {
-      return field.value.trim() !== "";
-    }
-    return true;
-  });
-};
-
-nextButton.addEventListener("click", () => {
-  if (!validateStep()) {
-    highlightInvalid();
-    return;
-  }
-  currentStep = Math.min(currentStep + 1, totalSteps - 1);
-  updateStepVisibility();
-});
-
-prevButton.addEventListener("click", () => {
-  currentStep = Math.max(currentStep - 1, 0);
-  updateStepVisibility();
-});
-
-const highlightInvalid = () => {
-  const step = steps[currentStep];
-  const fields = Array.from(
-    step.querySelectorAll(
-      "input:not([disabled]), textarea:not([disabled]), select:not([disabled])"
-    )
-  );
-  fields.forEach((field) => {
-    const invalid =
-      field.hasAttribute("required") && field.value.trim() === "";
-    if (field.type === "checkbox" && field.hasAttribute("required")) {
-      const target =
-        field.id === "termsAccepted"
-          ? acceptTermsButton || field.parentElement
-          : field.parentElement;
-      target?.classList.toggle("shake", !field.checked);
-      if (!field.checked) {
-        setTimeout(() => target?.classList.remove("shake"), 400);
-      }
-    }
-    if (invalid) {
-      field.classList.add("invalid");
-      setTimeout(() => field.classList.remove("invalid"), 600);
-    }
-
-    if (field.id === "colorArea" && !field.value.trim()) {
-      colorCards.forEach((card) => {
-        card.classList.add("shake");
-        setTimeout(() => card.classList.remove("shake"), 400);
-      });
-    }
-    if (field.id === "termsAccepted" && !field.checked) {
-      acceptTermsButton?.classList.add("shake");
-      setTimeout(() => acceptTermsButton?.classList.remove("shake"), 400);
-    }
-  });
-};
-
-const setSubmittingState = (isSubmitting) => {
-  submitButton.disabled = isSubmitting;
-  submitButton.textContent = isSubmitting ? submittingText : submitDefaultText;
-};
-
-const setTermsAcceptance = (isAccepted) => {
-  if (!termsAcceptedInput || !acceptTermsButton) return;
-  termsAcceptedInput.checked = isAccepted;
-  termsAcceptedInput.value = isAccepted ? "aceptado" : "";
-  acceptTermsButton.classList.toggle("accepted", isAccepted);
-  acceptTermsButton.setAttribute("aria-pressed", String(isAccepted));
-  acceptTermsButton.textContent = isAccepted
-    ? "Términos aceptados"
-    : "Aceptar términos y condiciones";
-};
-
-const handleSuccess = () => {
-  form.setAttribute("hidden", "true");
-  successMessage.hidden = false;
-  progressBar.style.width = "100%";
-  progressMessage.textContent = progressPhrases[2];
-  setSubmittingState(false);
-};
-
-form.addEventListener("submit", async (event) => {
-  if (isFallbackSubmit) {
-    return;
-  }
-  event.preventDefault();
-  if (!validateStep()) {
-    highlightInvalid();
-    return;
-  }
-
-  setSubmittingState(true);
-
-  const formData = new FormData(form);
-  if (!formData.has("form-name")) {
-    formData.append(
-      "form-name",
-      formNameInput.value || form.getAttribute("name")
-    );
-  }
-
-  try {
-    const action = form.getAttribute("action") || "/";
-    const response = await fetch(action, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData).toString(),
-    });
-
-    if (!response.ok) {
-      throw new Error("Netlify submission failed");
-    }
-
-    handleSuccess();
-  } catch (error) {
-    console.error("Error enviando el formulario", error);
-    progressMessage.textContent =
-      "No pudimos enviar tu aplicación. Inténtalo de nuevo.";
-    setSubmittingState(false);
-    if (!form.dataset.fallbackSubmitted) {
-      form.dataset.fallbackSubmitted = "true";
-      isFallbackSubmit = true;
-      form.submit();
-    }
-  }
-});
-
-closeSuccess.addEventListener("click", () => {
-  closeOverlay();
-});
-
-const resetForm = () => {
-  form.reset();
-  currentStep = 0;
-  successMessage.hidden = true;
-  form.removeAttribute("hidden");
-  setSubmittingState(false);
-  isFallbackSubmit = false;
-  delete form.dataset.fallbackSubmitted;
-  inventorCards.forEach((card) => {
-    card.classList.remove("selected");
-    card.setAttribute("aria-checked", "false");
-  });
-  tipoInventorInput.value = "";
-  colorCards.forEach((card) => {
-    card.classList.remove("selected");
-    card.setAttribute("aria-checked", "false");
-  });
-  if (colorAreaInput) colorAreaInput.value = "";
-  setTermsAcceptance(false);
-  if (termsContent) termsContent.setAttribute("hidden", "true");
-  if (termsLink) {
-    termsLink.textContent = "Ver términos y condiciones";
-    termsLink.setAttribute("aria-expanded", "false");
-  }
-  updateStepVisibility();
-};
-
-inventorCards.forEach((card) => {
-  const selectCard = () => {
-    const value = card.dataset.value;
-    if (!value) return;
-    inventorCards.forEach((c) => {
-      c.classList.remove("selected");
-      c.setAttribute("aria-checked", "false");
-    });
-    card.classList.add("selected");
-    card.setAttribute("aria-checked", "true");
-    tipoInventorInput.value = value;
+  const goToSlide = (index) => {
+    currentSlide = ((index % slides.length) + slides.length) % slides.length;
+    carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
   };
 
-  card.addEventListener("click", selectCard);
-  card.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      selectCard();
-    }
+  goToSlide(0);
+
+  carouselPrev?.addEventListener('click', () => goToSlide(currentSlide - 1));
+  carouselNext?.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+  let touchStartX = 0;
+  carouselTrack.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  carouselTrack.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goToSlide(diff > 0 ? currentSlide + 1 : currentSlide - 1);
   });
-});
+}
 
-colorCards.forEach((card) => {
-  const selectColor = () => {
-    const value = card.dataset.color;
-    if (!value || !colorAreaInput) return;
-    colorCards.forEach((c) => {
-      c.classList.remove("selected");
-      c.setAttribute("aria-checked", "false");
-    });
-    card.classList.add("selected");
-    card.setAttribute("aria-checked", "true");
-    colorAreaInput.value = value;
-  };
-
-  card.addEventListener("click", selectColor);
-  card.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      selectColor();
-    }
-  });
-});
-
-acceptTermsButton?.addEventListener("click", () => {
-  const nextState = !(termsAcceptedInput?.checked ?? false);
-  setTermsAcceptance(nextState);
-});
-
-termsLink?.addEventListener("click", (event) => {
-  event.preventDefault();
-  if (!termsContent) return;
-  const willShow = termsContent.hasAttribute("hidden");
-  if (willShow) {
-    termsContent.removeAttribute("hidden");
-  } else {
-    termsContent.setAttribute("hidden", "true");
+// ── ESC key ───────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (programOverlay?.classList.contains('active')) closeProgramDetails();
+    if (narrativaOverlay?.classList.contains('active')) closeNarrativaModal();
   }
-  termsLink.setAttribute("aria-expanded", String(willShow));
-  termsLink.textContent = willShow
-    ? "Ocultar términos y condiciones"
-    : "Ver términos y condiciones";
 });
 
+// ── IntersectionObserver ──────────────────────────────────────────────────────
 const animatedElements = document.querySelectorAll(
-  ".card, .timeline-item, .testimonial-card, .program-card"
+  '.card, .timeline-item, .testimonial-card, .program-card, .que-es-card'
 );
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("in-view");
-      }
+      if (entry.isIntersecting) entry.target.classList.add('in-view');
     });
   },
-  { threshold: 0.25 }
+  { threshold: 0.2 }
 );
-
 animatedElements.forEach((el) => observer.observe(el));
 
-window.addEventListener("DOMContentLoaded", () => {
-  updateStepVisibility();
-  setTermsAcceptance(false);
-});
-
-const hero = document.querySelector(".hero");
-hero?.addEventListener("mousemove", (event) => {
+// ── Hero tilt ─────────────────────────────────────────────────────────────────
+const hero = document.querySelector('.hero');
+hero?.addEventListener('mousemove', (e) => {
   const rect = hero.getBoundingClientRect();
-  const x = ((event.clientX - rect.left) / rect.width - 0.5) * 20;
-  const y = ((event.clientY - rect.top) / rect.height - 0.5) * 20;
-  hero.style.setProperty("--tilt-x", `${y}px`);
-  hero.style.setProperty("--tilt-y", `${-x}px`);
+  const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
+  const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
+  hero.style.setProperty('--tilt-x', `${y}px`);
+  hero.style.setProperty('--tilt-y', `${-x}px`);
 });
-
-hero?.addEventListener("mouseleave", () => {
-  hero.style.setProperty("--tilt-x", "0px");
-  hero.style.setProperty("--tilt-y", "0px");
+hero?.addEventListener('mouseleave', () => {
+  hero.style.setProperty('--tilt-x', '0px');
+  hero.style.setProperty('--tilt-y', '0px');
 });

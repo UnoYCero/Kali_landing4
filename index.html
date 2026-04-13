@@ -7,7 +7,7 @@
       name="description"
       content="Kaleidoscopio impulsa ideas y negocios con programas de incubación y acompañamiento creativo para inventores, hackers y visionarios."
     />
-    <title>Kaleidoscopio | Impulsora e Incubadora</title>
+    <title>Kaleidoscopio | Impulsora de Negocios</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -36,15 +36,16 @@
         <span></span>
       </button>
       <nav class="main-nav" id="mainNav">
-        <!-- Enlaces con funcionalidad smoothScroll -->
         <a class="nav-link" href="#inicio">Inicio</a>
         <a class="nav-link" href="#programas">Programas</a>
         <a class="nav-link" href="#sobre">Manifiesto</a>
+        <a class="nav-link" id="openNarrativa" href="#">Nuestra Narrativa</a>
         <a class="glow-button nav-link" href="#programas">Elegir Ruta</a>
       </nav>
     </header>
 
     <main>
+      <!-- HERO -->
       <section class="hero" id="inicio">
         <div class="hero-grid">
           <div class="hero-visual" aria-hidden="true">
@@ -58,7 +59,7 @@
             </div>
           </div>
           <div class="hero-content">
-            <p class="hero-kicker">Convocatoria 2025 · Dos caminos</p>
+            <p class="hero-kicker">Convocatoria 2025 · Impulsora Abierta</p>
             <h1>
               <span class="hero-word hero-word--green">Evoluciona</span>
               <span class="hero-word hero-word--blue">tu</span>
@@ -72,13 +73,37 @@
               o un prototipo funcional, tenemos el ecosistema para detonarlo.
             </p>
             <div class="hero-actions">
-              <!-- Botones con funcionalidad smoothScroll -->
               <a class="glow-button nav-link" href="#programas">Ver Programas</a>
               <a class="ghost-button nav-link" href="#sobre">Leer Manifiesto</a>
             </div>
           </div>
         </div>
         <div class="hero-rings" aria-hidden="true"></div>
+      </section>
+
+      <!-- QUÉ ES KALEIDOSCOPIO -->
+      <section class="que-es section" id="que-es">
+        <div class="section-header">
+          <h2>Qué es Kaleidoscopio</h2>
+          <p>Un ecosistema diseñado para transformar ideas en realidades que no existían antes.</p>
+        </div>
+        <div class="que-es-grid">
+          <div class="que-es-card">
+            <span class="que-es-icon">🔭</span>
+            <h3>El ecosistema que faltaba</h3>
+            <p>Para ideas que no encajan en ningún molde. Estructura, comunidad y metodología para llevar cualquier proyecto de la etapa cero al mercado.</p>
+          </div>
+          <div class="que-es-card">
+            <span class="que-es-icon">⚡</span>
+            <h3>Velocidad de impacto</h3>
+            <p>De la servilleta al prototipo en semanas. Sprints creativos, laboratorios vivientes y mentorías que aceleran lo que normalmente tarda años.</p>
+          </div>
+          <div class="que-es-card">
+            <span class="que-es-icon">🌐</span>
+            <h3>Comunidad real</h3>
+            <p>Inventores, artistas, hackers y visionarios conectados con operadores, fondos de inversión ángel y el mercado. La red que cambia todo.</p>
+          </div>
+        </div>
       </section>
 
       <!-- SECCIÓN PROGRAMAS -->
@@ -89,17 +114,17 @@
         </div>
 
         <div class="program-cards-container">
-          <!-- CARD IMPULSORA -->
-          <div class="program-card impulsora is-upcoming">
+          <!-- CARD IMPULSORA — CONVOCATORIA ABIERTA -->
+          <div class="program-card impulsora">
             <div class="card-icon">💡</div>
-            <span class="program-badge program-badge--muted">Próximamente</span>
+            <span class="program-badge">Convocatoria Abierta</span>
             <h3>Impulsora de Negocios</h3>
             <p class="program-desc">
-            Para proyectos con tracción. Ya tienes un MVP o primeras validaciones.
+              Para proyectos con tracción. Ya tienes un MVP o primeras validaciones.
               Es hora de armar el modelo de negocio, levantar capital y escalar.
             </p>
             <ul class="program-features">
-               <li>Estrategia Comercial</li>
+              <li>Estrategia Comercial</li>
               <li>Unit Economics</li>
               <li>Investment Readiness</li>
               <li>Acceso a Red de Ángeles</li>
@@ -109,19 +134,18 @@
               type="button"
               data-apply-trigger
               data-program="impulsora"
-              disabled
-              aria-disabled="true"
             >
-              Próximamente
+              Ver convocatoria
             </button>
           </div>
 
-          <!-- CARD INCUBADORA -->
-          <div class="program-card incubadora">
+          <!-- CARD INCUBADORA — PRÓXIMAMENTE -->
+          <div class="program-card incubadora is-upcoming">
             <div class="card-icon">🚀</div>
+            <span class="program-badge program-badge--muted">Próximamente</span>
             <h3>Incubadora de Ideas</h3>
             <p class="program-desc">
-                 Lleva tu idea desde una servilleta a un prototipo validado con sesiones guiadas y mentorías aplicadas.
+              Lleva tu idea desde una servilleta a un prototipo validado con sesiones guiadas y mentorías aplicadas.
             </p>
             <ul class="program-features">
               <li>Validación de Problema</li>
@@ -132,15 +156,16 @@
             <button
               class="glow-button"
               type="button"
-              data-apply-trigger
-              data-program="incubadora"
+              disabled
+              aria-disabled="true"
             >
-              Ver convocatoria
+              Próximamente
             </button>
           </div>
         </div>
       </section>
 
+      <!-- MANIFIESTO -->
       <section class="manifesto section" id="sobre">
         <div class="section-header">
           <h2>Manifiesto de Kaleidoscopio</h2>
@@ -168,6 +193,7 @@
         </div>
       </section>
 
+      <!-- TESTIMONIOS -->
       <section class="section experiences" id="experiencias">
         <div class="section-header">
           <h2>Lo que dicen otras mentes</h2>
@@ -175,19 +201,19 @@
         <div class="testimonial-grid">
           <figure class="testimonial-card">
             <blockquote>
-              “Entré a la Impulsora con un dibujo y salí con una patente en trámite. El caos creativo funciona.”
+              "Entré a la Impulsora con un dibujo y salí con una patente en trámite. El caos creativo funciona."
             </blockquote>
             <figcaption>Andrea · Biohacker</figcaption>
           </figure>
           <figure class="testimonial-card">
             <blockquote>
-              “La Incubadora nos dio los números que nos faltaban para levantar nuestra semilla. Brutal.”
+              "La Incubadora nos dio los números que nos faltaban para levantar nuestra semilla. Brutal."
             </blockquote>
             <figcaption>Diego · Fintech Founder</figcaption>
           </figure>
           <figure class="testimonial-card">
             <blockquote>
-              “Kaleidoscopio es un portal a otras formas de crear negocios sostenibles.”
+              "Kaleidoscopio es un portal a otras formas de crear negocios sostenibles."
             </blockquote>
             <figcaption>Lina · Diseñadora VR</figcaption>
           </figure>
@@ -206,16 +232,13 @@
       </div>
     </footer>
 
-    <!-- INFORMACIÓN DE PROGRAMAS ANTES DEL REGISTRO -->
+    <!-- MODAL: INFORMACIÓN DEL PROGRAMA -->
     <div class="program-overlay" id="programOverlay" aria-hidden="true">
       <div class="program-details">
         <button class="close-button" id="closeProgramOverlay" aria-label="Cerrar información">×</button>
         <p class="program-badge" id="programDetailBadge">Convocatoria</p>
-        <h2 id="programDetailTitle">Impulsora de Ideas</h2>
-        <p class="program-detail-lead" id="programDetailLead">
-          Para visionarios en fase temprana. Tienes la idea, la pasión y la "locura",
-              pero necesitas estructura, validación y el primer prototipo.
-        </p>
+        <h2 id="programDetailTitle">Impulsora de Negocios</h2>
+        <p class="program-detail-lead" id="programDetailLead"></p>
         <div class="program-media" id="programMedia">
           <div class="program-video-wrapper">
             <iframe
@@ -247,395 +270,83 @@
 
         <div class="program-actions">
           <button class="ghost-button" type="button" id="backToPrograms">Volver</button>
-          <button class="glow-button" type="button" id="startRegistrationButton" data-program="impulsora">
+          <a class="glow-button" id="startRegistrationButton" href="registro.html">
             Iniciar registro
-          </button>
+          </a>
         </div>
       </div>
     </div>
 
-    <!-- FORMULARIO MODIFICADO -->
-    <div class="form-overlay" id="formOverlay" aria-hidden="true">
-      <div class="form-container">
-        <button class="close-button" id="closeForm" aria-label="Cerrar formulario">×</button>
+    <!-- MODAL: NARRATIVA -->
+    <div class="narrativa-overlay" id="narrativaOverlay" aria-hidden="true">
+      <div class="narrativa-panel">
+        <button class="close-button" id="closeNarrativa" aria-label="Cerrar narrativa">×</button>
+        <p class="hero-kicker">La historia que nos mueve</p>
+        <h2>Nuestra Narrativa</h2>
 
-        <div class="form-header-dynamic">
-          <h2 id="formTitle">Aplicación</h2>
-          <p class="program-badge" id="programBadge">Seleccionado</p>
-        </div>
-
-        <div class="progress-wrapper">
-          <div class="progress-bar-bg">
-            <div class="progress-bar" id="progressBar"></div>
-          </div>
-          <p class="progress-message" id="progressMessage">Primer impulso …</p>
-        </div>
-
-        <form
-          id="cohortForm"
-          name="cohort-application"
-          method="POST"
-          action="/"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          accept-charset="UTF-8"
-          novalidate
-        >
-          <!-- Nombre del formulario para Netlify -->
-          <input type="hidden" name="form-name" value="cohort-application" />
-          <!-- Honeypot (anti-bots) -->
-          <p class="honeypot" aria-hidden="true">
-            <label>
-              No completar si eres humano
-              <input type="text" name="bot-field" tabindex="-1" />
-            </label>
-          </p>
-          <!-- Programa seleccionado (se llena vía JS) -->
-          <input
-            type="hidden"
-            name="programa_seleccionado"
-            id="programSelection"
-            value=""
-          />
-          <input type="hidden" name="user_agent" id="userAgentField" />
-          <input type="hidden" name="referrer" id="referrerField" />
-          <input type="hidden" name="created_at" id="createdAtField" />
-
-          <div class="form-step active" data-step="1">
-            <h3>Sección 1 · Datos personales</h3>
-            <label>
-              Nombre completo
-              <input type="text" name="nombre" required />
-            </label>
-            <label>
-              Edad
-              <input type="number" name="edad" min="15" required />
-            </label>
-            <label>
-              Correo electrónico
-              <input type="email" name="email" required />
-            </label>
-            <label>
-              Ciudad / País
-              <input type="text" name="ciudad" required />
-            </label>
-            <label>
-              Profesión o campo de estudio
-              <input type="text" name="profesion" required />
-            </label>
-          </div>
-
-          <div class="form-step" data-step="2">
-            <h3>Sección 2 · Intereses y motivación</h3>
-            <label>
-              ¿Qué te interesa de este programa específico?
-              <textarea name="interes" required></textarea>
-            </label>
-            <label>
-              ¿Qué te motiva a crear o innovar?
-              <textarea name="motivacion" required></textarea>
-            </label>
-            <div class="conditional-field" data-show-if="impulsora">
-              <label>
-                ¿Qué significa para ti la palabra “locura”?
-                <textarea name="locura"></textarea>
-              </label>
-            </div>
-            <div class="conditional-field" data-show-if="incubadora">
-              <label>
-                ¿Cuál es tu visión a 5 años de la empresa?
-                <textarea name="vision_negocio"></textarea>
-              </label>
-            </div>
-          </div>
-
-          <div class="form-step" data-step="3">
-            <h3>Sección 3 · Experiencia y equipo</h3>
-            <label>
-              ¿Tienes experiencia previa creando proyectos?
-              <textarea name="experiencia" required></textarea>
-            </label>
-            <label>
-              ¿Prefieres trabajar solo, en equipo o liderando un grupo?
-              <input type="text" name="preferencia" required />
-            </label>
-            <div class="conditional-field" data-show-if="incubadora">
-              <label>
-                ¿Cuántos socios fundadores o empleados tienes actualmente?
-                <input type="number" name="socios" placeholder="0" />
-              </label>
-            </div>
-          </div>
-
-          <div class="form-step" data-step="4">
-            <h3>Sección 4 · Detalles del Proyecto</h3>
-
-            <div class="conditional-group" data-show-if="impulsora">
-              <p class="optional-note">Enfócate en la creatividad de la idea.</p>
-              <label>
-                Describe tu idea o "locura" brevemente.
-                <textarea name="idea_desc"></textarea>
-              </label>
-              <label>
-                ¿Qué problema crees que resuelve? (Hipótesis)
-                <textarea name="idea_problema"></textarea>
-              </label>
-            </div>
-
-            <div class="conditional-group" data-show-if="incubadora">
-              <p class="optional-note">Enfócate en la viabilidad y tracción.</p>
-              <label>
-                ¿Cuál es el nombre de tu emprendimiento?
-                <input type="text" name="nombre_emprendimiento" required />
-              </label>
-              <label>
-                Describe tu Producto Mínimo Viable (MVP) actual.
-                <textarea name="mvp_desc"></textarea>
-              </label>
-              <label>
-                ¿Tienes ventas o usuarios activos? Describe tus métricas.
-                <textarea name="metricas"></textarea>
-              </label>
-              <label>
-                ¿Cuál es tu modelo de monetización?
-                <textarea name="modelo_negocio"></textarea>
-              </label>
-            </div>
-          </div>
-
-          <div class="form-step" data-step="5">
-            <h3>Sección 5 · Cierre</h3>
-            <label>
-              ¿Por qué crees que deberías ser seleccionado?
-              <textarea name="razon" required></textarea>
-            </label>
-            <label class="checkbox">
-              <span>Me comprometo a cumplir con las sesiones del Cohort.</span>
-              <input type="checkbox" name="compromiso" required />
-            </label>
-          </div>
-
-          <div class="form-step" data-step="6">
-            <h3>Sección 6 · Identidad y área</h3>
-            <p class="optional-note">
-              Selecciona el color que refleja el área donde operas. Este matiz nos ayuda a conectar mejor contigo.
-            </p>
-            <div class="color-grid" role="radiogroup" aria-label="Selector de color por área">
-              <div class="color-card" data-color="Azul" tabindex="0" role="radio" aria-checked="false">
-                <div class="color-card__header">
-                  <span class="color-dot color-dot--blue" aria-hidden="true"></span>
-                  <div>
-                    <p class="color-name">Azul</p>
-                    <p class="color-subtitle">Emprendimientos tecnológicos.</p>
-                  </div>
-                </div>
-                <ul class="color-industries">
-                  <li>Software, SaaS y plataformas digitales</li>
-                  <li>IA, datos y automatización</li>
-                  <li>Cloud, ciberseguridad, infraestructura</li>
-                  <li>IoT, hardware y deep tech</li>
-                </ul>
-              </div>
-
-              <div class="color-card" data-color="Verde" tabindex="0" role="radio" aria-checked="false">
-                <div class="color-card__header">
-                  <span class="color-dot color-dot--green" aria-hidden="true"></span>
-                  <div>
-                    <p class="color-name">Verde</p>
-                    <p class="color-subtitle">Socioambientales.</p>
-                  </div>
-                </div>
-                <ul class="color-industries">
-                  <li>Impacto social y comunitario</li>
-                  <li>Sostenibilidad y economía circular</li>
-                  <li>Educación, salud y bienestar</li>
-                  <li>Conservación y cuidado del entorno</li>
-                </ul>
-              </div>
-
-              <div class="color-card" data-color="Rojo" tabindex="0" role="radio" aria-checked="false">
-                <div class="color-card__header">
-                  <span class="color-dot color-dot--red" aria-hidden="true"></span>
-                  <div>
-                    <p class="color-name">Rojo</p>
-                    <p class="color-subtitle">Industriales / Producto.</p>
-                  </div>
-                </div>
-                <ul class="color-industries">
-                  <li>Diseño y desarrollo de producto</li>
-                  <li>Manufactura y procesos industriales</li>
-                  <li>Logística, supply chain, escalabilidad</li>
-                  <li>Prototipos físicos y hardware</li>
-                </ul>
-              </div>
-
-              <div class="color-card" data-color="Amarillo" tabindex="0" role="radio" aria-checked="false">
-                <div class="color-card__header">
-                  <span class="color-dot color-dot--yellow" aria-hidden="true"></span>
-                  <div>
-                    <p class="color-name">Amarillo</p>
-                    <p class="color-subtitle">Transversales.</p>
-                  </div>
-                </div>
-                <ul class="color-industries">
-                  <li>Modelos híbridos entre industrias</li>
-                  <li>Creatividad aplicada y nuevas conexiones</li>
-                  <li>Servicios, comunidades y experiencias</li>
-                  <li>Propuestas difíciles de encasillar</li>
-                </ul>
-              </div>
-            </div>
-            <input type="hidden" name="color_area" id="colorArea" required />
-
-            <h4 class="subheading">¿Qué tipo de inventor eres?</h4>
-            <p class="optional-note">Tu perfil de energía.</p>
-            <div class="inventor-grid" role="radiogroup">
-              <div class="inventor-card" data-value="visionario" tabindex="0" role="radio" aria-checked="false">
-                <h4>El visionario</h4>
-                <p>Imagina mundos nuevos.</p>
-              </div>
-              <div class="inventor-card" data-value="hacker" tabindex="0" role="radio" aria-checked="false">
-                <h4>El hacker</h4>
-                <p>Rompe sistemas y lógicas.</p>
-              </div>
-              <div class="inventor-card" data-value="artista" tabindex="0" role="radio" aria-checked="false">
-                <h4>El artista</h4>
-                <p>Diseña experiencias sensoriales.</p>
-              </div>
-              <div class="inventor-card" data-value="estratega" tabindex="0" role="radio" aria-checked="false">
-                <h4>El estratega</h4>
-                <p>Teje rutas y planes maestros.</p>
-              </div>
-            </div>
-            <input type="hidden" name="tipo_inventor" id="tipoInventor" />
-
-            <div class="terms-block">
-              <div class="terms-actions">
-                <button type="button" class="glow-button terms-accept" id="acceptTermsButton" aria-pressed="false">
-                  Aceptar términos y condiciones
-                </button>
-                <a class="terms-link" href="#termsContent" id="viewTermsLink" aria-expanded="false">
-                  Ver términos y condiciones
-                </a>
-              </div>
-              <div class="terms-content" id="termsContent" hidden>
-                <p>
-                  Kaleidoscopio protegerá la confidencialidad de la información que compartas, usándola únicamente
-                  para evaluar tu elegibilidad en los programas. Al aceptar, confirmas que la información es verídica
-                  y que comprendes que el avance en el proceso depende del cumplimiento de los requisitos del cohort.
-                </p>
-                <p>
-                  Puedes solicitarnos la eliminación de tus datos enviando un correo al equipo de admisiones.
-                  Los términos completos aplican a Impulsora e Incubadora por igual.
-                </p>
-              </div>
-              <input type="checkbox" name="acepta_terminos" id="termsAccepted" required hidden />
-            </div>
-          </div>
-
-          <div class="form-navigation">
-            <button type="button" class="ghost-button" id="prevStep">Volver</button>
-            <button type="button" class="glow-button" id="nextStep">Siguiente</button>
-            <button type="submit" class="glow-button" id="submitForm">Enviar Aplicación</button>
-          </div>
-        </form>
-
-        <div class="success-message" id="successMessage" hidden>
-          <h3>Solicitud Recibida</h3>
+        <div class="narrativa-body">
           <p>
-            Tu aplicación para la
-            <span id="successProgramName">...</span>
-            ha sido enviada al consejo.
+            Kaleidoscopio nació de una pregunta incómoda: ¿por qué las mejores ideas del mundo mueren en silencio?
           </p>
-          <button class="ghost-button" id="closeSuccess">Cerrar</button>
+          <p>
+            No es por falta de talento. Hay genios en cada ciudad, en cada mesa de café, en cada cuaderno lleno de
+            dibujos y flechas. Lo que falta no es la chispa. Lo que falta es el ecosistema que la recibe, la
+            desafía y la potencia.
+          </p>
+          <p>
+            Eso es Kaleidoscopio. Un espacio diseñado para el inventor que aún no sabe que lo es, para el hacker
+            que ve sistemas donde otros ven caos, para el artista que quiere que su obra cambie algo más que paredes.
+          </p>
+          <p>
+            Trabajamos con sprints, no con planes de cinco años. Con prototipos, no con propuestas.
+            Con comunidad, no con audiencias. Cada cohort es un laboratorio vivo donde las ideas colisionan,
+            se transforman y emergen como algo que nadie esperaba.
+          </p>
+          <p>
+            Hemos visto ideas dibujadas en servilletas convertirse en productos con tracción. Hemos visto equipos
+            de dos personas encontrar su modelo de negocio en seis semanas. Hemos visto el caos creativo producir
+            lo que los procesos lineales nunca podrían.
+          </p>
+          <p>
+            El triángulo no es solo nuestro logo. Es nuestra filosofía: tres puntos de tensión —la idea, la
+            persona, el mercado— que en equilibrio crean algo imposible de ignorar.
+          </p>
+          <p><strong>Bienvenido al Kaleidoscopio.</strong></p>
+        </div>
+
+        <!-- CARRUSEL -->
+        <div class="carousel">
+          <div class="carousel-track-wrapper">
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide">
+                <img
+                  src="assets/img/placeholder_carusel_1_1775770312359.png"
+                  alt="Kaleidoscopio en acción"
+                  loading="lazy"
+                />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  src="assets/img/placeholder_carusel_2_1775770324171.png"
+                  alt="Comunidad Kaleidoscopio"
+                  loading="lazy"
+                />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  src="assets/img/placeholder_carusel_3_1775770337149.png"
+                  alt="Proyectos del cohort"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <button class="carousel-btn carousel-btn--prev" id="carouselPrev" type="button" aria-label="Imagen anterior">‹</button>
+            <button class="carousel-btn carousel-btn--next" id="carouselNext" type="button" aria-label="Imagen siguiente">›</button>
+          </div>
+          <div class="carousel-dots" id="carouselDots" role="group" aria-label="Navegación del carrusel"></div>
         </div>
       </div>
     </div>
-
-    <!-- Formularios ocultos para la detección de Netlify por programa -->
-    <form
-      name="cohort-impulsora"
-      method="POST"
-      action="/"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      accept-charset="UTF-8"
-      class="netlify-hidden"
-      hidden
-    >
-      <input type="hidden" name="form-name" value="cohort-impulsora" />
-      <input type="text" name="nombre" />
-      <input type="number" name="edad" />
-      <input type="email" name="email" />
-      <input type="text" name="ciudad" />
-      <input type="text" name="profesion" />
-      <textarea name="interes"></textarea>
-      <textarea name="motivacion"></textarea>
-      <textarea name="locura"></textarea>
-      <textarea name="vision_negocio"></textarea>
-      <input type="text" name="nombre_emprendimiento" />
-      <textarea name="experiencia"></textarea>
-      <input type="text" name="preferencia" />
-      <input type="number" name="socios" />
-      <textarea name="idea_desc"></textarea>
-      <textarea name="idea_problema"></textarea>
-      <textarea name="mvp_desc"></textarea>
-      <textarea name="metricas"></textarea>
-      <textarea name="modelo_negocio"></textarea>
-      <textarea name="razon"></textarea>
-      <input type="checkbox" name="compromiso" />
-      <input type="text" name="tipo_inventor" />
-      <input type="text" name="programa_seleccionado" value="impulsora" />
-      <input type="text" name="user_agent" />
-      <input type="text" name="referrer" />
-      <input type="text" name="created_at" />
-      <input type="text" name="ip" />
-      <input type="text" name="color_area" />
-      <input type="checkbox" name="acepta_terminos" />
-      <input type="hidden" name="bot-field" />
-    </form>
-
-    <form
-      name="cohort-incubadora"
-      method="POST"
-      action="/"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      accept-charset="UTF-8"
-      class="netlify-hidden"
-      hidden
-    >
-      <input type="hidden" name="form-name" value="cohort-incubadora" />
-      <input type="text" name="nombre" />
-      <input type="number" name="edad" />
-      <input type="email" name="email" />
-      <input type="text" name="ciudad" />
-      <input type="text" name="profesion" />
-      <textarea name="interes"></textarea>
-      <textarea name="motivacion"></textarea>
-      <textarea name="locura"></textarea>
-      <textarea name="vision_negocio"></textarea>
-      <input type="text" name="nombre_emprendimiento" />
-      <textarea name="experiencia"></textarea>
-      <input type="text" name="preferencia" />
-      <input type="number" name="socios" />
-      <textarea name="idea_desc"></textarea>
-      <textarea name="idea_problema"></textarea>
-      <textarea name="mvp_desc"></textarea>
-      <textarea name="metricas"></textarea>
-      <textarea name="modelo_negocio"></textarea>
-      <textarea name="razon"></textarea>
-      <input type="checkbox" name="compromiso" />
-      <input type="text" name="tipo_inventor" />
-      <input type="text" name="programa_seleccionado" value="incubadora" />
-      <input type="text" name="user_agent" />
-      <input type="text" name="referrer" />
-      <input type="text" name="created_at" />
-      <input type="text" name="ip" />
-      <input type="text" name="color_area" />
-      <input type="checkbox" name="acepta_terminos" />
-      <input type="hidden" name="bot-field" />
-    </form>
 
     <script src="assets/js/main.js"></script>
   </body>
