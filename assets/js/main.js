@@ -43,7 +43,7 @@ const applyTriggers = Array.from(document.querySelectorAll('[data-apply-trigger]
 
 const programContent = {
   impulsora: {
-    title: 'Impulsora de Negocios',
+    title: 'Impulsora: Road to Funding',
     badge: 'Cohort Creativo · Convocatoria Abierta',
     color: 'var(--yellow)',
     lead: 'Más que un programa, es una experiencia transformadora. Si tu idea te quita el sueño y sabes que va a cambiar las reglas del juego, esta es tu señal. Lleva tu proyecto desde su estado primitivo hasta un modelo ferozmente validado y listo para levantar rondas de capital. Únete a la rebelión y construye el futuro junto a los mejores operadores creativos.',
@@ -71,7 +71,7 @@ const programContent = {
     ],
   },
   incubadora: {
-    title: 'Incubadora: Road to Funding',
+    title: 'Incubadora: First Steps',
     badge: 'Cohort Negocios',
     color: 'var(--blue)',
     lead: 'Road to Funding es un programa intensivo de 10 semanas diseñado para emprendedores que buscan estructurar su negocio y prepararse para levantar capital. A través de acompañamiento práctico, desarrollarás los elementos clave para presentar tu proyecto de forma sólida ante inversionistas.',
@@ -156,7 +156,7 @@ const renderProgramDetails = (type) => {
 
   const downloadPdfBtn = document.getElementById('downloadPdfBtn');
   if (downloadPdfBtn) {
-    if (type === 'impulsora' || type === 'incubadora') {
+    if (type === 'impulsora') {
       downloadPdfBtn.style.display = 'inline-block';
     } else {
       downloadPdfBtn.style.display = 'none';
