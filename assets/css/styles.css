@@ -258,7 +258,30 @@ a {
   fill: none;
   stroke: var(--yellow);
   stroke-width: 8;
-  filter: drop-shadow(0 0 24px rgba(243, 255, 62, 0.8));
+  animation: rgbCycle 12s linear infinite;
+}
+
+@keyframes rgbCycle {
+  0%, 100% {
+    stroke: #f5a623; /* Naranja/Dorado */
+    filter: drop-shadow(0 0 24px rgba(245, 166, 35, 0.8));
+  }
+  20% {
+    stroke: var(--red); /* Rojo/Magenta */
+    filter: drop-shadow(0 0 24px rgba(255, 62, 127, 0.8));
+  }
+  40% {
+    stroke: var(--blue); /* Azul neón */
+    filter: drop-shadow(0 0 24px rgba(62, 209, 255, 0.8));
+  }
+  60% {
+    stroke: var(--green); /* Verde neón */
+    filter: drop-shadow(0 0 24px rgba(0, 255, 163, 0.8));
+  }
+  80% {
+    stroke: var(--yellow); /* Amarillo neón */
+    filter: drop-shadow(0 0 24px rgba(243, 255, 62, 0.8));
+  }
 }
 
 @keyframes rotatePulse {
