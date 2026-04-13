@@ -151,8 +151,7 @@ const renderProgramDetails = (type) => {
     desc.textContent = module.desc;
     wrapper.appendChild(title);
     wrapper.appendChild(desc);
-  });
-
+    programModules.appendChild(wrapper);
   });
 
   const downloadPdfBtn = document.getElementById('downloadPdfBtn');
