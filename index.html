@@ -48,8 +48,8 @@
         <div class="hero-grid">
           <div class="hero-visual" aria-hidden="true">
             <div class="triangle-orbit">
-              <div class="triangle-core">
-                <svg viewBox="0 0 120 104">
+              <div class="triangle-core" style="color: #ccff00;">
+                <svg viewBox="0 0 120 104" style="stroke: #ccff00; filter: drop-shadow(0 0 24px rgba(204, 255, 0, 0.8));">
                   <polygon points="60,4 116,100 4,100" />
                 </svg>
               </div>
@@ -136,27 +136,26 @@
             </button>
           </div>
 
-          <!-- CARD INCUBADORA — PRÓXIMAMENTE -->
-          <div class="program-card incubadora is-upcoming">
+          <!-- CARD INCUBADORA -->
+          <div class="program-card incubadora">
             <div class="card-icon">🚀</div>
-            <span class="program-badge program-badge--muted">Próximamente</span>
-            <h3>Incubadora de Ideas</h3>
+            <span class="program-badge">Próximamente</span>
+            <h3>Incubadora: Road to Funding</h3>
             <p class="program-desc">
-              Lleva tu idea desde una servilleta a un prototipo validado con sesiones guiadas y mentorías aplicadas.
+              Programa intensivo de 10 semanas diseñado para emprendedores que buscan estructurar su negocio y prepararse para levantar capital con un acompañamiento completamente práctico.
             </p>
             <ul class="program-features">
-              <li>Validación de Problema</li>
-              <li>Design Thinking Radical</li>
-              <li>Prototipado Rápido</li>
-              <li>Mentoría Creativa</li>
+              <li>Módulo 1: Estudio de mercado</li>
+              <li>Módulo 2: Operatividad</li>
+              <li>Módulo 5: Proyecciones financieras</li>
             </ul>
             <button
               class="glow-button"
               type="button"
-              disabled
-              aria-disabled="true"
+              data-apply-trigger
+              data-program="incubadora"
             >
-              Próximamente
+              Ver convocatoria
             </button>
           </div>
         </div>
@@ -272,14 +271,12 @@
           </article>
         </div>
 
-        <div class="program-pdf-section" id="programPdfSection" style="display: none; margin-top: 2rem; margin-bottom: 2rem;">
-          <h3 style="margin-bottom: 1rem; color: var(--white); font-size: 1.25rem;">Documento: Road to Funding</h3>
-          <iframe id="programPdfFrame" src="" width="100%" height="450px" style="border: none; border-radius: 8px; background: #fff;"></iframe>
-        </div>
-
         <div class="program-modules" id="programModules"></div>
 
         <div class="program-actions">
+          <a id="downloadPdfBtn" href="ROAD TO FUNDING - CONV.pdf" target="_blank" class="ghost-button" style="display:none; color: var(--text); border-color: var(--text);">
+            📄 Ver Road to Funding
+          </a>
           <button class="ghost-button" type="button" id="backToPrograms">Volver</button>
           <a class="glow-button" id="startRegistrationButton" href="https://pago.clip.mx/c6ebb7b9-b203-4801-88ac-2cb500c8c993" rel="noopener noreferrer">
             Inscribirme

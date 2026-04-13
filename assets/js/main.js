@@ -71,31 +71,29 @@ const programContent = {
     ],
   },
   incubadora: {
-    title: 'Incubadora de Ideas',
+    title: 'Incubadora: Road to Funding',
     badge: 'Cohort Negocios',
     color: 'var(--blue)',
-    lead: 'Entiende el mercado, analiza las oportunidades, desarrolla tu modelo de negocio y aterriza tu idea.',
+    lead: 'Road to Funding es un programa intensivo de 10 semanas diseñado para emprendedores que buscan estructurar su negocio y prepararse para levantar capital. A través de acompañamiento práctico, desarrollarás los elementos clave para presentar tu proyecto de forma sólida ante inversionistas.',
     videoUrl: 'https://www.youtube.com/embed/k_MmR4sfl_4',
     videoCaption: 'Explora la convocatoria de Incubadora en un vistazo rápido.',
-    meta: ['Duración: 5 semanas', 'Modalidad: Híbrida', 'Enfoque: Idea + MVP'],
+    meta: ['Duración: 10 semanas', 'Modalidad: Híbrida', 'Enfoque: Estructuración y Capital'],
     includes: [
-      'Mentorías con operadores y founders',
-      'Unit economics y pricing',
-      'Go-to-market',
-      'Preparación para vender el proyecto',
+      'Acompañamiento práctico paso a paso',
+      'Desarrollo de elementos clave para inversionistas',
+      'Preparación de Pitch y Unit Economics',
     ],
     results: [
-      'Métricas de tracción y funnel definidos',
-      'Modelo financiero y unit economics claros',
-      'Pitch deck listo',
+      'Proyecciones financieras estructuradas',
+      'Estructura de gobierno corporativo',
+      'Listo para levantar capital',
     ],
     modules: [
-      { title: 'Semana 1 · Problemática', desc: 'Analiza y valida tu problema.' },
-      { title: 'Semana 2 · Entorno', desc: 'Evaluación de la oportunidad y creación del Benchmark.' },
-      { title: 'Semana 3 · Estructura', desc: 'Estrategias de Marketing y técnicas de ideación.' },
-      { title: 'Semana 4 · Producto', desc: 'Creación del primer MVP.' },
-      { title: 'Semana 5 · Finanzas y unit economics', desc: 'Prorrateo y costos.' },
-      { title: 'DEMO DAY · Go to market', desc: 'Business canvas y desarrollo de pitch.' },
+      { title: 'Módulo 1', desc: 'Estudio de mercado' },
+      { title: 'Módulo 2', desc: 'Operatividad del negocio' },
+      { title: 'Módulo 3', desc: 'Redes sociales y marketing' },
+      { title: 'Módulo 4', desc: 'Gobierno corporativo' },
+      { title: 'Módulo 5', desc: 'Proyecciones financieras' },
     ],
   },
 };
@@ -155,15 +153,14 @@ const renderProgramDetails = (type) => {
     wrapper.appendChild(desc);
   });
 
-  const pdfSection = document.getElementById('programPdfSection');
-  const pdfFrame = document.getElementById('programPdfFrame');
-  if (pdfSection && pdfFrame) {
-    if (type === 'impulsora') {
-      pdfFrame.src = 'ROAD TO FUNDING - CONV.pdf';
-      pdfSection.style.display = 'block';
+  });
+
+  const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+  if (downloadPdfBtn) {
+    if (type === 'impulsora' || type === 'incubadora') {
+      downloadPdfBtn.style.display = 'inline-block';
     } else {
-      pdfFrame.src = '';
-      pdfSection.style.display = 'none';
+      downloadPdfBtn.style.display = 'none';
     }
   }
 };
