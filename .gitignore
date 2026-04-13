@@ -3,3 +3,6 @@ Recap/
 
 # Ignorar archivos comprimidos
 *.zip
+
+# Ignorar videos pesados
+*.mov
