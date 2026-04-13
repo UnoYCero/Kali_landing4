@@ -46,7 +46,7 @@ const programContent = {
     title: 'Impulsora de Negocios',
     badge: 'Cohort Creativo · Convocatoria Abierta',
     color: 'var(--yellow)',
-    lead: 'Lleva tu idea desde una servilleta a un prototipo validado con sesiones guiadas y mentorías aplicadas.',
+    lead: 'Más que un programa, es una experiencia transformadora. Si tu idea te quita el sueño y sabes que va a cambiar las reglas del juego, esta es tu señal. Lleva tu proyecto desde su estado primitivo hasta un modelo ferozmente validado y listo para levantar rondas de capital. Únete a la rebelión y construye el futuro junto a los mejores operadores creativos.',
     videoUrl: 'https://www.youtube.com/embed/8vS1uxEV1T4',
     videoCaption: 'Conoce la convocatoria de Impulsora en 45 segundos.',
     meta: ['Duración: 6 semanas', 'Modalidad: Híbrida', 'Enfoque: Creatividad + Prototipado'],
