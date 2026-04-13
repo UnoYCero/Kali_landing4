@@ -1,0 +1,5 @@
+# Ignorar la carpeta de recursos crudos
+Recap/
+
+# Ignorar archivos comprimidos
+*.zip

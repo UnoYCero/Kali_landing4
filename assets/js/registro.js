@@ -114,10 +114,7 @@ const handleSuccess = () => {
   form.setAttribute('hidden', 'true');
   successMessage.hidden = false;
   progressBar.style.width = '100%';
-  progressMessage.textContent = 'Redirigiendo al proceso de pago…';
-  setTimeout(() => {
-    window.location.href = CLIP_URL;
-  }, 1800);
+  progressMessage.textContent = '¡Registro completado!';
 };
 
 nextButton.addEventListener('click', () => {
