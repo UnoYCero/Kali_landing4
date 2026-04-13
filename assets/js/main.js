@@ -153,8 +153,19 @@ const renderProgramDetails = (type) => {
     desc.textContent = module.desc;
     wrapper.appendChild(title);
     wrapper.appendChild(desc);
-    programModules.appendChild(wrapper);
   });
+
+  const pdfSection = document.getElementById('programPdfSection');
+  const pdfFrame = document.getElementById('programPdfFrame');
+  if (pdfSection && pdfFrame) {
+    if (type === 'impulsora') {
+      pdfFrame.src = 'ROAD TO FUNDING - CONV.pdf';
+      pdfSection.style.display = 'block';
+    } else {
+      pdfFrame.src = '';
+      pdfSection.style.display = 'none';
+    }
+  }
 };
 
 const openProgramDetails = (type) => {
