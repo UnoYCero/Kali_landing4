@@ -49,17 +49,21 @@ const programContent = {
     lead: 'Más que un programa, es una experiencia transformadora. Si tu idea te quita el sueño y sabes que va a cambiar las reglas del juego, esta es tu señal. Lleva tu proyecto desde su estado primitivo hasta un modelo ferozmente validado y listo para levantar rondas de capital. Únete a la rebelión y construye el futuro junto a los mejores operadores creativos.',
     videoUrl: 'https://www.youtube.com/embed/8vS1uxEV1T4',
     videoCaption: 'Conoce la convocatoria de Impulsora en 45 segundos.',
-    meta: ['Duración: 6 semanas', 'Modalidad: Híbrida', 'Enfoque: Creatividad + Prototipado'],
+    meta: [
+      'Duracion 10 semanas',
+      'Enfoque: Modelo economico + Inversion',
+      'Culminación del evento: Presentacion ante inversionistas'
+    ],
     includes: [
-      'Sprints de Design Thinking radical',
-      'Laboratorios de ideación asistida',
-      'Prototipado express con expertos',
-      'Pitch inicial y retroalimentación',
+      'Validacion del mercado',
+      'Capacidad operativa',
+      'Entendimiento profundo del negocio',
+      'Capacidad real de crecimiento',
     ],
     results: [
-      'Hipótesis de problema/solución validadas',
-      'Primer prototipo funcional o storyboard',
-      'Mapa de riesgos y próximos experimentos',
+      'Estructura operativa funcional',
+      'Valuacion de tu emprendimiento',
+      'Mapeo de crecimiento',
     ],
     modules: [
       { title: 'Módulo 1', desc: 'Estudio de mercado' },
