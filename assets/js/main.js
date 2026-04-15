@@ -62,12 +62,11 @@ const programContent = {
       'Mapa de riesgos y próximos experimentos',
     ],
     modules: [
-      { title: 'Semana 1 · Explosión de ideas', desc: 'Explora problemas, usuarios y dolores con ejercicios creativos.' },
-      { title: 'Semana 2 · Diseño radical', desc: 'Define la propuesta de valor con design thinking radical.' },
-      { title: 'Semana 3 · Prototipo express', desc: 'Construye y prueba un primer prototipo tangible o digital.' },
-      { title: 'Semana 4 · Validación', desc: 'Testea con usuarios reales y recoge evidencia accionable.' },
-      { title: 'Semana 5 · Iteración', desc: 'Refina la solución con mentorías 1:1 y feedback del panel.' },
-      { title: 'Semana 6 · Demo ready', desc: 'Prepara un pitch y plan de siguientes pasos.' },
+      { title: 'Módulo 1', desc: 'Estudio de mercado' },
+      { title: 'Módulo 2', desc: 'Operatividad del negocio' },
+      { title: 'Módulo 3', desc: 'Redes sociales y marketing' },
+      { title: 'Módulo 4', desc: 'Gobierno corporativo' },
+      { title: 'Módulo 5', desc: 'Proyecciones financieras' },
     ],
   },
   incubadora: {
