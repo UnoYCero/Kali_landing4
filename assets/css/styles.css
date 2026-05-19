@@ -11,6 +11,7 @@
   --shadow-neon: 0 0 20px rgba(243, 255, 62, 0.4), 0 0 60px rgba(0, 255, 163, 0.35);
   --transition-fast: 0.25s ease;
   --transition-slow: 0.6s ease;
+  --header-height: 104px;
 }
 
 * {
@@ -1711,4 +1712,188 @@ textarea {
     height: 36px;
     font-size: 1.4rem;
   }
+}
+
+
+.tools-detail-page .menu-toggle {
+  display: none !important;
+}
+
+@media (max-width: 960px) {
+  .tools-detail-page .main-nav {
+    position: static;
+    display: flex;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+}
+/* ── Herramientas Web ───────────────────────────────────────────────────────── */
+.tools-page,
+.tool-landing {
+  padding: 2rem 3vw 5rem;
+}
+
+.tools-hero {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.tools-hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4.5vw, 3.6rem);
+  line-height: 1.1;
+}
+
+.tools-hero p {
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 800px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.tool-card,
+.feature-card,
+.op-step {
+  border-radius: 20px;
+  border: 1px solid rgba(62, 209, 255, 0.25);
+  background: linear-gradient(160deg, rgba(12, 16, 28, 0.95), rgba(8, 10, 16, 0.9));
+  padding: 1.4rem;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.tool-card:hover,
+.feature-card:hover,
+.op-step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(62, 209, 255, 0.15);
+  border-color: rgba(0, 255, 163, 0.45);
+}
+
+.tool-badge {
+  display: inline-block;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(243, 255, 62, 0.4);
+  color: var(--yellow);
+}
+
+.tool-link { color: var(--green); font-weight: 600; }
+
+.tools-hamburger {
+  position: fixed;
+  left: 1rem;
+  top: calc(var(--header-height, 104px) + 0.75rem);
+  z-index: 25;
+  border: 1px solid var(--border);
+  background: rgba(6, 6, 8, 0.92);
+  color: var(--text);
+  padding: 0.65rem 0.9rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+}
+
+.tools-hamburger.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+
+.tools-hamburger-icon {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tools-hamburger-icon span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.tools-drawer-backdrop {
+  position: fixed;
+  inset: var(--header-height, 104px) 0 0;
+  background: rgba(3, 5, 10, 0.5);
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  z-index: 23;
+}
+
+.tools-drawer-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tools-sidebar {
+  position: fixed;
+  top: var(--header-height, 104px);
+  left: 0;
+  height: calc(100vh - var(--header-height, 104px));
+  width: min(82vw, 290px);
+  background: rgba(8, 10, 16, 0.98);
+  border-right: 1px solid rgba(243, 255, 62, 0.16);
+  padding: 1rem;
+  transform: translateX(-105%);
+  transition: transform var(--transition-fast);
+  z-index: 24;
+  display: grid;
+  align-content: start;
+  gap: 0.65rem;
+  overflow-y: auto;
+}
+
+.tools-sidebar.is-open { transform: translateX(0); }
+.tools-sidebar a,
+.tools-sidebar span {
+  padding: 0.7rem 0.8rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+}
+
+.tools-sidebar .is-active { border: 1px solid rgba(0, 255, 163, 0.45); }
+
+
+@media (max-width: 640px) {
+  .tools-hamburger {
+    padding: 0.55rem 0.65rem;
+    font-size: 0.82rem;
+  }
+}
+.feature-cards,
+.operation-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.op-step strong { color: var(--yellow); }
+
+@media (min-width: 961px) {
+  .tool-landing { padding-left: 3vw; }
 }
