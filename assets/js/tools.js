@@ -1,3 +1,4 @@
+const toolsMenuToggle = document.getElementById('toolsMenuToggle');
 const toolsSidebar = document.getElementById('toolsSidebar');
 const toolsDrawerBackdrop = document.getElementById('toolsDrawerBackdrop');
 const header = document.querySelector('.main-header');
@@ -24,6 +25,11 @@ const closeToolsDrawer = () => {
   toolsDrawerBackdrop?.classList.remove('is-open');
   toolsPrimaryToggle?.setAttribute('aria-expanded', 'false');
   setToggleHidden(false);
+const closeToolsDrawer = () => {
+  toolsSidebar?.classList.remove('is-open');
+  toolsDrawerBackdrop?.classList.remove('is-open');
+  toolsMenuToggle?.setAttribute('aria-expanded', 'false');
+  toolsMenuToggle?.classList.remove('is-hidden');
 };
 
 const openToolsDrawer = () => {
@@ -31,6 +37,8 @@ const openToolsDrawer = () => {
   toolsDrawerBackdrop?.classList.add('is-open');
   toolsPrimaryToggle?.setAttribute('aria-expanded', 'true');
   setToggleHidden(true);
+  toolsMenuToggle?.setAttribute('aria-expanded', 'true');
+  toolsMenuToggle?.classList.add('is-hidden');
 };
 
 syncHeaderHeight();
@@ -41,6 +49,8 @@ window.addEventListener('resize', () => {
 
 if (toolsPrimaryToggle && toolsSidebar) {
   toolsPrimaryToggle.addEventListener('click', () => {
+if (toolsMenuToggle && toolsSidebar) {
+  toolsMenuToggle.addEventListener('click', () => {
     const isOpen = toolsSidebar.classList.contains('is-open');
     if (isOpen) closeToolsDrawer(); else openToolsDrawer();
   });
