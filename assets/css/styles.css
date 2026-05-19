@@ -1793,7 +1793,13 @@ textarea {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
 }
 
-.tools-hamburger span {
+.tools-hamburger-icon {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tools-hamburger-icon span {
   display: block;
   width: 16px;
   height: 2px;
