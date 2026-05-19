@@ -1779,8 +1779,8 @@ textarea {
 .tools-hamburger {
   position: fixed;
   left: 1rem;
-  top: calc(var(--header-height) + 0.75rem);
-  z-index: 26;
+  top: calc(var(--header-height, 104px) + 0.75rem);
+  z-index: 22;
   border: 1px solid var(--border);
   background: rgba(6, 6, 8, 0.9);
   color: var(--text);
@@ -1791,16 +1791,16 @@ textarea {
 
 .tools-sidebar {
   position: fixed;
-  top: var(--header-height);
+  top: var(--header-height, 104px);
   left: 0;
-  height: calc(100vh - var(--header-height));
+  height: calc(100vh - var(--header-height, 104px));
   width: 270px;
   background: rgba(8, 10, 16, 0.97);
   border-right: 1px solid rgba(243, 255, 62, 0.16);
   padding: 1rem;
   transform: translateX(-105%);
   transition: transform var(--transition-fast);
-  z-index: 24;
+  z-index: 18;
   display: grid;
   align-content: start;
   gap: 0.65rem;
@@ -1815,6 +1815,11 @@ textarea {
 }
 
 .tools-sidebar .is-active { border: 1px solid rgba(0, 255, 163, 0.45); }
+
+.tools-hamburger.is-open {
+  left: calc(270px + 1rem);
+}
+
 
 .feature-cards,
 .operation-grid {

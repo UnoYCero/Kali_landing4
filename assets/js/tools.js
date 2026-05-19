@@ -15,5 +15,6 @@ if (toolsMenuToggle && toolsSidebar) {
   toolsMenuToggle.addEventListener('click', () => {
     const isOpen = toolsSidebar.classList.toggle('is-open');
     toolsMenuToggle.setAttribute('aria-expanded', String(isOpen));
+    toolsMenuToggle.classList.toggle('is-open', isOpen);
   });
 }
