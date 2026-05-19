@@ -12,12 +12,14 @@ const closeToolsDrawer = () => {
   toolsSidebar?.classList.remove('is-open');
   toolsDrawerBackdrop?.classList.remove('is-open');
   toolsMenuToggle?.setAttribute('aria-expanded', 'false');
+  toolsMenuToggle?.classList.remove('is-hidden');
 };
 
 const openToolsDrawer = () => {
   toolsSidebar?.classList.add('is-open');
   toolsDrawerBackdrop?.classList.add('is-open');
   toolsMenuToggle?.setAttribute('aria-expanded', 'true');
+  toolsMenuToggle?.classList.add('is-hidden');
 };
 
 syncHeaderHeight();
