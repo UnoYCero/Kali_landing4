@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mini landing de Sistema de Gestión de Pedidos para delivery de Kaleidoscopio." />
+    <title>Kaleidoscopio | Sistema de Gestión de Pedidos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="neon-particles" aria-hidden="true"></div>
+    <header class="main-header">
+      <div class="brand">
+        <div class="brand-logo-wrapper" aria-hidden="true" style="width: 80px; height: 80px; display: flex; align-items: center;"><img src="assets/img/logo.jpg" alt="Kaleidoscopio Logo" style="max-width: 100%; height: auto; border-radius: 8px;" /></div>
+        <div><p class="brand-label">Kaleidoscopio</p><p class="brand-sub">Herramientas Web</p></div>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
+      <nav class="main-nav" id="mainNav">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link" href="herramientas-web.html">Herramientas Web</a>
+        <a class="glow-button nav-link" href="#cta-demo">Solicitar demo</a>
+      </nav>
+    </header>
+
+    <button class="tools-hamburger" id="toolsMenuToggle" aria-expanded="false" aria-controls="toolsSidebar" aria-label="Abrir menú de herramientas">
+      <span></span><span></span><span></span>
+      Herramientas
+    </button>
+    <button class="tools-drawer-backdrop" id="toolsDrawerBackdrop" aria-label="Cerrar menú de herramientas"></button>
+    <aside class="tools-sidebar" id="toolsSidebar">
+      <h3>Herramientas</h3>
+      <a href="herramienta-gestion-pedidos.html" class="is-active">Gestión de Pedidos</a>
+      <span>Próximamente…</span>
+      <span>Próximamente…</span>
+    </aside>
+
+    <main class="tool-landing">
+      <section class="tools-hero section">
+        <p class="hero-kicker">SaaS para delivery</p>
+        <h1>Sistema de Gestión de Pedidos</h1>
+        <p>Resuelve el caos operativo de negocios de delivery: centraliza pedidos, tiempos de reparto, clientes y métricas en una sola plataforma para crecer con control.</p>
+        <div class="hero-actions" id="cta-demo">
+          <a class="glow-button" href="registro.html">Solicitar demo</a>
+          <a class="ghost-button" href="#funciones">Ver funciones</a>
+        </div>
+      </section>
+
+      <section class="section feature-cards">
+        <article class="feature-card"><h3>Beneficios principales</h3><p>Reduce errores, aumenta velocidad de despacho y mejora la experiencia de cliente.</p></article>
+        <article class="feature-card"><h3>Cómo funciona</h3><p>Recibe pedidos, asigna repartidor, monitorea estado en tiempo real y cierra operación con reportes automáticos.</p></article>
+        <article class="feature-card"><h3>Funciones destacadas</h3><p>Panel administrativo, gestión de clientes y pedidos, historial y métricas operativas.</p></article>
+      </section>
+
+      <section class="section" id="funciones">
+        <div class="section-header"><h2>Flujo operativo optimizado</h2><p>Arquitectura modular preparada para automatización, escalabilidad y control total del negocio.</p></div>
+        <div class="operation-grid">
+          <article class="op-step"><strong>01</strong><h4>Captura inteligente</h4><p>Pedidos desde web, WhatsApp o call center en un solo inbox.</p></article>
+          <article class="op-step"><strong>02</strong><h4>Orquestación automática</h4><p>Reglas para asignación de zona, prioridad y repartidor disponible.</p></article>
+          <article class="op-step"><strong>03</strong><h4>Seguimiento en vivo</h4><p>Estado del pedido para equipo interno y cliente final.</p></article>
+          <article class="op-step"><strong>04</strong><h4>Análisis de eficiencia</h4><p>Tablero con tiempos, recurrencia, tickets y productividad por turno.</p></article>
+        </div>
+      </section>
+    </main>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/tools.js"></script>
+  </body>
+</html>
