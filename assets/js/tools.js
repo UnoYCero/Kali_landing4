@@ -1,18 +1,7 @@
 const toolsSidebar = document.getElementById('toolsSidebar');
 const toolsDrawerBackdrop = document.getElementById('toolsDrawerBackdrop');
+const toolsMenuToggle = document.getElementById('toolsMenuToggle');
 const header = document.querySelector('.main-header');
-
-const duplicatedHeaderToggle = document.querySelector('.tools-main-header .menu-toggle');
-if (duplicatedHeaderToggle) {
-  duplicatedHeaderToggle.remove();
-}
-
-const toolsMenuToggles = Array.from(document.querySelectorAll('.tools-hamburger'));
-const toolsPrimaryToggle = toolsMenuToggles[0] || null;
-
-if (toolsMenuToggles.length > 1) {
-  toolsMenuToggles.slice(1).forEach((btn) => btn.remove());
-}
 
 const syncHeaderHeight = () => {
   if (!header) return;
@@ -20,21 +9,21 @@ const syncHeaderHeight = () => {
 };
 
 const setToggleHidden = (hidden) => {
-  if (!toolsPrimaryToggle) return;
-  toolsPrimaryToggle.classList.toggle('is-hidden', hidden);
+  if (!toolsMenuToggle) return;
+  toolsMenuToggle.classList.toggle('is-hidden', hidden);
 };
 
 const closeToolsDrawer = () => {
   toolsSidebar?.classList.remove('is-open');
   toolsDrawerBackdrop?.classList.remove('is-open');
-  toolsPrimaryToggle?.setAttribute('aria-expanded', 'false');
+  toolsMenuToggle?.setAttribute('aria-expanded', 'false');
   setToggleHidden(false);
 };
 
 const openToolsDrawer = () => {
   toolsSidebar?.classList.add('is-open');
   toolsDrawerBackdrop?.classList.add('is-open');
-  toolsPrimaryToggle?.setAttribute('aria-expanded', 'true');
+  toolsMenuToggle?.setAttribute('aria-expanded', 'true');
   setToggleHidden(true);
 };
 
@@ -44,8 +33,8 @@ window.addEventListener('resize', () => {
   closeToolsDrawer();
 });
 
-if (toolsPrimaryToggle && toolsSidebar) {
-  toolsPrimaryToggle.addEventListener('click', () => {
+if (toolsMenuToggle && toolsSidebar) {
+  toolsMenuToggle.addEventListener('click', () => {
     const isOpen = toolsSidebar.classList.contains('is-open');
     if (isOpen) closeToolsDrawer(); else openToolsDrawer();
   });
