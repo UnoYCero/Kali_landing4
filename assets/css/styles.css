@@ -1967,6 +1967,11 @@ textarea {
   margin: 0;
 }
 
+.wave-title .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .wave-title span {
   display: inline-block;
   animation: textWave 2.8s infinite ease-in-out;
