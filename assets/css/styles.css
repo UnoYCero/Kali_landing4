@@ -1960,6 +1960,36 @@ textarea {
   opacity: 0.5;
 }
 
+/* ── Wave Title Animation ────────────────────────────────────────────────── */
+.wave-title {
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--text);
+  margin: 0;
+}
+
+.wave-title span {
+  display: inline-block;
+  animation: textWave 2.8s infinite ease-in-out;
+  animation-delay: calc(0.045s * var(--i));
+  transform-origin: bottom center;
+}
+
+@keyframes textWave {
+  0%, 80%, 100% {
+    transform: translateY(0) scale(1);
+    color: var(--text);
+  }
+  10% {
+    transform: translateY(-8px) scale(1.05);
+    color: var(--green);
+    text-shadow: 0 0 12px rgba(0, 255, 163, 0.45);
+  }
+  20% {
+    transform: translateY(0) scale(1);
+    color: var(--text);
+  }
+}
+
 
 @media (max-width: 640px) {
   .tools-hamburger {
