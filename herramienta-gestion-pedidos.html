@@ -32,11 +32,16 @@
 
     <button class="tools-drawer-backdrop" id="toolsDrawerBackdrop" aria-label="Cerrar menú de herramientas"></button>
     <aside class="tools-sidebar" id="toolsSidebar">
-      <h3>Herramientas</h3>
-      <a href="registro.html?programa=medida" class="custom-tool-cta">¿Quieres una herramienta diseñada a tu medida?</a>
-      <a href="herramienta-gestion-pedidos.html" class="is-active">Gestión de Pedidos</a>
-      <span>Próximamente…</span>
-      <span>Próximamente…</span>
+      <div class="sidebar-header">
+        <h3>Herramientas</h3>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar menú">&times;</button>
+      </div>
+      <div class="sidebar-content">
+        <a href="herramienta-medida.html" class="custom-tool-cta">¿Necesitas una herramienta a la medida? Nosotros te la desarrollamos</a>
+        <a href="herramienta-gestion-pedidos.html" class="is-active">Gestión de Pedidos</a>
+        <span class="upcoming-tool">Próximamente: Automatizaciones de WhatsApp</span>
+        <span class="upcoming-tool">Próximamente: Agente IA de Ventas</span>
+      </div>
     </aside>
 
     <main class="tool-landing">

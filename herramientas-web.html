@@ -35,11 +35,16 @@
 
     <button class="tools-drawer-backdrop" id="toolsDrawerBackdrop" aria-label="Cerrar menú de herramientas"></button>
     <aside class="tools-sidebar" id="toolsSidebar">
-      <h3>Herramientas</h3>
-      <a href="registro.html?programa=medida" class="custom-tool-cta">¿Quieres una herramienta diseñada a tu medida?</a>
-      <a href="herramienta-gestion-pedidos.html">Gestión de Pedidos</a>
-      <span>Próximamente…</span>
-      <span>Próximamente…</span>
+      <div class="sidebar-header">
+        <h3>Herramientas</h3>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar menú">&times;</button>
+      </div>
+      <div class="sidebar-content">
+        <a href="herramienta-medida.html" class="custom-tool-cta">¿Necesitas una herramienta a la medida? Nosotros te la desarrollamos</a>
+        <a href="herramienta-gestion-pedidos.html">Gestión de Pedidos</a>
+        <span class="upcoming-tool">Próximamente: Automatizaciones de WhatsApp</span>
+        <span class="upcoming-tool">Próximamente: Agente IA de Ventas</span>
+      </div>
     </aside>
 
     <main class="tools-page">
@@ -59,6 +64,12 @@
           <p>Plataformas SaaS diseñadas para optimizar operaciones y acelerar negocios emergentes.</p>
         </div>
         <div class="tools-grid">
+          <a class="tool-card" href="herramienta-medida.html">
+            <span class="tool-badge" style="border-color: rgba(0, 255, 163, 0.4); color: var(--green);">Desarrollo Activo</span>
+            <h3>Herramientas a la Medida</h3>
+            <p>Sistemas y automatizaciones personalizados diseñados exactamente para los flujos de tu negocio.</p>
+            <span class="tool-link" style="color: var(--green);">Diseñar software →</span>
+          </a>
           <a class="tool-card" href="herramienta-gestion-pedidos.html">
             <span class="tool-badge">Herramienta Activa</span>
             <h3>Sistema de Gestión de Pedidos</h3>

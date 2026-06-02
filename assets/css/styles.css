@@ -1833,9 +1833,6 @@ textarea {
 }
 
 .tools-hamburger-icon span {
-}
-
-.tools-hamburger span {
   display: block;
   width: 16px;
   height: 2px;
@@ -1911,6 +1908,62 @@ textarea {
 }
 
 .tools-sidebar .is-active { border: 1px solid rgba(0, 255, 163, 0.45); }
+
+/* ── Sidebar Drawer Enhancements ─────────────────────────────────────────── */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.2rem 0 0.8rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-header h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  margin: 0;
+}
+
+.sidebar-close {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+}
+
+.sidebar-close:hover {
+  color: var(--yellow);
+  background: rgba(255, 255, 255, 0.06);
+  transform: rotate(90deg);
+}
+
+.sidebar-content {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.tools-sidebar span.upcoming-tool {
+  color: var(--muted);
+  font-size: 0.82rem;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.01);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
 
 @media (max-width: 640px) {

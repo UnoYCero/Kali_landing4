@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Diseño y desarrollo de herramientas web y sistemas a la medida por Kaleidoscopio. Automatiza flujos de trabajo, integra bases de datos y escala tu negocio." />
+    <title>Kaleidoscopio | Herramientas a la Medida</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body class="tools-detail-page">
+    <div class="neon-particles" aria-hidden="true"></div>
+    <header class="main-header">
+      <div class="brand">
+        <div class="brand-logo-wrapper" aria-hidden="true" style="width: 80px; height: 80px; display: flex; align-items: center;">
+          <img src="assets/img/logo.jpg" alt="Kaleidoscopio Logo" style="max-width: 100%; height: auto; border-radius: 8px;" />
+        </div>
+        <div>
+          <p class="brand-label">Kaleidoscopio</p>
+          <p class="brand-sub">Herramientas Web</p>
+        </div>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="Abrir menú de navegación">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="main-nav" id="mainNav">
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link" href="herramientas-web.html">Herramientas Web</a>
+        <a class="glow-button nav-link" href="registro.html?programa=medida">Cotizar herramienta</a>
+      </nav>
+    </header>
+
+    <button class="tools-hamburger" id="toolsMenuToggle" aria-expanded="false" aria-controls="toolsSidebar" aria-label="Abrir menú de herramientas">
+      <span class="tools-hamburger-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      Herramientas
+    </button>
+
+    <button class="tools-drawer-backdrop" id="toolsDrawerBackdrop" aria-label="Cerrar menú de herramientas"></button>
+    <aside class="tools-sidebar" id="toolsSidebar">
+      <div class="sidebar-header">
+        <h3>Herramientas</h3>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar menú">&times;</button>
+      </div>
+      <div class="sidebar-content">
+        <a href="herramienta-medida.html" class="custom-tool-cta is-active">¿Necesitas una herramienta a la medida? Nosotros te la desarrollamos</a>
+        <a href="herramienta-gestion-pedidos.html">Gestión de Pedidos</a>
+        <span class="upcoming-tool">Próximamente: Automatizaciones de WhatsApp</span>
+        <span class="upcoming-tool">Próximamente: Agente IA de Ventas</span>
+      </div>
+    </aside>
+
+    <main class="tool-landing">
+      <!-- HERO -->
+      <section class="tools-hero section">
+        <p class="hero-kicker">Software & Automatizaciones</p>
+        <h1>Tus reglas. Tus flujos. <span class="hero-word hero-word--green">Tu propia herramienta</span>.</h1>
+        <p>No adaptes tu negocio a una plataforma genérica y rígida. Construimos la herramienta web exacta que tu operación necesita para centralizar datos, automatizar procesos manuales y escalar con eficiencia real.</p>
+        <div class="hero-actions" id="cta-medida">
+          <a class="glow-button" href="registro.html?programa=medida">Diseñar mi herramienta</a>
+          <a class="ghost-button" href="#proceso">Ver proceso</a>
+        </div>
+      </section>
+
+      <!-- FEATURE CARDS -->
+      <section class="section feature-cards">
+        <article class="feature-card">
+          <h3>Diseño 100% Adaptado</h3>
+          <p>Creamos el sistema a partir de tus flujos reales de trabajo. Sin opciones de sobra, sin interfaces complejas que tu equipo no entienda.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Integración de Sistemas</h3>
+          <p>Conectamos tus bases de datos, APIs de terceros, servicios de mensajería (WhatsApp), pasarelas de pago y hojas de cálculo en una sola interfaz.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Inteligencia Artificial</h3>
+          <p>Implementamos procesamiento automático de datos, generación de reportes inteligentes y agentes conversacionales para eliminar tareas repetitivas.</p>
+        </article>
+      </section>
+
+      <!-- PROCESS SECTION -->
+      <section class="section" id="proceso">
+        <div class="section-header">
+          <h2>Cómo lo construimos</h2>
+          <p>Nuestra metodología está diseñada para entregar valor técnico rápido sin perder de vista las necesidades reales de tu negocio.</p>
+        </div>
+        <div class="operation-grid">
+          <article class="op-step">
+            <strong>01</strong>
+            <h4>Diagnóstico Operativo</h4>
+            <p>Analizamos tu operación actual, localizamos cuellos de botella y definimos los objetivos clave de tu herramienta digital.</p>
+          </article>
+          <article class="op-step">
+            <strong>02</strong>
+            <h4>Arquitectura & Prototipo</h4>
+            <p>Diseñamos la estructura técnica de datos, el flujo de usuario y mockups visuales para validar la solución antes de escribir código.</p>
+          </article>
+          <article class="op-step">
+            <strong>03</strong>
+            <h4>Desarrollo Ágil</h4>
+            <p>Construimos la herramienta en sprints incrementales. Podrás ver, interactuar y retroalimentar el sistema semana tras semana.</p>
+          </article>
+          <article class="op-step">
+            <strong>04</strong>
+            <h4>Lanzamiento & Soporte</h4>
+            <p>Desplegamos la herramienta de forma segura en la nube, capacitamos a tu equipo operativo y te damos soporte continuo para escalar.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/tools.js"></script>
+  </body>
+</html>

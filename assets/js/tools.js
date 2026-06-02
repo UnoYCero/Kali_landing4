@@ -1,6 +1,7 @@
 const toolsMenuToggle = document.getElementById('toolsMenuToggle');
 const toolsSidebar = document.getElementById('toolsSidebar');
 const toolsDrawerBackdrop = document.getElementById('toolsDrawerBackdrop');
+const sidebarClose = document.getElementById('sidebarClose');
 const header = document.querySelector('.main-header');
 
 const syncHeaderHeight = () => {
@@ -39,6 +40,7 @@ if (toolsMenuToggle && toolsSidebar) {
   });
 
   toolsDrawerBackdrop?.addEventListener('click', closeToolsDrawer);
+  sidebarClose?.addEventListener('click', closeToolsDrawer);
   
   // Close drawer when clicking any link inside the sidebar
   toolsSidebar.querySelectorAll('a').forEach((item) => {
