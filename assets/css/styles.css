@@ -1796,11 +1796,10 @@ textarea {
 .tool-link { color: var(--green); font-weight: 600; }
 
 .tools-hamburger {
-  position: relative;
+  position: fixed;
+  left: 1.5rem;
+  top: calc(var(--header-height, 104px) + 0.5rem);
   z-index: 21;
-  margin-left: 0.8rem;
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
   flex-shrink: 0;
   border: 1px solid var(--border);
   background: rgba(6, 6, 8, 0.9);
@@ -1966,6 +1965,8 @@ textarea {
   .tools-hamburger {
     padding: 0.55rem 0.65rem;
     font-size: 0.82rem;
+    left: 0.75rem;
+    top: calc(var(--header-height, 104px) + 0.4rem);
   }
 }
 .feature-cards,
