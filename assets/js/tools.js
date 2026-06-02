@@ -3,28 +3,11 @@ const toolsSidebar = document.getElementById('toolsSidebar');
 const toolsDrawerBackdrop = document.getElementById('toolsDrawerBackdrop');
 const header = document.querySelector('.main-header');
 
-const toolsMenuToggles = Array.from(document.querySelectorAll('.tools-hamburger'));
-const toolsPrimaryToggle = toolsMenuToggles[0] || null;
-
-if (toolsMenuToggles.length > 1) {
-  toolsMenuToggles.slice(1).forEach((btn) => btn.remove());
-}
-
 const syncHeaderHeight = () => {
   if (!header) return;
   document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
 };
 
-const setToggleHidden = (hidden) => {
-  if (!toolsPrimaryToggle) return;
-  toolsPrimaryToggle.classList.toggle('is-hidden', hidden);
-};
-
-const closeToolsDrawer = () => {
-  toolsSidebar?.classList.remove('is-open');
-  toolsDrawerBackdrop?.classList.remove('is-open');
-  toolsPrimaryToggle?.setAttribute('aria-expanded', 'false');
-  setToggleHidden(false);
 const closeToolsDrawer = () => {
   toolsSidebar?.classList.remove('is-open');
   toolsDrawerBackdrop?.classList.remove('is-open');
@@ -35,8 +18,6 @@ const closeToolsDrawer = () => {
 const openToolsDrawer = () => {
   toolsSidebar?.classList.add('is-open');
   toolsDrawerBackdrop?.classList.add('is-open');
-  toolsPrimaryToggle?.setAttribute('aria-expanded', 'true');
-  setToggleHidden(true);
   toolsMenuToggle?.setAttribute('aria-expanded', 'true');
   toolsMenuToggle?.classList.add('is-hidden');
 };
@@ -47,14 +28,27 @@ window.addEventListener('resize', () => {
   closeToolsDrawer();
 });
 
-if (toolsPrimaryToggle && toolsSidebar) {
-  toolsPrimaryToggle.addEventListener('click', () => {
 if (toolsMenuToggle && toolsSidebar) {
   toolsMenuToggle.addEventListener('click', () => {
     const isOpen = toolsSidebar.classList.contains('is-open');
-    if (isOpen) closeToolsDrawer(); else openToolsDrawer();
+    if (isOpen) {
+      closeToolsDrawer();
+    } else {
+      openToolsDrawer();
+    }
   });
 
   toolsDrawerBackdrop?.addEventListener('click', closeToolsDrawer);
-  toolsSidebar.querySelectorAll('a').forEach((item) => item.addEventListener('click', closeToolsDrawer));
+  
+  // Close drawer when clicking any link inside the sidebar
+  toolsSidebar.querySelectorAll('a').forEach((item) => {
+    item.addEventListener('click', closeToolsDrawer);
+  });
 }
+
+// Close drawer if user presses Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeToolsDrawer();
+  }
+});

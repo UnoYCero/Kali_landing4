@@ -1883,6 +1883,31 @@ textarea {
   padding: 0.7rem 0.8rem;
   border-radius: 12px;
   background: rgba(255,255,255,0.02);
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.tools-sidebar a:not(.custom-tool-cta):hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--yellow);
+}
+
+.tools-sidebar a.custom-tool-cta {
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.12), rgba(62, 209, 255, 0.12));
+  border: 1px solid rgba(0, 255, 163, 0.3);
+  color: var(--green);
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.tools-sidebar a.custom-tool-cta:hover {
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.22), rgba(62, 209, 255, 0.22));
+  border-color: var(--green);
+  box-shadow: 0 0 16px rgba(0, 255, 163, 0.25);
+  transform: translateY(-2px);
+  color: var(--text);
 }
 
 .tools-sidebar .is-active { border: 1px solid rgba(0, 255, 163, 0.45); }

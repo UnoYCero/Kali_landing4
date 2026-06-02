@@ -115,6 +115,14 @@ const handleSuccess = () => {
   successMessage.hidden = false;
   progressBar.style.width = '100%';
   progressMessage.textContent = '¡Registro completado!';
+  
+  const programaInput = document.querySelector('input[name="programa_seleccionado"]');
+  if (programaInput && programaInput.value === 'medida') {
+    const successText = successMessage.querySelector('p');
+    if (successText) {
+      successText.innerHTML = 'Tu solicitud de <strong>Herramienta a la Medida</strong> fue recibida correctamente. Nos pondremos en contacto contigo pronto.';
+    }
+  }
 };
 
 nextButton.addEventListener('click', () => {
@@ -204,6 +212,24 @@ termsLink?.addEventListener('click', (e) => {
 window.addEventListener('DOMContentLoaded', () => {
   updateStepVisibility();
   setTermsAcceptance(false);
+  
+  // Custom tool / bespoke development query param adaptation
+  const urlParams = new URLSearchParams(window.location.search);
+  const programaParam = urlParams.get('programa');
+  if (programaParam === 'medida') {
+    const programBadge = document.querySelector('.registro-intro .program-badge');
+    if (programBadge) programBadge.textContent = 'Herramienta a tu medida · Ecosistema Digital';
+    
+    const mainTitle = document.querySelector('.registro-intro h1');
+    if (mainTitle) mainTitle.textContent = 'Diseñemos tu herramienta';
+    
+    const mainDesc = document.querySelector('.registro-intro p');
+    if (mainDesc) mainDesc.textContent = 'Cuéntanos sobre tu negocio, tus necesidades y la herramienta digital que te gustaría que diseñemos a tu medida. Completa este perfil detalladamente para que nuestro equipo lo evalúe.';
+    
+    const programInput = document.querySelector('input[name="programa_seleccionado"]');
+    if (programInput) programInput.value = 'medida';
+  }
+  
   const userAgentField = document.getElementById('userAgentField');
   const referrerField = document.getElementById('referrerField');
   const createdAtField = document.getElementById('createdAtField');
