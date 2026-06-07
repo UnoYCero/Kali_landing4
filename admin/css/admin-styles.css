@@ -1,0 +1,848 @@
+/* ==========================================================================
+   KALEIDOSCOPIO - ADMIN & CRM STYLES
+   SaaS-like interface matching parent theme (Cyberpunk / Neon / Glassmorphism)
+   ========================================================================== */
+
+/* Variables heredadas y extendidas */
+:root {
+  --admin-sidebar-width: 280px;
+  --admin-sidebar-collapsed-width: 0px;
+  --card-bg: rgba(17, 18, 28, 0.6);
+  --input-bg: rgba(255, 255, 255, 0.03);
+  --header-bg: rgba(6, 6, 8, 0.95);
+  --table-hover: rgba(255, 255, 255, 0.02);
+  
+  /* Estados / Badges */
+  --color-contactado: #3ed1ff;
+  --color-cotizacion: #f3ff3e;
+  --color-revision: #ffb347;
+  --color-cerrado: #00ffa3;
+  --color-perdido: #ff3e7f;
+}
+
+/* Reset y Layout Base */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body.admin-layout {
+  display: flex;
+  background: radial-gradient(circle at top, rgba(243, 255, 62, 0.04), transparent 60%),
+              radial-gradient(circle at bottom, rgba(62, 209, 255, 0.03), transparent 60%),
+              var(--bg-dark);
+  color: var(--text);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* Contenedor Principal */
+.admin-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ==========================================================================
+   SIDEBAR (MENÚ LATERAL)
+   ========================================================================== */
+.admin-sidebar {
+  width: var(--admin-sidebar-width);
+  background: linear-gradient(180deg, rgba(10, 11, 18, 0.95), rgba(6, 6, 8, 0.98));
+  border-right: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  transition: transform var(--transition-fast);
+}
+
+.admin-sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-sidebar-brand img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.admin-sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar-brand-name {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.admin-sidebar-brand-sub {
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+/* Navegación del Sidebar */
+.admin-sidebar-nav {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.admin-nav-item:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.admin-nav-item.active {
+  color: var(--yellow);
+  background: rgba(243, 255, 62, 0.05);
+  border-color: rgba(243, 255, 62, 0.15);
+  box-shadow: 0 0 15px rgba(243, 255, 62, 0.05);
+}
+
+.admin-nav-item svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+.admin-sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem;
+  background: rgba(255, 62, 127, 0.05);
+  color: var(--red);
+  border: 1px solid rgba(255, 62, 127, 0.15);
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-logout:hover {
+  background: rgba(255, 62, 127, 0.15);
+  box-shadow: 0 0 20px rgba(255, 62, 127, 0.2);
+}
+
+/* ==========================================================================
+   CONTENIDO PRINCIPAL
+   ========================================================================== */
+.admin-main {
+  flex-grow: 1;
+  margin-left: var(--admin-sidebar-width);
+  padding: 2.5rem 3vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin var(--transition-fast);
+}
+
+/* Header del panel (Barra superior) */
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.admin-topbar-title h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px rgba(243, 255, 62, 0.15);
+}
+
+.admin-topbar-title p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Botón Hamburguesa móvil */
+.admin-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(10, 11, 18, 0.8);
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.admin-menu-toggle:hover {
+  border-color: var(--yellow);
+  box-shadow: 0 0 10px rgba(243, 255, 62, 0.2);
+}
+
+/* ==========================================================================
+   CARDS DE METRICAS (KPIs)
+   ========================================================================== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.kpi-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(243, 255, 62, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.kpi-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--yellow);
+  opacity: 0.5;
+}
+
+.kpi-card.kpi-blue::before { background: var(--blue); }
+.kpi-card.kpi-green::before { background: var(--green); }
+.kpi-card.kpi-red::before { background: var(--red); }
+
+.kpi-card-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.kpi-card-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-family: "Space Mono", monospace;
+  color: var(--text);
+  margin: 0.25rem 0;
+}
+
+.kpi-card-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.kpi-card-icon {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  opacity: 0.08;
+  width: 50px;
+  height: 50px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* ==========================================================================
+   CRM TABLAS Y VISTAS
+   ========================================================================== */
+.crm-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+/* Tabs */
+.crm-tabs {
+  display: flex;
+  background: rgba(10, 11, 18, 0.5);
+  border: 1px solid var(--border);
+  padding: 0.25rem;
+  border-radius: 12px;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.crm-tab {
+  padding: 0.65rem 1.25rem;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.crm-tab:hover {
+  color: var(--text);
+}
+
+.crm-tab.active {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--yellow);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* Botón genérico neon */
+.btn-neon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--red), var(--yellow));
+  color: #210000;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  box-shadow: 0 0 15px rgba(255, 62, 127, 0.25);
+}
+
+.btn-neon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 62, 127, 0.4), 0 0 40px rgba(243, 255, 62, 0.2);
+}
+
+.btn-neon-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.btn-neon-secondary:hover {
+  border-color: var(--yellow);
+  box-shadow: 0 0 15px rgba(243, 255, 62, 0.15);
+  color: var(--yellow);
+}
+
+/* ==========================================================================
+   TABLA DE PROSPECTOS
+   ========================================================================== */
+.table-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  margin-bottom: 2rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.crm-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.crm-table th {
+  background: rgba(10, 11, 18, 0.6);
+  padding: 1.2rem 1.5rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+
+.crm-table td {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+.crm-table tr:last-child td {
+  border-bottom: none;
+}
+
+.crm-table tr {
+  transition: background var(--transition-fast);
+}
+
+.crm-table tbody tr:hover {
+  background: var(--table-hover);
+}
+
+/* Badges / Tags */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.badge-tool {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+/* Badges dinámicos basados en inline style */
+.badge-status {
+  background: rgba(255, 255, 255, 0.05);
+  /* El color de texto y borde se asignará dinámicamente con JS */
+}
+
+/* Descripciones de soluciones */
+.crm-desc-cell {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--muted);
+}
+
+.crm-empty-state {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.crm-empty-state svg {
+  width: 48px;
+  height: 48px;
+  opacity: 0.3;
+  margin-bottom: 1rem;
+}
+
+.crm-empty-state p {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+/* ==========================================================================
+   FORMULARIOS Y MODALES
+   ========================================================================== */
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 5, 12, 0.85);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  padding: 1rem;
+}
+
+.admin-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.admin-modal {
+  background: rgba(12, 14, 24, 0.98);
+  border: 1px solid rgba(243, 255, 62, 0.15);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 60px rgba(243, 255, 62, 0.05);
+  width: 100%;
+  max-width: 550px;
+  border-radius: 24px;
+  overflow: hidden;
+  transform: translateY(20px) scale(0.97);
+  transition: transform var(--transition-fast);
+}
+
+.admin-modal-overlay.active .admin-modal {
+  transform: translateY(0) scale(1);
+}
+
+.admin-modal-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-modal-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--yellow);
+}
+
+.admin-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 1.7rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color var(--transition-fast);
+}
+
+.admin-modal-close:hover {
+  color: var(--text);
+}
+
+.admin-modal-body {
+  padding: 2rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Campos de Formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.form-control {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--yellow);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 15px rgba(243, 255, 62, 0.15);
+}
+
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23f6f6f9'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.25rem;
+  padding-right: 2.5rem;
+}
+
+select.form-control option {
+  background: #0c0e18;
+  color: var(--text);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* ==========================================================================
+   SECCIÓN: LOGIN DE ADMINISTRADOR
+   ========================================================================== */
+.login-body {
+  background: radial-gradient(circle at center, rgba(255, 62, 127, 0.05), transparent 75%),
+              radial-gradient(circle at bottom right, rgba(0, 255, 163, 0.03), transparent 60%),
+              var(--bg-dark);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(14, 16, 26, 0.75);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 3rem 2.5rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 50px rgba(255, 62, 127, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--red), var(--yellow));
+}
+
+.login-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.login-logo img {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(255, 62, 127, 0.15);
+}
+
+.login-logo h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.login-logo p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.login-error-msg {
+  background: rgba(255, 62, 127, 0.1);
+  border: 1px solid rgba(255, 62, 127, 0.3);
+  color: #ff5c93;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: none;
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* Configuración de Supabase oculta por defecto en Login */
+.supabase-config-toggle {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.supabase-config-toggle:hover {
+  color: var(--yellow);
+}
+
+.supabase-config-section {
+  display: none;
+  border-top: 1px dashed var(--border);
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.supabase-config-section.active {
+  display: flex;
+}
+
+/* ==========================================================================
+   SECCIÓN: FILTROS DE ESTADO Y GESTION DE ESTADOS
+   ========================================================================== */
+.crm-filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.state-manager-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.color-presets {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.color-preset-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform var(--transition-fast);
+}
+
+.color-preset-dot:hover {
+  transform: scale(1.15);
+}
+
+.color-preset-dot.selected {
+  border-color: var(--text);
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+
+/* ==========================================================================
+   RESPONSIVO (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .admin-sidebar.active {
+    transform: translateX(0);
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.8);
+  }
+  
+  .admin-main {
+    margin-left: 0;
+    padding-top: 6rem; /* Deja espacio para el menú toggle */
+  }
+  
+  .admin-menu-toggle {
+    display: flex;
+    position: fixed;
+    top: 1.25rem;
+    left: 1.25rem;
+    z-index: 100;
+  }
+  
+  /* Cuando el sidebar está abierto en móvil, agregamos clase al toggle */
+  .admin-menu-toggle.is-active {
+    left: calc(var(--admin-sidebar-width) - 60px);
+    z-index: 101;
+  }
+}
+
+@media (max-width: 768px) {
+  .crm-header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .crm-tabs {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .crm-tab {
+    flex-grow: 1;
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .crm-table th, .crm-table td {
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .crm-desc-cell {
+    max-width: 150px;
+  }
+}
