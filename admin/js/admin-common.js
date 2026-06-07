@@ -31,29 +31,32 @@ function initSupabase() {
 function redirectToLogin() {
   const path = window.location.pathname;
   
-  // Si estamos en prospectos, regresamos al nivel superior (/admin)
-  if (path.includes('/prospectos')) {
+  // Si estamos en dashboard o prospectos, regresamos al directorio raíz (/admin)
+  if (path.includes('/dashboard') || path.includes('/prospectos')) {
     window.location.href = '../';
   }
 }
 
 // Validar la sesión activa contra Supabase
-async function checkAuth(isRootAdminPage = false) {
+async function checkAuth() {
   const session = localStorage.getItem('kali_admin_session');
+  const path = window.location.pathname;
+  const isLoginPage = !path.includes('/dashboard') && !path.includes('/prospectos');
+
   if (!session) {
-    if (!isRootAdminPage) redirectToLogin();
+    if (!isLoginPage) redirectToLogin();
     return false;
   }
   
   const { url, key } = getSupabaseCredentials();
   if (!url || !key) {
-    if (!isRootAdminPage) redirectToLogin();
+    if (!isLoginPage) redirectToLogin();
     return false;
   }
   
   const initialized = initSupabase();
   if (!initialized) {
-    if (!isRootAdminPage) redirectToLogin();
+    if (!isLoginPage) redirectToLogin();
     return false;
   }
   
@@ -69,7 +72,7 @@ async function checkAuth(isRootAdminPage = false) {
     if (error || !data) {
       // Sesión inválida o contraseña modificada
       localStorage.removeItem('kali_admin_session');
-      if (!isRootAdminPage) redirectToLogin();
+      if (!isLoginPage) redirectToLogin();
       return false;
     }
     
@@ -77,7 +80,7 @@ async function checkAuth(isRootAdminPage = false) {
     return true;
   } catch (e) {
     console.error('Error al verificar autenticación:', e);
-    // En caso de error de red temporal, permitimos permanecer en la página
+    // En caso de error de red temporal, permitimos permanecer
     return true; 
   }
 }

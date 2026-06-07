@@ -1,140 +1,24 @@
 // ==========================================================================
-// KALEIDOSCOPIO - ADMIN DASHBOARD & LOGIN CONTROLLER
-// Controller for index.html (Handles integrated inline login and stats display)
+// KALEIDOSCOPIO - ADMIN DASHBOARD CONTROLLER
+// Controller for dashboard/index.html (Dashboard view stats calculator)
 // ==========================================================================
 
-// Función de hasheo SHA-256 en navegador
-async function hashPassword(message) {
-  const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
 document.addEventListener('DOMContentLoaded', async () => {
-  const loginView = document.getElementById('loginView');
-  const adminView = document.getElementById('adminView');
+  // 1. Proteger la ruta - Verificar sesión
+  const authenticated = await checkAuth();
+  if (!authenticated) {
+    return; // Redirección ya ejecutada por checkAuth en admin-common.js
+  }
 
-  // 1. Verificar sesión (indicamos true porque es la página raíz /admin)
-  const authenticated = await checkAuth(true);
-
-  if (authenticated) {
-    // USUARIO AUTENTICADO: Mostrar Dashboard
-    loginView.style.display = 'none';
-    adminView.style.display = 'block';
-
-    try {
-      if (supabase) {
-        await updateDashboardStats();
-      }
-    } catch (error) {
-      console.error('Error cargando estadísticas del dashboard:', error);
+  // 2. Inicializar estadísticas reales en base a base de datos de Supabase
+  try {
+    if (supabase) {
+      await updateDashboardStats();
     }
-  } else {
-    // USUARIO NO AUTENTICADO: Mostrar Formulario de Login
-    adminView.style.display = 'none';
-    loginView.style.display = 'flex';
-
-    initLoginController();
+  } catch (error) {
+    console.error('Error cargando estadísticas del dashboard:', error);
   }
 });
-
-// Inicializar todos los listeners del login
-function initLoginController() {
-  const loginForm = document.getElementById('loginForm');
-  const adminPasswordInput = document.getElementById('adminPassword');
-  const loginError = document.getElementById('loginError');
-  const supabaseError = document.getElementById('supabaseError');
-  const configToggle = document.getElementById('configToggle');
-  const configSection = document.getElementById('configSection');
-  const dbUrlInput = document.getElementById('dbUrl');
-  const dbKeyInput = document.getElementById('dbKey');
-  const saveConfigBtn = document.getElementById('saveConfigBtn');
-
-  // Cargar credenciales guardadas en localStorage si existen
-  dbUrlInput.value = localStorage.getItem('supabase_url') || '';
-  dbKeyInput.value = localStorage.getItem('supabase_anon_key') || '';
-
-  // Toggle de configuración de Supabase
-  configToggle.addEventListener('click', () => {
-    configSection.classList.toggle('active');
-  });
-
-  // Guardar configuración localmente en el navegador
-  saveConfigBtn.addEventListener('click', () => {
-    const url = dbUrlInput.value.trim();
-    const key = dbKeyInput.value.trim();
-
-    if (url && key) {
-      localStorage.setItem('supabase_url', url);
-      localStorage.setItem('supabase_anon_key', key);
-      
-      // Intentar re-inicializar en la ventana global
-      window.SUPABASE_URL = url;
-      window.SUPABASE_ANON_KEY = key;
-      
-      alert('Credenciales de Supabase guardadas localmente en este navegador.');
-      supabaseError.style.display = 'none';
-      configSection.classList.remove('active');
-    } else {
-      alert('Por favor ingresa ambos campos.');
-    }
-  });
-
-  // Envío de contraseña de login
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    loginError.style.display = 'none';
-    supabaseError.style.display = 'none';
-
-    const password = adminPasswordInput.value;
-    
-    // Asegurar que Supabase esté inicializado
-    const initialized = initSupabase();
-    if (!initialized) {
-      supabaseError.style.display = 'block';
-      configSection.classList.add('active');
-      return;
-    }
-
-    try {
-      // A. Calcular hash SHA-256 de la contraseña ingresada
-      const hashedInput = await hashPassword(password);
-
-      // B. Consultar si coincide con el hash en la tabla admin_settings de Supabase
-      const { data, error } = await supabase
-        .from('admin_settings')
-        .select('value')
-        .eq('key', 'admin_password_hash')
-        .eq('value', hashedInput)
-        .maybeSingle();
-
-      if (error) {
-        console.error('Error consultando Supabase:', error);
-        loginError.textContent = 'Error de conexión con la base de datos de Supabase.';
-        loginError.style.display = 'block';
-        return;
-      }
-
-      if (data && data.value === hashedInput) {
-        // Credenciales correctas: Guardar sesión
-        localStorage.setItem('kali_admin_session', hashedInput);
-        // Recargar la página para que checkAuth() pase y revele el panel
-        window.location.reload();
-      } else {
-        // Credenciales incorrectas
-        loginError.textContent = 'Contraseña incorrecta. Inténtalo de nuevo.';
-        loginError.style.display = 'block';
-        adminPasswordInput.value = '';
-        adminPasswordInput.focus();
-      }
-    } catch (err) {
-      console.error('Error en autenticación:', err);
-      loginError.textContent = 'Hubo un error inesperado al verificar la contraseña.';
-      loginError.style.display = 'block';
-    }
-  });
-}
 
 // Función para consultar Supabase y pintar métricas en el Dashboard
 async function updateDashboardStats() {
