@@ -55,6 +55,11 @@ ALTER TABLE statuses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE prospects ENABLE ROW LEVEL SECURITY;
 
 -- Políticas públicas para lectura y escritura desde la app (usando anon key)
+-- Eliminamos primero si existen para evitar errores al re-ejecutar el script
+DROP POLICY IF EXISTS "Permitir todo a anon en admin_settings" ON admin_settings;
+DROP POLICY IF EXISTS "Permitir todo a anon en statuses" ON statuses;
+DROP POLICY IF EXISTS "Permitir todo a anon en prospects" ON prospects;
+
 CREATE POLICY "Permitir todo a anon en admin_settings" ON admin_settings FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Permitir todo a anon en statuses" ON statuses FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Permitir todo a anon en prospects" ON prospects FOR ALL USING (true) WITH CHECK (true);

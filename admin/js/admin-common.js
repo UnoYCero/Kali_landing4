@@ -29,37 +29,31 @@ function initSupabase() {
 
 // Calcular ruta de redirección al login dependiente del nivel de carpeta
 function redirectToLogin() {
-  if (window.location.pathname.includes('/login')) {
-    return;
-  }
-  
-  let relativePathToLogin = './login/';
   const path = window.location.pathname;
   
+  // Si estamos en prospectos, regresamos al nivel superior (/admin)
   if (path.includes('/prospectos')) {
-    relativePathToLogin = '../login/';
+    window.location.href = '../';
   }
-  
-  window.location.href = relativePathToLogin;
 }
 
 // Validar la sesión activa contra Supabase
-async function checkAuth() {
+async function checkAuth(isRootAdminPage = false) {
   const session = localStorage.getItem('kali_admin_session');
   if (!session) {
-    redirectToLogin();
+    if (!isRootAdminPage) redirectToLogin();
     return false;
   }
   
   const { url, key } = getSupabaseCredentials();
   if (!url || !key) {
-    redirectToLogin();
+    if (!isRootAdminPage) redirectToLogin();
     return false;
   }
   
   const initialized = initSupabase();
   if (!initialized) {
-    redirectToLogin();
+    if (!isRootAdminPage) redirectToLogin();
     return false;
   }
   
@@ -75,7 +69,7 @@ async function checkAuth() {
     if (error || !data) {
       // Sesión inválida o contraseña modificada
       localStorage.removeItem('kali_admin_session');
-      redirectToLogin();
+      if (!isRootAdminPage) redirectToLogin();
       return false;
     }
     
@@ -83,8 +77,7 @@ async function checkAuth() {
     return true;
   } catch (e) {
     console.error('Error al verificar autenticación:', e);
-    // En caso de error de red temporal, permitimos permanecer en la página para no frustrar al usuario,
-    // pero si no hay objeto de base de datos o da fallo de API Key, se enviará a login.
+    // En caso de error de red temporal, permitimos permanecer en la página
     return true; 
   }
 }
