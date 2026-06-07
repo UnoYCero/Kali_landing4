@@ -3,7 +3,8 @@
 // Shared helper code for admin pages
 // ==========================================================================
 
-let supabase = null;
+// Variable global para el cliente Supabase
+window.supabaseClient = null;
 
 // Obtener credenciales de Supabase
 function getSupabaseCredentials() {
@@ -17,7 +18,7 @@ function initSupabase() {
   const { url, key } = getSupabaseCredentials();
   if (url && key && window.supabase) {
     try {
-      supabase = window.supabase.createClient(url, key);
+      window.supabaseClient = window.supabase.createClient(url, key);
       return true;
     } catch (e) {
       console.error('Error al inicializar Supabase client:', e);
@@ -62,7 +63,7 @@ async function checkAuth() {
   
   try {
     // Validar que el hash guardado en localStorage coincida con el hash de contraseña en Supabase
-    const { data, error } = await supabase
+    const { data, error } = await window.supabaseClient
       .from('admin_settings')
       .select('value')
       .eq('key', 'admin_password_hash')

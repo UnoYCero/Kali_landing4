@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-      const { error } = await supabase
+      const { error } = await window.supabaseClient
         .from('prospects')
         .insert([{
           name,
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-      const { error } = await supabase
+      const { error } = await window.supabaseClient
         .from('statuses')
         .insert([{ name, color }]);
 
@@ -163,14 +163,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Función de consulta principal de Supabase
 async function fetchCRMData() {
-  if (!supabase) return;
+  if (!window.supabaseClient) return;
 
   try {
     // A. Consultar estados primero
     await fetchStatusesOnly();
 
     // B. Consultar prospectos con la relación a su estado
-    const { data: prospects, error } = await supabase
+    const { data: prospects, error } = await window.supabaseClient
       .from('prospects')
       .select(`
         id,
@@ -207,7 +207,7 @@ async function fetchCRMData() {
 // Cargar solo estados
 async function fetchStatusesOnly() {
   try {
-    const { data: statuses, error } = await supabase
+    const { data: statuses, error } = await window.supabaseClient
       .from('statuses')
       .select('id, name, color')
       .order('name', { ascending: true });
@@ -334,7 +334,7 @@ async function deleteProspect(id) {
   if (!confirm('¿Estás seguro de que deseas eliminar este prospecto?')) return;
 
   try {
-    const { error } = await supabase
+    const { error } = await window.supabaseClient
       .from('prospects')
       .delete()
       .eq('id', id);
@@ -361,7 +361,7 @@ async function deleteStatus(id) {
   if (!confirm('¿Estás seguro de que deseas eliminar este estado? Los prospectos asociados perderán su estado.')) return;
 
   try {
-    const { error } = await supabase
+    const { error } = await window.supabaseClient
       .from('statuses')
       .delete()
       .eq('id', id);

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 2. Inicializar estadísticas reales en base a base de datos de Supabase
   try {
-    if (supabase) {
+    if (window.supabaseClient) {
       await updateDashboardStats();
     }
   } catch (error) {
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function updateDashboardStats() {
   try {
     // Obtener todos los prospectos y sus estados correspondientes
-    const { data: prospects, error: prospectsError } = await supabase
+    const { data: prospects, error: prospectsError } = await window.supabaseClient
       .from('prospects')
       .select('id, status_id, statuses(name)');
       
