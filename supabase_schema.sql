@@ -10,8 +10,7 @@ CREATE TABLE IF NOT EXISTS admin_settings (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Insertar contraseña por defecto: "admin123" (hasheada con SHA-256)
--- Puedes cambiarla ejecutando un UPDATE o desde el panel de Supabase
+-- Insertar contraseña por defecto (hasheada con SHA-256)
 INSERT INTO admin_settings (key, value)
 VALUES ('admin_password_hash', 'fc722e9e65cf6b0537fbaca32c8c0a9463a745b4eb3024a15be9d11c26762462')
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
@@ -51,15 +50,11 @@ CREATE INDEX IF NOT EXISTS idx_prospects_tool ON prospects(tool);
 CREATE INDEX IF NOT EXISTS idx_prospects_status_id ON prospects(status_id);
 
 -- 5. Configurar políticas de Row Level Security (RLS)
--- Nota: Para este panel interno, se habilitan las operaciones directas de lectura/escritura.
--- Si deseas restringir al anon public key, asegúrate de mantener políticas activas 
--- o desactivar RLS en estas tablas específicas si es un entorno privado controlado.
 ALTER TABLE admin_settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE statuses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE prospects ENABLE ROW LEVEL SECURITY;
 
 -- Políticas públicas para lectura y escritura desde la app (usando anon key)
--- Si necesitas alta seguridad, te sugerimos restringir las políticas en producción.
 CREATE POLICY "Permitir todo a anon en admin_settings" ON admin_settings FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Permitir todo a anon en statuses" ON statuses FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Permitir todo a anon en prospects" ON prospects FOR ALL USING (true) WITH CHECK (true);
