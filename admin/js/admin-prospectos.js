@@ -300,15 +300,22 @@ function renderProspects() {
 
   let html = '';
   filtered.forEach(p => {
-    // Dar formato al badge de estado dinámico
-    let statusBadge = '<span class="badge badge-tool" style="opacity: 0.6;">Sin Asignar</span>';
-    if (p.statuses) {
-      statusBadge = `
-        <span class="badge badge-status" style="border-color: ${p.statuses.color}; color: ${p.statuses.color}; background: rgba(0, 0, 0, 0.25);">
-          ${p.statuses.name}
-        </span>
+    // Generar opciones para el selector de estado
+    let statusOptionsHtml = `<option value="" style="color: var(--muted);" ${!p.status_id ? 'selected' : ''}>Sin Asignar</option>`;
+    allStatuses.forEach(st => {
+      statusOptionsHtml += `
+        <option value="${st.id}" ${p.status_id === st.id ? 'selected' : ''} style="color: ${st.color}; font-weight: bold;">
+          ${st.name.toUpperCase()}
+        </option>
       `;
-    }
+    });
+
+    const currentColor = p.statuses ? p.statuses.color : 'rgba(255, 255, 255, 0.4)';
+    const statusSelect = `
+      <select class="status-select" onchange="updateProspectStatus('${p.id}', this.value)" style="color: ${currentColor}; border-color: ${currentColor};">
+        ${statusOptionsHtml}
+      </select>
+    `;
 
     html += `
       <tr id="row-${p.id}">
@@ -316,7 +323,7 @@ function renderProspects() {
         <td style="color: var(--muted);">${p.organization ? escapeHtml(p.organization) : '—'}</td>
         <td class="crm-desc-cell" title="${escapeHtml(p.description)}">${escapeHtml(p.description)}</td>
         <td><span class="badge badge-tool">${formatToolName(p.tool)}</span></td>
-        <td>${statusBadge}</td>
+        <td>${statusSelect}</td>
         <td style="text-align: center;">
           <button class="btn-logout" onclick="deleteProspect('${p.id}')" style="display:inline-flex; width:auto; padding:0.4rem 0.8rem; font-size:0.8rem; background:rgba(255, 62, 127, 0.05);" title="Eliminar Prospecto">
             Eliminar
@@ -327,6 +334,35 @@ function renderProspects() {
   });
 
   tableBody.innerHTML = html;
+}
+
+// Actualizar estado de prospecto en Supabase
+async function updateProspectStatus(prospectId, newStatusId) {
+  const statusIdVal = newStatusId === "" ? null : newStatusId;
+
+  try {
+    const { error } = await window.supabaseClient
+      .from('prospects')
+      .update({ status_id: statusIdVal })
+      .eq('id', prospectId);
+
+    if (error) throw error;
+
+    // Actualizar caché local
+    const foundStatus = allStatuses.find(st => st.id === newStatusId);
+    const updatedProspect = allProspects.find(p => p.id === prospectId);
+    if (updatedProspect) {
+      updatedProspect.status_id = statusIdVal;
+      updatedProspect.statuses = foundStatus ? { name: foundStatus.name, color: foundStatus.color } : null;
+    }
+
+    // Re-renderizar para reflejar los cambios de color y estado
+    renderProspects();
+  } catch (err) {
+    console.error('Error al actualizar estado del prospecto:', err);
+    alert('No se pudo actualizar el estado del prospecto.');
+    renderProspects();
+  }
 }
 
 // Eliminar prospecto de Supabase
@@ -391,3 +427,4 @@ function escapeHtml(string) {
 // Hacer globales los métodos disparados desde eventos inline HTML
 window.deleteProspect = deleteProspect;
 window.deleteStatus = deleteStatus;
+window.updateProspectStatus = updateProspectStatus;

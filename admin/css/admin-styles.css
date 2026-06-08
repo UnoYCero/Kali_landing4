@@ -464,6 +464,39 @@ body.admin-layout {
   /* El color de texto y borde se asignará dinámicamente con JS */
 }
 
+/* Selector de estados interactivo (dentro de la tabla) */
+select.status-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffffff' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 0.75rem;
+  padding: 0.35rem 1.6rem 0.35rem 0.75rem;
+  cursor: pointer;
+  border-radius: 99px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid currentColor;
+  background-color: rgba(0, 0, 0, 0.35);
+  transition: all var(--transition-fast);
+}
+
+select.status-select:focus {
+  outline: none;
+  box-shadow: 0 0 12px currentColor;
+}
+
+select.status-select option {
+  background: #0c0e18;
+  color: var(--text);
+  font-weight: normal;
+}
+
+
 /* Descripciones de soluciones */
 .crm-desc-cell {
   max-width: 300px;
