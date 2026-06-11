@@ -99,6 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const fullName = document.getElementById('fullName').value.trim();
     const companyName = document.getElementById('companyName').value.trim();
     const city = document.getElementById('city').value.trim();
+    const phone = document.getElementById('phone').value.trim();
     const email = emailInput.value.trim();
     const password = passwordInput.value;
 
@@ -124,6 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           correo: email,
           password_hash: hash,
           ciudad: city,
+          telefono: phone,
           activo: true
         }])
         .select()

@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS clientes (
     correo TEXT NOT NULL UNIQUE,
     password_hash TEXT NOT NULL,
     ciudad TEXT NOT NULL,
+    telefono TEXT,
     fecha_registro TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     activo BOOLEAN DEFAULT TRUE
 );
