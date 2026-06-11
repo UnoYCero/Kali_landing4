@@ -80,7 +80,7 @@ body.admin-layout {
 
 .admin-sidebar-brand img {
   width: 40px;
-  height: 40px;
+  height: auto;
   border-radius: 8px;
   border: 1px solid var(--border);
 }
@@ -716,7 +716,7 @@ select.form-control option {
 
 .login-logo img {
   width: 70px;
-  height: 70px;
+  height: auto;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 20px rgba(255, 62, 127, 0.15);
