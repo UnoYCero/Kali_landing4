@@ -141,3 +141,37 @@ CREATE INDEX IF NOT EXISTS idx_cliente_horas_cliente_id ON cliente_horas(cliente
 CREATE INDEX IF NOT EXISTS idx_cliente_horas_historial_cliente_id ON cliente_horas_historial(cliente_id);
 CREATE INDEX IF NOT EXISTS idx_configuracion_cortes_cliente_id ON configuracion_cortes(cliente_id);
 
+-- ==========================================================================
+-- AMPLIACIÓN DE CUENTAS - ACTUALIZACIONES DE ESQUEMA (VERSIÓN 2)
+-- ==========================================================================
+
+-- 1. Ampliación de tabla cliente_planes
+ALTER TABLE cliente_planes ADD COLUMN IF NOT EXISTS monto_mensual NUMERIC DEFAULT 0.00;
+ALTER TABLE cliente_planes ADD COLUMN IF NOT EXISTS url_contrato TEXT;
+ALTER TABLE cliente_planes ADD COLUMN IF NOT EXISTS notas_internas TEXT;
+
+-- 2. Ampliación de tabla cliente_horas_historial para bitácora técnica extendida
+ALTER TABLE cliente_horas_historial ADD COLUMN IF NOT EXISTS hora_inicio TIMESTAMP WITH TIME ZONE;
+ALTER TABLE cliente_horas_historial ADD COLUMN IF NOT EXISTS hora_fin TIMESTAMP WITH TIME ZONE;
+ALTER TABLE cliente_horas_historial ADD COLUMN IF NOT EXISTS descripcion TEXT;
+
+-- 3. Nueva tabla para auditoría interna de modificaciones de horas
+CREATE TABLE IF NOT EXISTS auditoria_horas (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    cliente_id UUID REFERENCES clientes(id) ON DELETE CASCADE,
+    fecha TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    usuario_admin TEXT NOT NULL DEFAULT 'Admin',
+    accion TEXT NOT NULL,
+    valor_anterior TEXT NOT NULL,
+    valor_nuevo TEXT NOT NULL
+);
+
+-- 4. Habilitar RLS y Políticas
+ALTER TABLE auditoria_horas ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir todo a anon en auditoria_horas" ON auditoria_horas;
+CREATE POLICY "Permitir todo a anon en auditoria_horas" ON auditoria_horas FOR ALL USING (true) WITH CHECK (true);
+
+-- 5. Crear índice para auditoría
+CREATE INDEX IF NOT EXISTS idx_auditoria_horas_cliente_id ON auditoria_horas(cliente_id);
+
+

@@ -14,14 +14,191 @@
     <link rel="stylesheet" href="../../assets/css/styles.css" />
     <link rel="stylesheet" href="../css/admin-styles.css" />
     <style>
-      /* Estilos específicos para la consola de temporizador y cuentas */
+      /* Estilos avanzados para el layout de dos columnas en Gestión de Cuentas */
+      .cuentas-layout {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 2rem;
+        align-items: start;
+        margin-top: 1rem;
+      }
+      
+      @media (max-width: 991px) {
+        .cuentas-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Sidebar de Clientes */
+      .clients-sidebar-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 180px);
+        min-height: 500px;
+      }
+
+      .clients-sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .clients-list-container {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .client-item-btn {
+        background: rgba(255, 255, 255, 0.01);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: left;
+        color: var(--text);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        width: 100%;
+      }
+
+      .client-item-btn:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .client-item-btn.selected {
+        background: rgba(62, 209, 255, 0.06);
+        border-color: rgba(62, 209, 255, 0.25);
+        box-shadow: 0 0 15px rgba(62, 209, 255, 0.05);
+      }
+
+      .client-item-name {
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .client-item-company {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .client-item-email {
+        font-size: 0.75rem;
+        color: var(--muted);
+        word-break: break-all;
+      }
+
+      .client-item-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px dashed var(--border);
+        width: 100%;
+      }
+
+      /* Detail panel */
+      .empty-detail-state {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 4rem 2rem;
+        text-align: center;
+        color: var(--muted);
+        backdrop-filter: blur(10px);
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      .empty-detail-state svg {
+        width: 64px;
+        height: 64px;
+        color: var(--muted);
+        opacity: 0.25;
+        animation: pulseAnimation 3s ease-in-out infinite;
+      }
+
+      @keyframes pulseAnimation {
+        0%, 100% { transform: scale(1); opacity: 0.25; }
+        50% { transform: scale(1.05); opacity: 0.4; }
+      }
+
+      .detail-panel {
+        display: none;
+        animation: fadeIn 0.4s ease;
+      }
+
+      /* Acordeones y pestañas de bitácoras */
+      .bitacora-tabs {
+        display: flex;
+        gap: 1rem;
+        margin: 2rem 0 1rem 0;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.5rem;
+      }
+
+      .bitacora-tab-btn {
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        position: relative;
+        transition: color var(--transition-fast);
+      }
+
+      .bitacora-tab-btn:hover {
+        color: var(--text);
+      }
+
+      .bitacora-tab-btn.active {
+        color: var(--yellow);
+      }
+
+      .bitacora-tab-btn.active::after {
+        content: "";
+        position: absolute;
+        bottom: -0.6rem;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--yellow);
+        box-shadow: 0 0 10px var(--yellow);
+      }
+
+      .bitacora-content-panel {
+        display: none;
+      }
+
+      .bitacora-content-panel.active {
+        display: block;
+      }
+
+      /* Timer */
       .timer-display {
         font-family: "Space Mono", monospace;
         font-size: 3.5rem;
         font-weight: 700;
         text-align: center;
         color: var(--yellow);
-        text-shadow: 0 0 20px rgba(243, 255, 62, 0.4);
+        text-shadow: 0 0 20px rgba(243, 255, 62, 0.35);
         letter-spacing: 0.05em;
         margin: 1.5rem 0;
         padding: 1rem;
@@ -29,79 +206,59 @@
         border: 1px solid var(--border);
         border-radius: 16px;
       }
+
       .timer-controls {
         display: flex;
         justify-content: center;
         gap: 1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
       }
-      .search-results-list {
-        background: rgba(10, 11, 18, 0.8);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        max-height: 220px;
-        overflow-y: auto;
-        display: none;
-        position: absolute;
-        width: 100%;
-        z-index: 50;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      }
-      .search-result-item {
-        padding: 0.85rem 1.25rem;
-        cursor: pointer;
-        border-bottom: 1px solid var(--border);
-        transition: all var(--transition-fast);
-      }
-      .search-result-item:last-child {
-        border-bottom: none;
-      }
-      .search-result-item:hover {
-        background: rgba(255, 255, 255, 0.03);
-        color: var(--yellow);
-      }
-      .search-result-item strong {
-        display: block;
-        font-size: 0.95rem;
-      }
-      .search-result-item span {
-        font-size: 0.8rem;
-        color: var(--muted);
-      }
-      .account-panel {
-        display: none;
-        animation: fadeIn 0.4s ease;
-      }
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
+
       .btn-timer-start {
-        background: rgba(0, 255, 163, 0.1);
+        background: rgba(0, 255, 163, 0.08);
         color: var(--green);
-        border: 1px solid rgba(0, 255, 163, 0.25);
+        border: 1px solid rgba(0, 255, 163, 0.2);
       }
       .btn-timer-start:hover {
-        background: rgba(0, 255, 163, 0.2);
-        box-shadow: 0 0 15px rgba(0, 255, 163, 0.2);
+        background: rgba(0, 255, 163, 0.18);
+        box-shadow: 0 0 15px rgba(0, 255, 163, 0.15);
       }
       .btn-timer-pause {
-        background: rgba(255, 179, 71, 0.1);
+        background: rgba(255, 179, 71, 0.08);
         color: #ffb347;
-        border: 1px solid rgba(255, 179, 71, 0.25);
+        border: 1px solid rgba(255, 179, 71, 0.2);
       }
       .btn-timer-pause:hover {
-        background: rgba(255, 179, 71, 0.2);
-        box-shadow: 0 0 15px rgba(255, 179, 71, 0.2);
+        background: rgba(255, 179, 71, 0.18);
+        box-shadow: 0 0 15px rgba(255, 179, 71, 0.15);
       }
       .btn-timer-stop {
-        background: rgba(255, 62, 127, 0.1);
+        background: rgba(255, 62, 127, 0.08);
         color: var(--red);
-        border: 1px solid rgba(255, 62, 127, 0.25);
+        border: 1px solid rgba(255, 62, 127, 0.2);
       }
       .btn-timer-stop:hover {
-        background: rgba(255, 62, 127, 0.2);
-        box-shadow: 0 0 15px rgba(255, 62, 127, 0.2);
+        background: rgba(255, 62, 127, 0.18);
+        box-shadow: 0 0 15px rgba(255, 62, 127, 0.15);
+      }
+
+      /* Placeholders */
+      .placeholder-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .placeholder-card-tiny {
+        background: rgba(255,255,255,0.01);
+        border: 1px dashed var(--border);
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+        opacity: 0.5;
+        font-size: 0.8rem;
+        color: var(--muted);
       }
     </style>
   </head>
@@ -183,7 +340,6 @@
 
       <!-- CONTENIDO PRINCIPAL -->
       <main class="admin-main">
-        <!-- BARRA SUPERIOR -->
         <header class="admin-topbar">
           <div class="admin-topbar-title">
             <h1>Gestión de Cuentas</h1>
@@ -191,174 +347,310 @@
           </div>
         </header>
 
-        <!-- BUSCADOR DE CLIENTE -->
-        <section class="card" style="margin-bottom: 2rem; position: relative;">
-          <h3 style="margin-top:0; font-size:1rem; text-transform:uppercase; color:var(--yellow); letter-spacing:0.05em;">Buscador de Cliente</h3>
-          <div style="position: relative; width: 100%;">
-            <input 
-              type="text" 
-              id="searchClientInput" 
-              class="form-control" 
-              placeholder="Escribe el nombre, empresa o correo de un cliente..." 
-              autocomplete="off"
-              style="width: 100%;"
-            />
-            <div class="search-results-list" id="searchResultsContainer">
-              <!-- Resultados dinámicos -->
+        <!-- LAYOUT DE DOS COLUMNAS -->
+        <div class="cuentas-layout">
+          
+          <!-- COLUMNA IZQUIERDA: BUSCADOR Y LISTA DE CLIENTES -->
+          <aside class="clients-sidebar-card">
+            <div class="clients-sidebar-header">
+              <input 
+                type="text" 
+                id="searchClientSidebar" 
+                class="form-control" 
+                placeholder="Buscar cliente, empresa o correo..." 
+                style="width: 100%; font-size: 0.85rem;"
+              />
             </div>
-          </div>
-        </section>
+            <div class="clients-list-container" id="clientsListContainer">
+              <!-- Cargado dinámicamente -->
+            </div>
+          </aside>
 
-        <!-- PANEL DE ADMINISTRACIÓN DE CUENTA (Oculto al inicio) -->
-        <section class="account-panel" id="accountPanel">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+          <!-- COLUMNA DERECHA: CENTRO DE ADMINISTRACIÓN DE CUENTA -->
+          <section style="position: relative; width: 100%;">
             
-            <!-- Ficha de Información General -->
-            <article class="card">
-              <h3 style="margin-top:0; font-size:1rem; text-transform:uppercase; color:var(--blue); letter-spacing:0.05em;">Información General</h3>
-              <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.95rem;">
-                <div>
-                  <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Cliente</span>
-                  <strong id="clientNameText">—</strong>
-                </div>
-                <div>
-                  <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Empresa / Proyecto</span>
-                  <strong id="clientCompanyText">—</strong>
-                </div>
-                <div>
-                  <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Correo Electrónico</span>
-                  <strong id="clientEmailText">—</strong>
-                </div>
-                <div>
-                  <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Ubicación</span>
-                  <strong id="clientCityText">—</strong>
-                </div>
+            <!-- Estado Vacío (Al cargar página) -->
+            <div class="empty-detail-state" id="emptyDetailState">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 8v4"></path>
+                <path d="M12 16h.01"></path>
+              </svg>
+              <div>
+                <h3 style="margin:0 0 0.5rem 0; color:var(--text);">Ficha de Cliente Inactiva</h3>
+                <p style="margin:0; font-size:0.9rem;">Selecciona un cliente de la lista de la izquierda para comenzar a gestionar su cuenta comercial y bolsa de soporte.</p>
               </div>
-            </article>
+            </div>
 
-            <!-- Plan y Configuración de Corte -->
-            <article class="card">
-              <h3 style="margin-top:0; font-size:1rem; text-transform:uppercase; color:var(--blue); letter-spacing:0.05em;">Plan y Bolsa de Horas</h3>
+            <!-- Panel Detallado (Se activa al seleccionar cliente) -->
+            <div class="detail-panel" id="detailPanel">
               
-              <!-- Plan Info -->
-              <div style="margin-bottom: 1.25rem;">
-                <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Plan Actual</span>
-                <strong id="clientPlanText">Plan de mantenimiento web (8 horas mensuales)</strong>
+              <!-- Cabecera del Cliente -->
+              <div class="card" style="margin-bottom: 1.5rem; padding: 1.5rem 2rem; border-color: rgba(62, 209, 255, 0.15);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                  <div>
+                    <h2 id="detClientName" style="margin: 0; font-size: 1.5rem; text-shadow: 0 0 10px rgba(62, 209, 255, 0.15);">Cargando Cliente...</h2>
+                    <p id="detClientCompany" style="margin: 0.25rem 0 0; color: var(--muted); font-size: 0.95rem;">Empresa</p>
+                  </div>
+                  
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <label for="detAccountStatus" style="font-size:0.8rem; font-weight:600; text-transform:uppercase; color:var(--muted);">Estado Cuenta:</label>
+                    <select id="detAccountStatus" class="form-control" style="width:160px; padding:0.4rem 1.8rem 0.4rem 0.8rem; font-size:0.85rem;">
+                      <option value="Activo">Activo</option>
+                      <option value="Suspendido">Suspendido</option>
+                      <option value="Pendiente">Pendiente</option>
+                    </select>
+                  </div>
+                </div>
               </div>
 
-              <!-- Configuración de día de corte -->
-              <form id="cutoffForm" style="border-top: 1px solid var(--border); padding-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
-                <div class="form-group" style="margin-bottom: 0;">
-                  <label for="cutoffDaySelect">Día de Corte Mensual</label>
-                  <select id="cutoffDaySelect" class="form-control" style="width: 100%;">
-                    <!-- Opciones de 1 a 31 generadas por JS -->
-                  </select>
-                </div>
-                <button type="submit" class="btn-neon btn-neon-secondary" style="width: 100%; justify-content: center; font-size: 0.8rem; padding: 0.5rem 1rem;">
-                  Actualizar Día de Corte
-                </button>
-              </form>
-            </article>
+              <!-- Grid de Configuración Comercial, Contrato y Notas -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                
+                <!-- Tarjeta: Información Comercial & Contrato -->
+                <article class="card" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                  <h3 style="margin-top:0; font-size:0.9rem; text-transform:uppercase; color:var(--blue); letter-spacing:0.05em;">Información Comercial</h3>
+                  
+                  <!-- Formulario Comercial -->
+                  <form id="commercialForm" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <label for="commPlanName">Plan Contratado</label>
+                      <input type="text" id="commPlanName" class="form-control" placeholder="Ej. Plan de Mantenimiento Web" required />
+                    </div>
 
-          </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                      <div class="form-group" style="margin-bottom: 0;">
+                        <label for="commMonthlyAmount">Monto Mensual (MXN)</label>
+                        <input type="text" id="commMonthlyAmount" class="form-control" placeholder="Ej. 3000.00" />
+                      </div>
+                      <div class="form-group" style="margin-bottom: 0;">
+                        <label for="commCutoffDay">Día de Corte</label>
+                        <select id="commCutoffDay" class="form-control">
+                          <!-- Generados por JS (1-31) -->
+                        </select>
+                      </div>
+                    </div>
 
-          <!-- Bolsa de horas actual del cliente -->
-          <div class="kpi-grid" id="hoursKPIs" style="margin-bottom: 2rem;">
-            <!-- Contratadas -->
-            <article class="kpi-card kpi-blue">
-              <span class="kpi-card-title">Horas Contratadas</span>
-              <span class="kpi-card-value" id="kpiContracted">0:00</span>
-              <span class="kpi-card-desc">Bolsa mensual asignada</span>
-            </article>
-            <!-- Utilizadas -->
-            <article class="kpi-card kpi-red">
-              <span class="kpi-card-title">Horas Utilizadas</span>
-              <span class="kpi-card-value" id="kpiUsed">0:00</span>
-              <span class="kpi-card-desc">Consumido este periodo</span>
-            </article>
-            <!-- Restantes -->
-            <article class="kpi-card kpi-green">
-              <span class="kpi-card-title">Horas Restantes</span>
-              <span class="kpi-card-value" id="kpiRemaining">0:00</span>
-              <span class="kpi-card-desc">Saldo disponible</span>
-            </article>
-          </div>
+                    <!-- Contrato -->
+                    <div class="form-group" style="margin-bottom: 0; border-top: 1px dashed var(--border); padding-top: 1rem;">
+                      <label for="commContractUrl">Enlace de Contrato (Drive, Dropbox)</label>
+                      <div style="display: flex; gap: 0.5rem;">
+                        <input type="url" id="commContractUrl" class="form-control" placeholder="https://drive.google.com/..." style="flex-grow: 1;" />
+                        <a id="btnViewContract" target="_blank" class="btn-neon btn-neon-secondary" style="padding: 0.75rem 1rem; text-transform: none; text-decoration: none; font-size: 0.8rem; opacity: 0.5; pointer-events: none; white-space: nowrap;">
+                          Ver contrato
+                        </a>
+                      </div>
+                    </div>
 
-          <!-- CONTROL DE HORAS - TEMPORIZADOR -->
-          <article class="card" style="margin-bottom: 2rem; border-color: rgba(243, 255, 62, 0.25);">
-            <h3 style="margin-top:0; font-size:1rem; text-transform:uppercase; color:var(--yellow); letter-spacing:0.05em; text-align:center;">Temporizador Administrativo</h3>
-            
-            <div class="timer-display" id="timerDisplay">00:00:00</div>
-            
-            <div class="timer-controls">
-              <button class="btn-logout btn-timer-start" id="btnTimerStart">
-                Iniciar
-              </button>
-              <button class="btn-logout btn-timer-pause" id="btnTimerPause" style="display: none;">
-                Pausar
-              </button>
-              <button class="btn-logout btn-timer-stop" id="btnTimerStop" disabled style="opacity: 0.5; cursor: not-allowed;">
-                Finalizar
-              </button>
+                    <button type="submit" class="btn-neon" style="width: 100%; justify-content: center; text-transform: uppercase; font-size: 0.85rem; margin-top: 0.5rem;">
+                      Guardar Ficha Comercial
+                    </button>
+                  </form>
+                </article>
+
+                <!-- Tarjeta: Notas Internas Administrativas -->
+                <article class="card" style="display: flex; flex-direction: column;">
+                  <h3 style="margin-top:0; font-size:0.9rem; text-transform:uppercase; color:var(--blue); letter-spacing:0.05em;">Notas Internas</h3>
+                  <p style="margin: 0 0 1rem 0; color: var(--muted); font-size: 0.8rem;">Acuerdos especiales, observaciones de facturación y seguimiento comercial.</p>
+                  
+                  <div style="flex-grow: 1; display: flex; flex-direction: column;">
+                    <textarea id="commInternalNotes" class="form-control" placeholder="Escribe aquí notas privadas sobre el cliente..." style="flex-grow: 1; min-height: 200px; resize: none;"></textarea>
+                  </div>
+                </article>
+
+              </div>
+
+              <!-- Sección de Bolsa de Horas & Reloj Administrativo -->
+              <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                
+                <!-- Panel del Temporizador -->
+                <article class="card" style="border-color: rgba(243, 255, 62, 0.25);">
+                  <h3 style="margin-top:0; font-size:0.9rem; text-transform:uppercase; color:var(--yellow); letter-spacing:0.05em; text-align:center;">Temporizador de Soporte</h3>
+                  
+                  <div class="timer-display" id="timerDisplay">00:00:00</div>
+                  
+                  <div class="timer-controls">
+                    <button class="btn-logout btn-timer-start" id="btnTimerStart">Iniciar</button>
+                    <button class="btn-logout btn-timer-pause" id="btnTimerPause" style="display: none;">Pausar</button>
+                    <button class="btn-logout btn-timer-stop" id="btnTimerStop" disabled style="opacity: 0.5; cursor: not-allowed;">Finalizar</button>
+                  </div>
+                  <p style="margin: 0; text-align: center; font-size: 0.8rem; color: var(--muted);">Presiona iniciar al comenzar una tarea. El cronómetro se ejecuta en tiempo real.</p>
+                </article>
+
+                <!-- Resumen de bolsa de horas actual -->
+                <article class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                  <h3 style="margin-top:0; font-size:0.9rem; text-transform:uppercase; color:var(--blue); letter-spacing:0.05em;">Resumen de Horas</h3>
+                  
+                  <div style="display: flex; flex-direction: column; gap: 1rem; padding: 0.5rem 0;">
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                      <span style="color: var(--muted);">Contratadas:</span>
+                      <strong id="cardContracted" style="font-family: monospace;">0:00 hrs</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                      <span style="color: var(--muted);">Utilizadas este mes:</span>
+                      <strong id="cardUsed" style="font-family: monospace; color: var(--red);">0:00 hrs</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem;">
+                      <span style="color: var(--muted);">Saldo Disponible:</span>
+                      <strong id="cardRemaining" style="font-family: monospace; color: var(--green); font-size: 1.15rem;">0:00 hrs</strong>
+                    </div>
+                  </div>
+
+                  <div style="font-size:0.75rem; color: var(--muted); border-top: 1px dashed var(--border); padding-top: 0.75rem;" id="detCutoffText">
+                    Bolsa reinicia el día -- de cada mes.
+                  </div>
+                </article>
+
+              </div>
+
+              <!-- MÓDULO: AJUSTES MANUALES DE HORAS -->
+              <article class="card" style="margin-bottom: 1.5rem; border-color: rgba(255, 179, 71, 0.2);">
+                <h3 style="margin-top:0; font-size:0.9rem; text-transform:uppercase; color:#ffb347; letter-spacing:0.05em;">Ajustes Manuales de Saldo</h3>
+                <p style="margin: 0 0 1.25rem 0; color: var(--muted); font-size: 0.8rem;">Modifica de manera directa o incrementa/descuenta horas del saldo actual del cliente. Las operaciones generan bitácora de auditoría.</p>
+
+                <form id="manualAdjustmentForm" style="display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 1rem; align-items: end;">
+                  
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="adjType">Tipo de Operación</label>
+                    <select id="adjType" class="form-control">
+                      <option value="add">Sumar Horas (+)</option>
+                      <option value="subtract">Restar Horas (-)</option>
+                      <option value="set">Establecer Saldo Disponible</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="adjHours">Horas</label>
+                    <input type="number" id="adjHours" class="form-control" min="0" value="0" required />
+                  </div>
+
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="adjMinutes">Minutos</label>
+                    <input type="number" id="adjMinutes" class="form-control" min="0" max="59" value="0" required />
+                  </div>
+
+                  <button type="submit" class="btn-neon btn-neon-secondary" style="width: 100%; justify-content: center; height: 46px; text-transform: uppercase; font-size: 0.85rem; border-color: rgba(255, 179, 71, 0.3); color: #ffb347;">
+                    Aplicar Ajuste
+                  </button>
+
+                </form>
+              </article>
+
+              <!-- MÓDULO: BITÁCORAS DE SEGUIMIENTO (TABS) -->
+              <div class="bitacora-tabs">
+                <button class="bitacora-tab-btn active" id="tabBitacoraTecnica">Historial de Soporte</button>
+                <button class="bitacora-tab-btn" id="tabBitacoraAuditoria">Historial de Auditoría</button>
+              </div>
+
+              <!-- CONTENEDOR 1: BITÁCORA TÉCNICA (HISTORIAL DE SOPORTE) -->
+              <div class="bitacora-content-panel active" id="panelBitacoraTecnica">
+                <section class="table-container" style="box-shadow: 0 10px 25px rgba(0,0,0,0.15); margin-bottom: 0;">
+                  <table class="crm-table">
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Horario</th>
+                        <th>Duración</th>
+                        <th>Responsable</th>
+                        <th>Descripción del Trabajo</th>
+                        <th style="text-align: center;">Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody id="techLogsTableBody">
+                      <tr>
+                        <td colspan="6" class="crm-empty-state">No hay registros de soporte técnico.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+
+              <!-- CONTENEDOR 2: BITÁCORA DE AUDITORÍA -->
+              <div class="bitacora-content-panel" id="panelBitacoraAuditoria">
+                <section class="table-container" style="box-shadow: 0 10px 25px rgba(0,0,0,0.15); margin-bottom: 0;">
+                  <table class="crm-table">
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Usuario Administrador</th>
+                        <th>Acción Realizada</th>
+                        <th>Valor Anterior</th>
+                        <th>Valor Nuevo</th>
+                      </tr>
+                    </thead>
+                    <tbody id="auditLogsTableBody">
+                      <tr>
+                        <td colspan="5" class="crm-empty-state">No hay registros de auditoría de saldo.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+
+              <!-- ESCALABILIDAD FUTURA -->
+              <h3 style="font-size: 1rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.05em; margin: 2.5rem 0 1rem 0;">Módulos Adicionales (Preparación Futura)</h3>
+              <div class="placeholder-grid">
+                <div class="placeholder-card-tiny">💳 Créditos Adicionales</div>
+                <div class="placeholder-card-tiny">🧾 Facturas y Pagos</div>
+                <div class="placeholder-card-tiny">🎫 Tickets de Soporte</div>
+                <div class="placeholder-card-tiny">📁 Proyectos en Desarrollo</div>
+                <div class="placeholder-card-tiny">⚙️ Herramientas SaaS</div>
+                <div class="placeholder-card-tiny">🤖 Automatizaciones</div>
+                <div class="placeholder-card-tiny">🔄 Suscripciones</div>
+              </div>
+
             </div>
-          </article>
-
-          <!-- HISTORIAL DE TRABAJOS DE LA CUENTA -->
-          <h3 style="margin-top: 2rem; font-size: 1rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.05em;">Historial de Soporte Realizado</h3>
-          <section class="table-container">
-            <table class="crm-table">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Responsable</th>
-                  <th>Duración</th>
-                  <th>Comentarios / Descripción del Trabajo</th>
-                  <th style="text-align: center;">Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="cuentasHistorialTableBody">
-                <tr>
-                  <td colspan="5" class="crm-empty-state">
-                    Selecciona un cliente para ver su historial.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </section>
-        </section>
+
+        </div>
       </main>
     </div>
 
-    <!-- MODAL: FINALIZAR TRABAJO (FORMULARIO BITÁCORA) -->
+    <!-- MODAL: REGISTRAR TRABAJO (FORMULARIO BITÁCORA EXTENDIDO) -->
     <div class="admin-modal-overlay" id="worklogModalOverlay">
-      <div class="admin-modal">
+      <div class="admin-modal" style="max-width: 520px;">
         <header class="admin-modal-header">
-          <h3>Registrar Trabajo Finalizado</h3>
+          <h3>Guardar Reporte Técnico</h3>
           <button class="admin-modal-close" id="closeWorklogModal">×</button>
         </header>
         <div class="admin-modal-body">
-          <form id="worklogForm">
-            <!-- Duración -->
-            <div class="form-group">
-              <label for="worklogDuration">Duración (Formato H:MM)</label>
-              <input type="text" id="worklogDuration" class="form-control" placeholder="Ej. 1:45" required pattern="^([0-9]+):([0-5][0-9])$" title="Debe usar el formato H:MM (ej. 1:30, 0:45)" />
+          <form id="worklogForm" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1rem;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="worklogDuration">Duración (Formato H:MM)</label>
+                <input type="text" id="worklogDuration" class="form-control" placeholder="Ej. 1:45" required pattern="^([0-9]+):([0-5][0-9])$" title="Debe usar el formato H:MM" />
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="worklogResponsible">Responsable</label>
+                <input type="text" id="worklogResponsible" class="form-control" placeholder="Nombre de Dev" required />
+              </div>
             </div>
 
-            <!-- Responsable -->
-            <div class="form-group">
-              <label for="worklogResponsible">Responsable del Trabajo</label>
-              <input type="text" id="worklogResponsible" class="form-control" placeholder="Ej. Admin / Dev Name" required />
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="worklogStart">Hora Inicio</label>
+                <input type="text" id="worklogStart" class="form-control" style="font-family: monospace; font-size: 0.85rem;" readonly />
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="worklogEnd">Hora Fin</label>
+                <input type="text" id="worklogEnd" class="form-control" style="font-family: monospace; font-size: 0.85rem;" readonly />
+              </div>
             </div>
 
-            <!-- Comentarios -->
-            <div class="form-group">
-              <label for="worklogComments">Descripción del Trabajo Realizado</label>
-              <textarea id="worklogComments" class="form-control" placeholder="Ej. Actualización de plugins, corrección de estilos CSS en header, optimización de velocidad de carga..." required></textarea>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="worklogDesc">Descripción del Trabajo (Requerido)</label>
+              <textarea id="worklogDesc" class="form-control" placeholder="Ej. Modificación de estilos CSS, actualización de base de datos..." style="min-height: 80px;" required></textarea>
             </div>
 
-            <div class="form-actions">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="worklogComments">Comentarios Adicionales (Opcional)</label>
+              <textarea id="worklogComments" class="form-control" placeholder="Ej. Acuerdos especiales conversados por llamada..." style="min-height: 60px;"></textarea>
+            </div>
+
+            <div class="form-actions" style="margin-top: 0.5rem;">
               <button type="button" class="btn-neon btn-neon-secondary" id="cancelWorklogBtn">Descartar</button>
-              <button type="submit" class="btn-neon">Guardar en Bitácora</button>
+              <button type="submit" class="btn-neon">Guardar Reporte</button>
             </div>
           </form>
         </div>

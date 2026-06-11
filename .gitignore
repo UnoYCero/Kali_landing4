@@ -6,3 +6,6 @@ Recap/
 
 # Ignorar videos pesados
 *.mov
+
+# Credenciales de entorno locales
+.env
