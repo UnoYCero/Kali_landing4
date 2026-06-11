@@ -88,17 +88,44 @@ async function checkAuth() {
 
 // Inicialización de componentes comunes de la interfaz (Sidebar & Logout)
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializar menú hamburguesa responsive
+  // Inicializar menú hamburguesa responsive y colapsable
   const menuToggle = document.getElementById('adminMenuToggle');
   const sidebar = document.getElementById('adminSidebar');
+  
+  // Si estamos en desktop, cargar el estado guardado del menú colapsado y configurar hover
+  if (window.innerWidth > 992) {
+    const isCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+    if (isCollapsed) {
+      document.body.classList.add('sidebar-collapsed');
+    }
+    if (sidebar) {
+      sidebar.addEventListener('mouseenter', () => {
+        if (document.body.classList.contains('sidebar-collapsed')) {
+          document.body.classList.add('sidebar-hover-expanded');
+        }
+      });
+      sidebar.addEventListener('mouseleave', () => {
+        document.body.classList.remove('sidebar-hover-expanded');
+      });
+    }
+  }
   
   if (menuToggle && sidebar) {
     menuToggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      sidebar.classList.toggle('active');
-      menuToggle.classList.toggle('is-active');
-      const expanded = sidebar.classList.contains('active');
-      menuToggle.setAttribute('aria-expanded', String(expanded));
+      if (window.innerWidth > 992) {
+        document.body.classList.toggle('sidebar-collapsed');
+        const nowCollapsed = document.body.classList.contains('sidebar-collapsed');
+        localStorage.setItem('sidebar_collapsed', String(nowCollapsed));
+        if (!nowCollapsed) {
+          document.body.classList.remove('sidebar-hover-expanded');
+        }
+      } else {
+        sidebar.classList.toggle('active');
+        menuToggle.classList.toggle('is-active');
+        const expanded = sidebar.classList.contains('active');
+        menuToggle.setAttribute('aria-expanded', String(expanded));
+      }
     });
     
     // Cerrar sidebar al hacer click fuera en pantallas móviles

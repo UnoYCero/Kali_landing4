@@ -33,7 +33,7 @@
       <form id="registroForm" style="display: flex; flex-direction: column; gap: 1.25rem;">
         
         <!-- Información Personal -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="auth-form-grid">
           <div class="form-group" style="margin-bottom: 0;">
             <label for="fullName">Nombre Completo</label>
             <input type="text" id="fullName" class="form-control" placeholder="Ej. Ana Ramos" required />
@@ -74,7 +74,7 @@
         </div>
 
         <!-- Seguridad y Confirmación -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="auth-form-grid">
           <div class="form-group" style="margin-bottom: 0;">
             <label for="password">Contraseña</label>
             <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="new-password" />
@@ -111,8 +111,8 @@
 
     <!-- Scripts de Supabase y Controladores -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../../admin/js/config.js" onerror="console.log('Sin archivo config.js')"></script>
-    <script src="../js/clientes-common.js"></script>
-    <script src="../js/registro.js"></script>
+    <script src="../../admin/js/config.js?v=3" onerror="console.log('Sin archivo config.js')"></script>
+    <script src="../js/clientes-common.js?v=3"></script>
+    <script src="../js/registro.js?v=3"></script>
   </body>
 </html>

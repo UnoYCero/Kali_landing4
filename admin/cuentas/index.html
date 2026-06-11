@@ -251,14 +251,20 @@
       }
 
       .placeholder-card-tiny {
-        background: rgba(255,255,255,0.01);
+        background: rgba(255, 255, 255, 0.01);
         border: 1px dashed var(--border);
         border-radius: 12px;
-        padding: 1rem;
+        padding: 1.25rem 1rem;
         text-align: center;
-        opacity: 0.5;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        cursor: not-allowed;
+        opacity: 0.6;
+        user-select: none;
       }
     </style>
   </head>
@@ -588,7 +594,7 @@
               </div>
 
               <!-- ESCALABILIDAD FUTURA -->
-              <h3 style="font-size: 1rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.05em; margin: 2.5rem 0 1rem 0;">Módulos Adicionales (Preparación Futura)</h3>
+              <h3 style="font-size: 1rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.05em; margin: 2.5rem 0 1rem 0;">Módulos Adicionales</h3>
               <div class="placeholder-grid">
                 <div class="placeholder-card-tiny">💳 Créditos Adicionales</div>
                 <div class="placeholder-card-tiny">🧾 Facturas y Pagos</div>
@@ -657,10 +663,12 @@
       </div>
     </div>
 
+    <!-- Módulos adicionales inactivos -->
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../js/config.js" onerror="console.log('Sin config.js')"></script>
-    <script src="../js/admin-common.js"></script>
-    <script src="../js/admin-cuentas.js"></script>
+    <script src="../js/config.js?v=3" onerror="console.log('Sin config.js')"></script>
+    <script src="../js/admin-common.js?v=3"></script>
+    <script src="../js/admin-cuentas.js?v=3"></script>
   </body>
 </html>

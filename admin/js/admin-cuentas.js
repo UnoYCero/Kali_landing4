@@ -3,6 +3,10 @@
 // Controller for admin/cuentas/index.html (List-Detail UI)
 // ==========================================================================
 
+window.onerror = function(message, source, lineno, colno, error) {
+  alert("ERROR DETECTADO:\n" + message + "\nEn: " + source + "\nLínea: " + lineno + ":" + colno);
+};
+
 let allClients = [];
 let selectedClienteId = null;
 
@@ -154,7 +158,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     await applyManualHoursAdjustment();
   });
 
-  // 9. Cargar lista de clientes inicial
+  // 9. Activación en tiempo real del botón de ver contrato al escribir
+  const contractInput = document.getElementById('commContractUrl');
+  const btnContract = document.getElementById('btnViewContract');
+  contractInput.addEventListener('input', (e) => {
+    const url = e.target.value.trim();
+    if (url) {
+      btnContract.href = url;
+      btnContract.style.opacity = '1';
+      btnContract.style.pointerEvents = 'auto';
+    } else {
+      btnContract.removeAttribute('href');
+      btnContract.style.opacity = '0.5';
+      btnContract.style.pointerEvents = 'none';
+    }
+  });
+
+  // Módulos Adicionales son estáticos en la interfaz
+
+  // 11. Cargar lista de clientes inicial
   await fetchClients();
 });
 
@@ -276,24 +298,37 @@ async function loadFichaCliente(clienteId) {
 
     if (planError) throw planError;
 
-    if (plan) {
-      document.getElementById('commPlanName').value = plan.nombre_plan || 'Plan de Mantenimiento Web';
-      document.getElementById('commMonthlyAmount').value = plan.monto_mensual || '0.00';
-      document.getElementById('commContractUrl').value = plan.url_contrato || '';
-      document.getElementById('commInternalNotes').value = plan.notas_internas || '';
-      document.getElementById('detAccountStatus').value = plan.estado || 'Pendiente';
+    // Valores predeterminados en caso de registros ausentes en la BD
+    let planName = 'Plan de Mantenimiento Web';
+    let monthlyAmount = '0.00';
+    let contractUrl = '';
+    let internalNotes = '';
+    let accountStatus = 'Pendiente';
 
-      // Activar / desactivar botón de ver contrato
-      const btnContract = document.getElementById('btnViewContract');
-      if (plan.url_contrato) {
-        btnContract.href = plan.url_contrato;
-        btnContract.style.opacity = '1';
-        btnContract.style.pointerEvents = 'auto';
-      } else {
-        btnContract.removeAttribute('href');
-        btnContract.style.opacity = '0.5';
-        btnContract.style.pointerEvents = 'none';
-      }
+    if (plan) {
+      planName = plan.nombre_plan || 'Plan de Mantenimiento Web';
+      monthlyAmount = plan.monto_mensual || '0.00';
+      contractUrl = plan.url_contrato || '';
+      internalNotes = plan.notas_internas || '';
+      accountStatus = plan.estado || 'Pendiente';
+    }
+
+    document.getElementById('commPlanName').value = planName;
+    document.getElementById('commMonthlyAmount').value = monthlyAmount;
+    document.getElementById('commContractUrl').value = contractUrl;
+    document.getElementById('commInternalNotes').value = internalNotes;
+    document.getElementById('detAccountStatus').value = accountStatus;
+
+    // Activar / desactivar botón de ver contrato
+    const btnContract = document.getElementById('btnViewContract');
+    if (contractUrl) {
+      btnContract.href = contractUrl;
+      btnContract.style.opacity = '1';
+      btnContract.style.pointerEvents = 'auto';
+    } else {
+      btnContract.removeAttribute('href');
+      btnContract.style.opacity = '0.5';
+      btnContract.style.pointerEvents = 'none';
     }
 
     // C. Consultar Configuración de Cortes
@@ -305,10 +340,12 @@ async function loadFichaCliente(clienteId) {
 
     if (corteError) throw corteError;
 
+    let cutoffDay = 28;
     if (corte) {
-      document.getElementById('commCutoffDay').value = corte.dia_corte || 28;
-      document.getElementById('detCutoffText').textContent = `Bolsa reinicia el día ${corte.dia_corte} de cada mes.`;
+      cutoffDay = corte.dia_corte || 28;
     }
+    document.getElementById('commCutoffDay').value = cutoffDay;
+    document.getElementById('detCutoffText').textContent = `Bolsa reinicia el día ${cutoffDay} de cada mes.`;
 
     // D. Consultar Bolsa de Horas
     const { data: horas, error: horasError } = await window.supabaseClient
@@ -319,19 +356,28 @@ async function loadFichaCliente(clienteId) {
 
     if (horasError) throw horasError;
 
+    let contractedHrs = '0:00';
+    let usedHrs = '0:00';
+    let remainingHrs = '0:00';
+    let isRemainingNegative = false;
+
     if (horas) {
-      document.getElementById('cardContracted').textContent = `${formatDecimalHours(horas.horas_contratadas)} hrs`;
-      document.getElementById('cardUsed').textContent = `${formatDecimalHours(horas.horas_utilizadas)} hrs`;
-      
-      const remainingEl = document.getElementById('cardRemaining');
-      remainingEl.textContent = `${formatDecimalHours(horas.horas_restantes)} hrs`;
-      
-      // Cambiar color de acuerdo al saldo
-      if (parseFloat(horas.horas_restantes) < 0) {
-        remainingEl.style.color = 'var(--red)';
-      } else {
-        remainingEl.style.color = 'var(--green)';
-      }
+      contractedHrs = formatDecimalHours(horas.horas_contratadas);
+      usedHrs = formatDecimalHours(horas.horas_utilizadas);
+      remainingHrs = formatDecimalHours(horas.horas_restantes);
+      isRemainingNegative = parseFloat(horas.horas_restantes) < 0;
+    }
+
+    document.getElementById('cardContracted').textContent = `${contractedHrs} hrs`;
+    document.getElementById('cardUsed').textContent = `${usedHrs} hrs`;
+    
+    const remainingEl = document.getElementById('cardRemaining');
+    remainingEl.textContent = `${remainingHrs} hrs`;
+    
+    if (isRemainingNegative) {
+      remainingEl.style.color = 'var(--red)';
+    } else {
+      remainingEl.style.color = 'var(--green)';
     }
 
     // E. Consultar Historial de soporte técnico
@@ -472,26 +518,49 @@ async function saveCommercialData() {
   const cutoffDay = parseInt(document.getElementById('commCutoffDay').value);
 
   try {
-    // 1. Guardar en cliente_planes
-    const { error: planError } = await window.supabaseClient
+    // 1. Verificar si existe registro en cliente_planes para decidir update o insert
+    const { data: planExist, error: checkError } = await window.supabaseClient
       .from('cliente_planes')
-      .update({
-        nombre_plan: planName,
-        monto_mensual: monthlyAmount,
-        url_contrato: contractUrl || null,
-        notas_internas: internalNotes || null
-      })
-      .eq('cliente_id', selectedClienteId);
+      .select('id')
+      .eq('cliente_id', selectedClienteId)
+      .maybeSingle();
 
-    if (planError) throw planError;
+    if (checkError) throw checkError;
 
-    // 2. Guardar en configuracion_cortes
+    if (planExist) {
+      const { error: planError } = await window.supabaseClient
+        .from('cliente_planes')
+        .update({
+          nombre_plan: planName,
+          monto_mensual: monthlyAmount,
+          url_contrato: contractUrl || null,
+          notas_internas: internalNotes || null
+        })
+        .eq('cliente_id', selectedClienteId);
+
+      if (planError) throw planError;
+    } else {
+      const { error: planError } = await window.supabaseClient
+        .from('cliente_planes')
+        .insert([{
+          cliente_id: selectedClienteId,
+          nombre_plan: planName,
+          monto_mensual: monthlyAmount,
+          url_contrato: contractUrl || null,
+          notas_internas: internalNotes || null,
+          estado: 'Activo'
+        }]);
+
+      if (planError) throw planError;
+    }
+
+    // 2. Guardar en configuracion_cortes usando upsert para que sea robusto
     const { error: corteError } = await window.supabaseClient
       .from('configuracion_cortes')
-      .update({
+      .upsert({
+        cliente_id: selectedClienteId,
         dia_corte: cutoffDay
-      })
-      .eq('cliente_id', selectedClienteId);
+      }, { onConflict: 'cliente_id' });
 
     if (corteError) throw corteError;
 
@@ -509,13 +578,34 @@ async function updateAccountStatus(newStatus) {
   if (!selectedClienteId || !window.supabaseClient) return;
 
   try {
-    // 1. Actualizar en cliente_planes
-    const { error: planError } = await window.supabaseClient
+    // 1. Verificar si existe registro en cliente_planes
+    const { data: planExist, error: checkError } = await window.supabaseClient
       .from('cliente_planes')
-      .update({ estado: newStatus })
-      .eq('cliente_id', selectedClienteId);
+      .select('id')
+      .eq('cliente_id', selectedClienteId)
+      .maybeSingle();
 
-    if (planError) throw planError;
+    if (checkError) throw checkError;
+
+    if (planExist) {
+      const { error: planError } = await window.supabaseClient
+        .from('cliente_planes')
+        .update({ estado: newStatus })
+        .eq('cliente_id', selectedClienteId);
+
+      if (planError) throw planError;
+    } else {
+      const { error: planError } = await window.supabaseClient
+        .from('cliente_planes')
+        .insert([{
+          cliente_id: selectedClienteId,
+          estado: newStatus,
+          nombre_plan: 'Plan de Mantenimiento Web',
+          horas_mensuales: 8.00
+        }]);
+
+      if (planError) throw planError;
+    }
 
     // 2. Sincronizar con el flag activo de clientes (si es Suspendido -> activo = false, de lo contrario true)
     const isActivo = (newStatus !== 'Suspendido');
@@ -581,24 +671,42 @@ async function saveWorklog(closeModalCallback) {
       .from('cliente_horas')
       .select('horas_utilizadas, horas_restantes')
       .eq('cliente_id', selectedClienteId)
-      .single();
+      .maybeSingle();
 
     if (fetchError) throw fetchError;
 
-    const newUsed = parseFloat(currentHours.horas_utilizadas) + decimalHours;
-    const newRemaining = parseFloat(currentHours.horas_restantes) - decimalHours;
+    let newUsed = decimalHours;
+    let newRemaining = 8.00 - decimalHours;
 
-    // 3. Actualizar la bolsa de horas
-    const { error: updateError } = await window.supabaseClient
-      .from('cliente_horas')
-      .update({
-        horas_utilizadas: newUsed,
-        horas_restantes: newRemaining,
-        actualizado_en: new Date().toISOString()
-      })
-      .eq('cliente_id', selectedClienteId);
+    if (currentHours) {
+      newUsed = parseFloat(currentHours.horas_utilizadas) + decimalHours;
+      newRemaining = parseFloat(currentHours.horas_restantes) - decimalHours;
 
-    if (updateError) throw updateError;
+      // 3. Actualizar la bolsa de horas
+      const { error: updateError } = await window.supabaseClient
+        .from('cliente_horas')
+        .update({
+          horas_utilizadas: newUsed,
+          horas_restantes: newRemaining,
+          actualizado_en: new Date().toISOString()
+        })
+        .eq('cliente_id', selectedClienteId);
+
+      if (updateError) throw updateError;
+    } else {
+      // Crear registro inicial de bolsa de horas
+      const { error: createError } = await window.supabaseClient
+        .from('cliente_horas')
+        .insert([{
+          cliente_id: selectedClienteId,
+          horas_contratadas: 8.00,
+          horas_utilizadas: newUsed,
+          horas_restantes: newRemaining,
+          actualizado_en: new Date().toISOString()
+        }]);
+
+      if (createError) throw createError;
+    }
 
     closeModalCallback();
     await loadFichaCliente(selectedClienteId);
@@ -633,24 +741,26 @@ async function deleteTechLogRecord(id, durationStr) {
       .from('cliente_horas')
       .select('horas_utilizadas, horas_restantes')
       .eq('cliente_id', selectedClienteId)
-      .single();
+      .maybeSingle();
 
     if (fetchError) throw fetchError;
 
-    const newUsed = Math.max(0, parseFloat(currentHours.horas_utilizadas) - decimalHours);
-    const newRemaining = parseFloat(currentHours.horas_restantes) + decimalHours;
+    if (currentHours) {
+      const newUsed = Math.max(0, parseFloat(currentHours.horas_utilizadas) - decimalHours);
+      const newRemaining = parseFloat(currentHours.horas_restantes) + decimalHours;
 
-    // 3. Actualizar la bolsa
-    const { error: updateError } = await window.supabaseClient
-      .from('cliente_horas')
-      .update({
-        horas_utilizadas: newUsed,
-        horas_restantes: newRemaining,
-        actualizado_en: new Date().toISOString()
-      })
-      .eq('cliente_id', selectedClienteId);
+      // 3. Actualizar la bolsa
+      const { error: updateError } = await window.supabaseClient
+        .from('cliente_horas')
+        .update({
+          horas_utilizadas: newUsed,
+          horas_restantes: newRemaining,
+          actualizado_en: new Date().toISOString()
+        })
+        .eq('cliente_id', selectedClienteId);
 
-    if (updateError) throw updateError;
+      if (updateError) throw updateError;
+    }
 
     await loadFichaCliente(selectedClienteId);
 
@@ -682,11 +792,15 @@ async function applyManualHoursAdjustment() {
       .from('cliente_horas')
       .select('horas_restantes')
       .eq('cliente_id', selectedClienteId)
-      .single();
+      .maybeSingle();
 
     if (fetchError) throw fetchError;
 
-    const currentRemaining = parseFloat(horas.horas_restantes);
+    let currentRemaining = 8.00;
+    if (horas) {
+      currentRemaining = parseFloat(horas.horas_restantes);
+    }
+
     let newRemaining = currentRemaining;
     let actionDescription = '';
 
@@ -718,16 +832,30 @@ async function applyManualHoursAdjustment() {
 
     if (auditError) throw auditError;
 
-    // 3. Actualizar en cliente_horas
-    const { error: updateError } = await window.supabaseClient
-      .from('cliente_horas')
-      .update({
-        horas_restantes: newRemaining,
-        actualizado_en: new Date().toISOString()
-      })
-      .eq('cliente_id', selectedClienteId);
+    // 3. Actualizar o insertar en cliente_horas
+    if (horas) {
+      const { error: updateError } = await window.supabaseClient
+        .from('cliente_horas')
+        .update({
+          horas_restantes: newRemaining,
+          actualizado_en: new Date().toISOString()
+        })
+        .eq('cliente_id', selectedClienteId);
 
-    if (updateError) throw updateError;
+      if (updateError) throw updateError;
+    } else {
+      const { error: createError } = await window.supabaseClient
+        .from('cliente_horas')
+        .insert([{
+          cliente_id: selectedClienteId,
+          horas_contratadas: 8.00,
+          horas_utilizadas: 0.00,
+          horas_restantes: newRemaining,
+          actualizado_en: new Date().toISOString()
+        }]);
+
+      if (createError) throw createError;
+    }
 
     // Reiniciar entradas del formulario de ajuste
     document.getElementById('adjHours').value = '0';
@@ -775,6 +903,8 @@ function escapeHtml(string) {
   };
   return String(string).replace(/[&<>"']/g, function(m) { return map[m]; });
 }
+
+// Módulos adicionales inactivos
 
 // Métodos globales para llamadas inline en HTML
 window.selectCliente = selectCliente;

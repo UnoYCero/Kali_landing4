@@ -446,7 +446,7 @@ body.client-layout {
 
 .client-auth-card {
   width: 100%;
-  max-width: 500px;
+  max-width: 650px; /* Incrementado para dar más espacio y que no se corten los campos */
   background: rgba(14, 16, 26, 0.8);
   border: 1px solid var(--border);
   border-radius: 28px;
@@ -458,6 +458,19 @@ body.client-layout {
   gap: 1.75rem;
   position: relative;
   overflow: hidden;
+}
+
+/* Grid responsivo para campos de formulario de acceso */
+.auth-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 576px) {
+  .auth-form-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .client-auth-card::after {
