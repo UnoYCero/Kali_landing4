@@ -1,0 +1,570 @@
+/* ==========================================================================
+   KALEIDOSCOPIO - CLIENT PORTAL STYLES (SaaS Modern Premium Theme)
+   Inspirado en estética Cyberpunk, Neón y Glassmorphism
+   ========================================================================== */
+
+/* Variables locales y de extensión */
+:root {
+  --client-sidebar-width: 280px;
+  --card-bg: rgba(15, 17, 28, 0.7);
+  --card-glow-blue: rgba(62, 209, 255, 0.05);
+  --card-glow-green: rgba(0, 255, 163, 0.05);
+  --card-glow-pink: rgba(255, 62, 127, 0.05);
+  --input-bg: rgba(255, 255, 255, 0.02);
+  --input-border: rgba(255, 255, 255, 0.08);
+  --font-mono: 'Space Mono', monospace;
+}
+
+body.client-layout {
+  display: flex;
+  background: radial-gradient(circle at 10% 10%, rgba(62, 209, 255, 0.05), transparent 50%),
+              radial-gradient(circle at 90% 90%, rgba(255, 62, 127, 0.05), transparent 50%),
+              var(--bg-dark);
+  color: var(--text);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+.client-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ==========================================================================
+   SIDEBAR CLIENTE (MENÚ LATERAL)
+   ========================================================================== */
+.client-sidebar {
+  width: var(--client-sidebar-width);
+  background: linear-gradient(180deg, rgba(12, 13, 22, 0.95), rgba(6, 6, 8, 0.98));
+  border-right: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  transition: transform var(--transition-fast);
+}
+
+.client-sidebar-header {
+  padding: 1.75rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.client-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.client-sidebar-brand img {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(62, 209, 255, 0.15);
+}
+
+.client-sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.client-sidebar-brand-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--text), var(--muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.client-sidebar-brand-sub {
+  font-size: 0.7rem;
+  color: var(--blue);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.client-sidebar-nav {
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.client-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.95rem 1.25rem;
+  border-radius: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.client-nav-item:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.04);
+  transform: translateX(4px);
+}
+
+.client-nav-item.active {
+  color: var(--blue);
+  background: rgba(62, 209, 255, 0.05);
+  border-color: rgba(62, 209, 255, 0.15);
+  box-shadow: 0 0 15px rgba(62, 209, 255, 0.03);
+}
+
+.client-nav-item.placeholder-nav {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.client-nav-item.placeholder-nav:hover {
+  transform: none;
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+}
+
+.client-nav-item svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+.client-sidebar-footer {
+  padding: 1.25rem 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ==========================================================================
+   CONTENIDO PRINCIPAL CLIENTE
+   ========================================================================== */
+.client-main {
+  flex-grow: 1;
+  margin-left: var(--client-sidebar-width);
+  padding: 2.5rem 4vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin var(--transition-fast);
+}
+
+.client-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.client-topbar-title h1 {
+  font-size: 1.9rem;
+  margin: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 15px rgba(62, 209, 255, 0.1);
+}
+
+.client-topbar-title p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.client-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  font-size: 0.85rem;
+}
+
+.client-user-badge .avatar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+}
+
+/* Botón Hamburguesa móvil */
+.client-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(10, 11, 18, 0.8);
+  color: var(--text);
+  cursor: pointer;
+  z-index: 101;
+  transition: all var(--transition-fast);
+}
+
+.client-menu-toggle:hover {
+  border-color: var(--blue);
+  box-shadow: 0 0 10px rgba(62, 209, 255, 0.2);
+}
+
+/* ==========================================================================
+   CARDS & MÓDULOS DE DASHBOARD
+   ========================================================================== */
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.client-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.client-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(62, 209, 255, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 25px var(--card-glow-blue);
+}
+
+.client-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), transparent);
+}
+
+.client-card.pink-accent::before {
+  background: linear-gradient(90deg, var(--red), transparent);
+}
+.client-card.green-accent::before {
+  background: linear-gradient(90deg, var(--green), transparent);
+}
+.client-card.yellow-accent::before {
+  background: linear-gradient(90deg, var(--yellow), transparent);
+}
+
+.client-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.client-card-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.client-card-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.client-card:hover .client-card-icon {
+  color: var(--text);
+  border-color: rgba(255,255,255,0.15);
+}
+
+.client-card-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text);
+  margin: 0.25rem 0;
+}
+
+.client-card-description {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+
+/* Grid de horas específicas */
+.hours-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1.25rem 0;
+  padding: 1rem 0;
+  border-top: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
+}
+
+.hours-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hours-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.hours-val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.hours-val.total { color: var(--blue); }
+.hours-val.used { color: var(--red); }
+.hours-val.remaining { color: var(--green); }
+
+/* Badges de estado */
+.client-badge-status {
+  padding: 0.35rem 0.85rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+}
+
+.client-badge-status.activo {
+  background: rgba(0, 255, 163, 0.05);
+  color: var(--green);
+  border: 1px solid rgba(0, 255, 163, 0.2);
+}
+
+.client-badge-status.suspendido {
+  background: rgba(255, 62, 127, 0.05);
+  color: var(--red);
+  border: 1px solid rgba(255, 62, 127, 0.2);
+}
+
+.client-badge-status.pendiente {
+  background: rgba(255, 179, 71, 0.05);
+  color: #ffb347;
+  border: 1px solid rgba(255, 179, 71, 0.2);
+}
+
+/* ==========================================================================
+   PLACEHOLDERS Y SECCIONES INACTIVAS
+   ========================================================================== */
+.placeholder-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder-section::after {
+  content: "PRÓXIMAMENTE";
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 0.25rem 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: var(--muted);
+}
+
+.placeholder-section.disabled-look {
+  opacity: 0.65;
+  filter: grayscale(0.5);
+}
+
+.placeholder-section.disabled-look:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border);
+}
+
+/* ==========================================================================
+   PÁGINAS DE ACCESO (LOGIN & REGISTRO DE CLIENTES)
+   ========================================================================== */
+.client-auth-body {
+  background: radial-gradient(circle at center, rgba(62, 209, 255, 0.04), transparent 75%),
+              radial-gradient(circle at bottom left, rgba(255, 62, 127, 0.03), transparent 60%),
+              var(--bg-dark);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.client-auth-card {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(14, 16, 26, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 2.5rem;
+  backdrop-filter: blur(24px);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 55px rgba(62, 209, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.client-auth-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+}
+
+.client-auth-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.client-auth-logo img {
+  width: 65px;
+  height: 65px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 20px rgba(62, 209, 255, 0.15);
+}
+
+.client-auth-logo h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.client-auth-logo p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.error-message-box {
+  background: rgba(255, 62, 127, 0.08);
+  border: 1px solid rgba(255, 62, 127, 0.25);
+  color: #ff5c93;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: none;
+  animation: authShake 0.4s ease-in-out;
+}
+
+.success-message-box {
+  background: rgba(0, 255, 163, 0.08);
+  border: 1px solid rgba(0, 255, 163, 0.25);
+  color: var(--green);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: none;
+}
+
+@keyframes authShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.auth-footer-link {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.auth-footer-link a {
+  color: var(--blue);
+  text-decoration: underline;
+  transition: color var(--transition-fast);
+}
+
+.auth-footer-link a:hover {
+  color: var(--text);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MÓVILES Y TABLETAS)
+   ========================================================================== */
+@media (max-width: 991px) {
+  .client-sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .client-sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .client-main {
+    margin-left: 0;
+    padding-top: 5.5rem;
+  }
+  
+  .client-menu-toggle {
+    display: flex;
+    position: fixed;
+    top: 1.25rem;
+    left: 1.25rem;
+  }
+}

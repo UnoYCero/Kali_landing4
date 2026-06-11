@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Kaleidoscopio | Acceso Clientes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+    <link rel="stylesheet" href="../css/clientes-styles.css" />
+  </head>
+  <body class="client-auth-body">
+    <div class="neon-particles" aria-hidden="true"></div>
+
+    <div class="client-auth-card">
+      <div class="client-auth-logo">
+        <img src="../../assets/img/logo.jpg" alt="Kaleidoscopio Logo" />
+        <div>
+          <h2>Portal de Clientes</h2>
+          <p>Ingresa tus credenciales de acceso</p>
+        </div>
+      </div>
+
+      <!-- Alertas de error -->
+      <div class="error-message-box" id="loginError">Correo o contraseña incorrectos. Inténtalo de nuevo.</div>
+      <div class="error-message-box" id="supabaseError" style="background: rgba(255, 179, 71, 0.1); border-color: rgba(255, 179, 71, 0.3); color: #ffb347;">
+        Por favor configura la conexión a Supabase primero en la sección administrativa.
+      </div>
+
+      <!-- Formulario de Login -->
+      <form id="loginForm" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="clientEmail">Correo Electrónico</label>
+          <input
+            type="email"
+            id="clientEmail"
+            class="form-control"
+            placeholder="correo@ejemplo.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="clientPassword">Contraseña</label>
+          <input
+            type="password"
+            id="clientPassword"
+            class="form-control"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button type="submit" class="glow-button" style="justify-content: center; width: 100%; margin-top: 0.5rem;">
+          Ingresar al Portal
+        </button>
+      </form>
+
+      <div class="auth-footer-link">
+        ¿Aún no tienes cuenta? <a href="../registro/">Regístrate aquí</a>
+      </div>
+    </div>
+
+    <!-- Scripts de carga -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../admin/js/config.js" onerror="console.log('Sin archivo config.js predefinido. Usando localStorage.')"></script>
+    <script src="../js/clientes-common.js"></script>
+    <script src="../js/login.js"></script>
+  </body>
+</html>

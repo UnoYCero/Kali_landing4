@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Kaleidoscopio | Portal de Clientes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+    <link rel="stylesheet" href="../css/clientes-styles.css" />
+  </head>
+  <body class="client-layout">
+    <div class="neon-particles" aria-hidden="true"></div>
+
+    <!-- Botón hamburguesa móvil -->
+    <button class="client-menu-toggle" id="clientMenuToggle" aria-expanded="false" aria-label="Abrir menú de navegación">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="client-container">
+      <!-- SIDEBAR -->
+      <aside class="client-sidebar" id="clientSidebar">
+        <div class="client-sidebar-header">
+          <div class="client-sidebar-brand">
+            <img src="../../assets/img/logo.jpg" alt="Kaleidoscopio Logo" />
+            <div class="client-sidebar-brand-text">
+              <span class="client-sidebar-brand-name">Kaleidoscopio</span>
+              <span class="client-sidebar-brand-sub">Portal Clientes</span>
+            </div>
+          </div>
+        </div>
+
+        <nav class="client-sidebar-nav">
+          <a href="./" class="client-nav-item active">
+            <!-- Icono Dashboard / Inicio -->
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+              <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+              <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+              <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+            </svg>
+            Mi Cuenta
+          </a>
+
+          <!-- Placeholders para futuras herramientas en el menú (deshabilitadas) -->
+          <a class="client-nav-item placeholder-nav" title="Próximamente: Tickets de Soporte">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            Soporte y Tickets
+          </a>
+
+          <a class="client-nav-item placeholder-nav" title="Próximamente: Facturación">
+            <svg viewBox="0 0 24 24">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            Facturas e Historial
+          </a>
+
+          <a class="client-nav-item placeholder-nav" title="Próximamente: Mis Proyectos">
+            <svg viewBox="0 0 24 24">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
+            Proyectos Activos
+          </a>
+
+          <a class="client-nav-item placeholder-nav" title="Próximamente: Herramientas SaaS">
+            <svg viewBox="0 0 24 24">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            Herramientas Digitales
+          </a>
+        </nav>
+
+        <div class="client-sidebar-footer">
+          <button class="btn-logout" id="logoutBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Cerrar Sesión
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENIDO PRINCIPAL -->
+      <main class="client-main">
+        <!-- BARRA SUPERIOR -->
+        <header class="client-topbar">
+          <div class="client-topbar-title">
+            <h1 id="welcomeTitle">Cargando Portal...</h1>
+            <p id="welcomeSubtitle">Bienvenido a tu panel de control comercial</p>
+          </div>
+          <div class="client-user-badge">
+            <div class="avatar-dot"></div>
+            <span id="userBadgeName">Cliente</span>
+          </div>
+        </header>
+
+        <!-- GRID DE SERVICIOS ACTIVOS (Mantenimiento de Horas) -->
+        <section class="client-grid">
+          
+          <!-- Bolsa de Horas de Mantenimiento -->
+          <article class="client-card">
+            <div class="client-card-header">
+              <span class="client-card-title">Soporte y Mantenimiento Web</span>
+              <div class="client-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+            </div>
+            
+            <div class="client-card-value" id="hoursRemaining">0:00 hrs</div>
+            <div class="client-card-description" style="color: var(--green);">Tiempo disponible restante este mes</div>
+
+            <div class="hours-breakdown">
+              <div class="hours-item">
+                <span class="hours-label">Contratado</span>
+                <span class="hours-val total" id="hoursContracted">0:00</span>
+              </div>
+              <div class="hours-item">
+                <span class="hours-label">Consumido</span>
+                <span class="hours-val used" id="hoursUsed">0:00</span>
+              </div>
+              <div class="hours-item">
+                <span class="hours-label">Restante</span>
+                <span class="hours-val remaining" id="hoursRemainingSub">0:00</span>
+              </div>
+            </div>
+
+            <div class="client-card-description" style="font-size: 0.8rem; border-top: 1px solid var(--border); padding-top: 0.75rem;" id="cutoffMessage">
+              Tu bolsa de horas se reinicia el día -- de cada mes.
+            </div>
+          </article>
+
+          <!-- Estado del Servicio Plan -->
+          <article class="client-card yellow-accent">
+            <div class="client-card-header">
+              <span class="client-card-title">Estado del Servicio</span>
+              <div class="client-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+              </div>
+            </div>
+            
+            <div style="margin: 1rem 0;">
+              <span class="client-badge-status pendiente" id="serviceStatusBadge">Cargando...</span>
+            </div>
+            
+            <div class="client-card-description" id="planName">Plan actual: Plan de mantenimiento web</div>
+            <p class="client-card-description" style="margin-top: 0.5rem; font-size: 0.8rem;">
+              Para modificar o ampliar tu plan actual, por favor comunícate con tu asesor comercial asignado de Kaleidoscopio.
+            </p>
+          </article>
+        </section>
+
+        <!-- SECCIÓN: PLACEHOLDERS FUTURAS MEJORAS -->
+        <h2 style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 1.5rem 0 1rem 0;">Módulos Adicionales de tu Cuenta</h2>
+        
+        <section class="client-grid">
+          
+          <!-- Placeholder Créditos -->
+          <article class="client-card green-accent placeholder-section disabled-look">
+            <div class="client-card-header">
+              <span class="client-card-title">Créditos de Desarrollo</span>
+              <div class="client-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="client-card-value">0 CR</div>
+            <div class="client-card-description">Saldo de créditos prepagados para tareas adicionales</div>
+          </article>
+
+          <!-- Placeholder Tickets -->
+          <article class="client-card pink-accent placeholder-section disabled-look">
+            <div class="client-card-header">
+              <span class="client-card-title">Tickets de Soporte</span>
+              <div class="client-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="client-card-value">0 Activos</div>
+            <div class="client-card-description">Solicitudes y reportes de errores en resolución</div>
+          </article>
+
+          <!-- Placeholder Solicitudes / Cambios -->
+          <article class="client-card placeholder-section disabled-look">
+            <div class="client-card-header">
+              <span class="client-card-title">Solicitudes de Cambio</span>
+              <div class="client-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="client-card-value">0 Pendientes</div>
+            <div class="client-card-description">Requerimientos de diseño o programación web en cola</div>
+          </article>
+
+          <!-- Placeholder Facturas -->
+          <article class="client-card placeholder-section disabled-look">
+            <div class="client-card-header">
+              <span class="client-card-title">Facturas Electrónicas</span>
+              <div class="client-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="12" y1="18" x2="12" y2="12"></line>
+                  <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="client-card-value">$0.00 MXN</div>
+            <div class="client-card-description">Monto pendiente por facturar / facturas emitidas</div>
+          </article>
+
+          <!-- Placeholder Herramientas Digitales -->
+          <article class="client-card placeholder-section disabled-look">
+            <div class="client-card-header">
+              <span class="client-card-title">Herramientas SaaS</span>
+              <div class="client-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="9" y1="3" x2="9" y2="21"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="client-card-value">0 Apps</div>
+            <div class="client-card-description">Sistemas digitales y automatizaciones de Kaleidoscopio</div>
+          </article>
+
+          <!-- Placeholder Proyectos -->
+          <article class="client-card placeholder-section disabled-look">
+            <div class="client-card-header">
+              <span class="client-card-title">Proyectos Web</span>
+              <div class="client-card-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                  <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="client-card-value">Ninguno</div>
+            <div class="client-card-description">Fase de maquetación, desarrollo o staging activo</div>
+          </article>
+
+        </section>
+
+        <!-- HISTORIAL DE TRABAJOS DE MANTENIMIENTO -->
+        <h2 style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 1.5rem 0 1rem 0;">Historial de Trabajos Realizados</h2>
+        <section class="table-container" style="box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+          <table class="crm-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Tiempo Utilizado</th>
+                <th>Descripción del Trabajo</th>
+              </tr>
+            </thead>
+            <tbody id="historialTableBody">
+              <tr>
+                <td colspan="3" class="crm-empty-state">
+                  No hay trabajos de soporte registrados en el mes actual.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../admin/js/config.js" onerror="console.log('Sin config.js')"></script>
+    <script src="../js/clientes-common.js"></script>
+    <script src="../js/dashboard.js"></script>
+  </body>
+</html>

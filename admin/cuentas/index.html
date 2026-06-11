@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Kaleidoscopio | Gestión de Cuentas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+    <link rel="stylesheet" href="../css/admin-styles.css" />
+    <style>
+      /* Estilos específicos para la consola de temporizador y cuentas */
+      .timer-display {
+        font-family: "Space Mono", monospace;
+        font-size: 3.5rem;
+        font-weight: 700;
+        text-align: center;
+        color: var(--yellow);
+        text-shadow: 0 0 20px rgba(243, 255, 62, 0.4);
+        letter-spacing: 0.05em;
+        margin: 1.5rem 0;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+      }
+      .timer-controls {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .search-results-list {
+        background: rgba(10, 11, 18, 0.8);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        max-height: 220px;
+        overflow-y: auto;
+        display: none;
+        position: absolute;
+        width: 100%;
+        z-index: 50;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      }
+      .search-result-item {
+        padding: 0.85rem 1.25rem;
+        cursor: pointer;
+        border-bottom: 1px solid var(--border);
+        transition: all var(--transition-fast);
+      }
+      .search-result-item:last-child {
+        border-bottom: none;
+      }
+      .search-result-item:hover {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--yellow);
+      }
+      .search-result-item strong {
+        display: block;
+        font-size: 0.95rem;
+      }
+      .search-result-item span {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      .account-panel {
+        display: none;
+        animation: fadeIn 0.4s ease;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .btn-timer-start {
+        background: rgba(0, 255, 163, 0.1);
+        color: var(--green);
+        border: 1px solid rgba(0, 255, 163, 0.25);
+      }
+      .btn-timer-start:hover {
+        background: rgba(0, 255, 163, 0.2);
+        box-shadow: 0 0 15px rgba(0, 255, 163, 0.2);
+      }
+      .btn-timer-pause {
+        background: rgba(255, 179, 71, 0.1);
+        color: #ffb347;
+        border: 1px solid rgba(255, 179, 71, 0.25);
+      }
+      .btn-timer-pause:hover {
+        background: rgba(255, 179, 71, 0.2);
+        box-shadow: 0 0 15px rgba(255, 179, 71, 0.2);
+      }
+      .btn-timer-stop {
+        background: rgba(255, 62, 127, 0.1);
+        color: var(--red);
+        border: 1px solid rgba(255, 62, 127, 0.25);
+      }
+      .btn-timer-stop:hover {
+        background: rgba(255, 62, 127, 0.2);
+        box-shadow: 0 0 15px rgba(255, 62, 127, 0.2);
+      }
+    </style>
+  </head>
+  <body class="admin-layout">
+    <div class="neon-particles" aria-hidden="true"></div>
+
+    <!-- Botón hamburguesa móvil -->
+    <button class="admin-menu-toggle" id="adminMenuToggle" aria-expanded="false" aria-label="Abrir menú de navegación">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="admin-container">
+      <!-- SIDEBAR -->
+      <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-header">
+          <div class="admin-sidebar-brand">
+            <img src="../../assets/img/logo.jpg" alt="Kaleidoscopio Logo" />
+            <div class="admin-sidebar-brand-text">
+              <span class="admin-sidebar-brand-name">Kaleidoscopio</span>
+              <span class="admin-sidebar-brand-sub">Panel Admin</span>
+            </div>
+          </div>
+        </div>
+
+        <nav class="admin-sidebar-nav">
+          <a href="../dashboard/" class="admin-nav-item">
+            <!-- Icono Dashboard -->
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+              <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+              <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+              <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+            </svg>
+            Dashboard
+          </a>
+          <a href="../prospectos/" class="admin-nav-item">
+            <!-- Icono CRM / Prospectos -->
+            <svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            Prospectos
+          </a>
+          <a href="../clientes/" class="admin-nav-item">
+            <!-- Icono Clientes (Usuario) -->
+            <svg viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Clientes
+          </a>
+          <a href="./" class="admin-nav-item active">
+            <!-- Icono Gestión de Cuentas (Reloj/Tiempo) -->
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Gestión de Cuentas
+          </a>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+          <button class="btn-logout" id="logoutBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Cerrar Sesión
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENIDO PRINCIPAL -->
+      <main class="admin-main">
+        <!-- BARRA SUPERIOR -->
+        <header class="admin-topbar">
+          <div class="admin-topbar-title">
+            <h1>Gestión de Cuentas</h1>
+            <p>Control de bolsas de horas y bitácora de soporte técnico</p>
+          </div>
+        </header>
+
+        <!-- BUSCADOR DE CLIENTE -->
+        <section class="card" style="margin-bottom: 2rem; position: relative;">
+          <h3 style="margin-top:0; font-size:1rem; text-transform:uppercase; color:var(--yellow); letter-spacing:0.05em;">Buscador de Cliente</h3>
+          <div style="position: relative; width: 100%;">
+            <input 
+              type="text" 
+              id="searchClientInput" 
+              class="form-control" 
+              placeholder="Escribe el nombre, empresa o correo de un cliente..." 
+              autocomplete="off"
+              style="width: 100%;"
+            />
+            <div class="search-results-list" id="searchResultsContainer">
+              <!-- Resultados dinámicos -->
+            </div>
+          </div>
+        </section>
+
+        <!-- PANEL DE ADMINISTRACIÓN DE CUENTA (Oculto al inicio) -->
+        <section class="account-panel" id="accountPanel">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+            
+            <!-- Ficha de Información General -->
+            <article class="card">
+              <h3 style="margin-top:0; font-size:1rem; text-transform:uppercase; color:var(--blue); letter-spacing:0.05em;">Información General</h3>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.95rem;">
+                <div>
+                  <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Cliente</span>
+                  <strong id="clientNameText">—</strong>
+                </div>
+                <div>
+                  <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Empresa / Proyecto</span>
+                  <strong id="clientCompanyText">—</strong>
+                </div>
+                <div>
+                  <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Correo Electrónico</span>
+                  <strong id="clientEmailText">—</strong>
+                </div>
+                <div>
+                  <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Ubicación</span>
+                  <strong id="clientCityText">—</strong>
+                </div>
+              </div>
+            </article>
+
+            <!-- Plan y Configuración de Corte -->
+            <article class="card">
+              <h3 style="margin-top:0; font-size:1rem; text-transform:uppercase; color:var(--blue); letter-spacing:0.05em;">Plan y Bolsa de Horas</h3>
+              
+              <!-- Plan Info -->
+              <div style="margin-bottom: 1.25rem;">
+                <span style="color:var(--muted); font-size:0.8rem; text-transform:uppercase; display:block;">Plan Actual</span>
+                <strong id="clientPlanText">Plan de mantenimiento web (8 horas mensuales)</strong>
+              </div>
+
+              <!-- Configuración de día de corte -->
+              <form id="cutoffForm" style="border-top: 1px solid var(--border); padding-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="cutoffDaySelect">Día de Corte Mensual</label>
+                  <select id="cutoffDaySelect" class="form-control" style="width: 100%;">
+                    <!-- Opciones de 1 a 31 generadas por JS -->
+                  </select>
+                </div>
+                <button type="submit" class="btn-neon btn-neon-secondary" style="width: 100%; justify-content: center; font-size: 0.8rem; padding: 0.5rem 1rem;">
+                  Actualizar Día de Corte
+                </button>
+              </form>
+            </article>
+
+          </div>
+
+          <!-- Bolsa de horas actual del cliente -->
+          <div class="kpi-grid" id="hoursKPIs" style="margin-bottom: 2rem;">
+            <!-- Contratadas -->
+            <article class="kpi-card kpi-blue">
+              <span class="kpi-card-title">Horas Contratadas</span>
+              <span class="kpi-card-value" id="kpiContracted">0:00</span>
+              <span class="kpi-card-desc">Bolsa mensual asignada</span>
+            </article>
+            <!-- Utilizadas -->
+            <article class="kpi-card kpi-red">
+              <span class="kpi-card-title">Horas Utilizadas</span>
+              <span class="kpi-card-value" id="kpiUsed">0:00</span>
+              <span class="kpi-card-desc">Consumido este periodo</span>
+            </article>
+            <!-- Restantes -->
+            <article class="kpi-card kpi-green">
+              <span class="kpi-card-title">Horas Restantes</span>
+              <span class="kpi-card-value" id="kpiRemaining">0:00</span>
+              <span class="kpi-card-desc">Saldo disponible</span>
+            </article>
+          </div>
+
+          <!-- CONTROL DE HORAS - TEMPORIZADOR -->
+          <article class="card" style="margin-bottom: 2rem; border-color: rgba(243, 255, 62, 0.25);">
+            <h3 style="margin-top:0; font-size:1rem; text-transform:uppercase; color:var(--yellow); letter-spacing:0.05em; text-align:center;">Temporizador Administrativo</h3>
+            
+            <div class="timer-display" id="timerDisplay">00:00:00</div>
+            
+            <div class="timer-controls">
+              <button class="btn-logout btn-timer-start" id="btnTimerStart">
+                Iniciar
+              </button>
+              <button class="btn-logout btn-timer-pause" id="btnTimerPause" style="display: none;">
+                Pausar
+              </button>
+              <button class="btn-logout btn-timer-stop" id="btnTimerStop" disabled style="opacity: 0.5; cursor: not-allowed;">
+                Finalizar
+              </button>
+            </div>
+          </article>
+
+          <!-- HISTORIAL DE TRABAJOS DE LA CUENTA -->
+          <h3 style="margin-top: 2rem; font-size: 1rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.05em;">Historial de Soporte Realizado</h3>
+          <section class="table-container">
+            <table class="crm-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Responsable</th>
+                  <th>Duración</th>
+                  <th>Comentarios / Descripción del Trabajo</th>
+                  <th style="text-align: center;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="cuentasHistorialTableBody">
+                <tr>
+                  <td colspan="5" class="crm-empty-state">
+                    Selecciona un cliente para ver su historial.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <!-- MODAL: FINALIZAR TRABAJO (FORMULARIO BITÁCORA) -->
+    <div class="admin-modal-overlay" id="worklogModalOverlay">
+      <div class="admin-modal">
+        <header class="admin-modal-header">
+          <h3>Registrar Trabajo Finalizado</h3>
+          <button class="admin-modal-close" id="closeWorklogModal">×</button>
+        </header>
+        <div class="admin-modal-body">
+          <form id="worklogForm">
+            <!-- Duración -->
+            <div class="form-group">
+              <label for="worklogDuration">Duración (Formato H:MM)</label>
+              <input type="text" id="worklogDuration" class="form-control" placeholder="Ej. 1:45" required pattern="^([0-9]+):([0-5][0-9])$" title="Debe usar el formato H:MM (ej. 1:30, 0:45)" />
+            </div>
+
+            <!-- Responsable -->
+            <div class="form-group">
+              <label for="worklogResponsible">Responsable del Trabajo</label>
+              <input type="text" id="worklogResponsible" class="form-control" placeholder="Ej. Admin / Dev Name" required />
+            </div>
+
+            <!-- Comentarios -->
+            <div class="form-group">
+              <label for="worklogComments">Descripción del Trabajo Realizado</label>
+              <textarea id="worklogComments" class="form-control" placeholder="Ej. Actualización de plugins, corrección de estilos CSS en header, optimización de velocidad de carga..." required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn-neon btn-neon-secondary" id="cancelWorklogBtn">Descartar</button>
+              <button type="submit" class="btn-neon">Guardar en Bitácora</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/config.js" onerror="console.log('Sin config.js')"></script>
+    <script src="../js/admin-common.js"></script>
+    <script src="../js/admin-cuentas.js"></script>
+  </body>
+</html>

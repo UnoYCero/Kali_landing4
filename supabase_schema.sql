@@ -63,3 +63,81 @@ DROP POLICY IF EXISTS "Permitir todo a anon en prospects" ON prospects;
 CREATE POLICY "Permitir todo a anon en admin_settings" ON admin_settings FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Permitir todo a anon en statuses" ON statuses FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Permitir todo a anon en prospects" ON prospects FOR ALL USING (true) WITH CHECK (true);
+
+-- 6. Tabla para registro independiente de clientes
+CREATE TABLE IF NOT EXISTS clientes (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nombre_completo TEXT NOT NULL,
+    empresa TEXT NOT NULL,
+    correo TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    ciudad TEXT NOT NULL,
+    fecha_registro TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    activo BOOLEAN DEFAULT TRUE
+);
+
+-- 7. Tabla para planes de clientes
+CREATE TABLE IF NOT EXISTS cliente_planes (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    cliente_id UUID REFERENCES clientes(id) ON DELETE CASCADE,
+    nombre_plan TEXT NOT NULL DEFAULT 'Plan de mantenimiento web',
+    horas_mensuales NUMERIC NOT NULL DEFAULT 8.00,
+    estado TEXT NOT NULL DEFAULT 'Activo', -- 'Activo', 'Suspendido', 'Pendiente'
+    creado_en TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 8. Tabla para la bolsa de horas actual de cada cliente
+CREATE TABLE IF NOT EXISTS cliente_horas (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    cliente_id UUID REFERENCES clientes(id) ON DELETE CASCADE UNIQUE,
+    horas_contratadas NUMERIC NOT NULL DEFAULT 8.00,
+    horas_utilizadas NUMERIC NOT NULL DEFAULT 0.00,
+    horas_restantes NUMERIC NOT NULL DEFAULT 8.00,
+    actualizado_en TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 9. Tabla para el historial de control de horas (trabajos realizados)
+CREATE TABLE IF NOT EXISTS cliente_horas_historial (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    cliente_id UUID REFERENCES clientes(id) ON DELETE CASCADE,
+    fecha TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    duracion TEXT NOT NULL, -- e.g., '1:45'
+    duracion_minutos INTEGER NOT NULL, -- e.g., 105
+    responsable TEXT NOT NULL,
+    comentarios TEXT NOT NULL
+);
+
+-- 10. Tabla para configuración de fecha de corte / reinicio de bolsa de horas
+CREATE TABLE IF NOT EXISTS configuracion_cortes (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    cliente_id UUID REFERENCES clientes(id) ON DELETE CASCADE UNIQUE,
+    dia_corte INTEGER NOT NULL DEFAULT 28 CHECK (dia_corte >= 1 AND dia_corte <= 31),
+    ultimo_reset TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 11. Habilitar RLS en las nuevas tablas
+ALTER TABLE clientes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cliente_planes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cliente_horas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cliente_horas_historial ENABLE ROW LEVEL SECURITY;
+ALTER TABLE configuracion_cortes ENABLE ROW LEVEL SECURITY;
+
+-- 12. Políticas públicas para permitir todo a anon (desarrollo rápido y coincidencia con esquema existente)
+DROP POLICY IF EXISTS "Permitir todo a anon en clientes" ON clientes;
+DROP POLICY IF EXISTS "Permitir todo a anon en cliente_planes" ON cliente_planes;
+DROP POLICY IF EXISTS "Permitir todo a anon en cliente_horas" ON cliente_horas;
+DROP POLICY IF EXISTS "Permitir todo a anon en cliente_horas_historial" ON cliente_horas_historial;
+DROP POLICY IF EXISTS "Permitir todo a anon en configuracion_cortes" ON configuracion_cortes;
+
+CREATE POLICY "Permitir todo a anon en clientes" ON clientes FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Permitir todo a anon en cliente_planes" ON cliente_planes FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Permitir todo a anon en cliente_horas" ON cliente_horas FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Permitir todo a anon en cliente_horas_historial" ON cliente_horas_historial FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Permitir todo a anon en configuracion_cortes" ON configuracion_cortes FOR ALL USING (true) WITH CHECK (true);
+
+-- 13. Crear índices adicionales
+CREATE INDEX IF NOT EXISTS idx_cliente_planes_cliente_id ON cliente_planes(cliente_id);
+CREATE INDEX IF NOT EXISTS idx_cliente_horas_cliente_id ON cliente_horas(cliente_id);
+CREATE INDEX IF NOT EXISTS idx_cliente_horas_historial_cliente_id ON cliente_horas_historial(cliente_id);
+CREATE INDEX IF NOT EXISTS idx_configuracion_cortes_cliente_id ON configuracion_cortes(cliente_id);
+

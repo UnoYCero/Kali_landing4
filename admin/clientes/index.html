@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Kaleidoscopio | Dashboard</title>
+    <title>Kaleidoscopio | Administración de Clientes</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -40,7 +40,7 @@
         </div>
 
         <nav class="admin-sidebar-nav">
-          <a href="./" class="admin-nav-item active">
+          <a href="../dashboard/" class="admin-nav-item">
             <!-- Icono Dashboard -->
             <svg viewBox="0 0 24 24">
               <rect x="3" y="3" width="7" height="9" rx="1"></rect>
@@ -60,7 +60,7 @@
             </svg>
             Prospectos
           </a>
-          <a href="../clientes/" class="admin-nav-item">
+          <a href="./" class="admin-nav-item active">
             <!-- Icono Clientes (Usuario) -->
             <svg viewBox="0 0 24 24">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -95,58 +95,77 @@
         <!-- BARRA SUPERIOR -->
         <header class="admin-topbar">
           <div class="admin-topbar-title">
-            <h1>Dashboard</h1>
-            <p>Resumen general de operaciones e impacto</p>
+            <h1>Clientes</h1>
+            <p>Directorio centralizado de clientes del ecosistema</p>
           </div>
         </header>
 
-        <!-- GRID DE KPIs -->
-        <section class="kpi-grid">
-          <!-- KPI: Ingresos -->
-          <article class="kpi-card kpi-blue">
-            <span class="kpi-card-title">Ingresos</span>
-            <span class="kpi-card-value">$0.00</span>
-            <span class="kpi-card-desc">Proyección mensual acumulada</span>
-            <svg class="kpi-card-icon" viewBox="0 0 24 24">
-              <line x1="12" y1="1" x2="12" y2="23"></line>
-              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></line>
-            </svg>
-          </article>
+        <!-- FILTROS, BUSCADOR Y ORDENAMIENTO -->
+        <section class="crm-filters-bar" style="justify-content: space-between;">
+          <!-- Buscador -->
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-grow: 1; max-width: 400px;">
+            <input 
+              type="text" 
+              id="searchClient" 
+              class="form-control" 
+              placeholder="Buscar por nombre, empresa o correo..." 
+              style="width: 100%;"
+            />
+          </div>
 
-          <!-- KPI: Clientes Activos -->
-          <article class="kpi-card kpi-green">
-            <span class="kpi-card-title">Clientes Activos</span>
-            <span class="kpi-card-value">0</span>
-            <span class="kpi-card-desc">Negocios en fase de incubación</span>
-            <svg class="kpi-card-icon" viewBox="0 0 24 24">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-              <polyline points="22 4 12 14.01 9 11.01"></polyline>
-            </svg>
-          </article>
-
-          <!-- KPI: Conversiones -->
-          <article class="kpi-card kpi-red">
-            <span class="kpi-card-title">Conversiones</span>
-            <span class="kpi-card-value">0.0%</span>
-            <span class="kpi-card-desc">Tasa de cierre de prospectos</span>
-            <svg class="kpi-card-icon" viewBox="0 0 24 24">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-              <polyline points="17 6 23 6 23 12"></polyline>
-            </svg>
-          </article>
-        </section>
-
-        <!-- ESPACIO DE BIENVENIDA / ACCIONES RÁPIDAS -->
-        <section class="card" style="padding: 2.5rem; display: flex; flex-direction: column; gap: 1.5rem; border-color: rgba(62, 209, 255, 0.15); box-shadow: 0 0 30px rgba(62, 209, 255, 0.05);">
-          <h2 style="margin: 0; color: var(--blue);">Bienvenido al Panel del Ecosistema</h2>
-          <p style="margin: 0; line-height: 1.6; color: var(--muted); max-width: 800px;">
-            Este panel interno te permite gestionar las propuestas, inventores y leads comerciales que interactúan con las herramientas digitales de Kaleidoscopio. Navega al CRM para ver las solicitudes agrupadas por herramienta y actualizar sus estados de conversión.
-          </p>
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <a href="../prospectos/" class="btn-neon" style="text-decoration: none;">Ir a CRM Prospectos</a>
-            <a href="../../" target="_blank" class="btn-neon btn-neon-secondary" style="text-decoration: none;">Ver Landing Pública</a>
+          <!-- Controles de ordenamiento y visualización -->
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <label for="orderBy" style="font-size: 0.85rem; font-weight:600; text-transform: uppercase; color: var(--muted); white-space: nowrap;">Ordenar por:</label>
+              <select id="orderBy" class="form-control" style="padding: 0.5rem 2rem 0.5rem 1rem; font-size: 0.85rem; width: 180px;">
+                <option value="fecha_registro-desc">Fecha (Reciente)</option>
+                <option value="fecha_registro-asc">Fecha (Antiguo)</option>
+                <option value="nombre_completo-asc">Nombre (A-Z)</option>
+                <option value="nombre_completo-desc">Nombre (Z-A)</option>
+                <option value="empresa-asc">Empresa (A-Z)</option>
+              </select>
+            </div>
           </div>
         </section>
+
+        <!-- TABLA DE CLIENTES -->
+        <section class="table-container">
+          <table class="crm-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Empresa</th>
+                <th>Correo Electrónico</th>
+                <th>Ciudad</th>
+                <th>Fecha Registro</th>
+                <th>Estado</th>
+                <th style="text-align: center;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="clientesTableBody">
+              <tr>
+                <td colspan="7" class="crm-empty-state">
+                  Cargando directorio de clientes...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- PAGINACIÓN -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; font-size: 0.9rem;">
+          <div style="color: var(--muted);" id="paginationInfo">
+            Mostrando 0 de 0 clientes
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-neon btn-neon-secondary" id="btnPrevPage" style="padding: 0.4rem 1rem; text-transform: none; font-size: 0.8rem;">
+              Anterior
+            </button>
+            <button class="btn-neon btn-neon-secondary" id="btnNextPage" style="padding: 0.4rem 1rem; text-transform: none; font-size: 0.8rem;">
+              Siguiente
+            </button>
+          </div>
+        </div>
       </main>
     </div>
 
@@ -154,6 +173,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/config.js" onerror="console.log('Sin config.js')"></script>
     <script src="../js/admin-common.js"></script>
-    <script src="../js/admin-dashboard.js"></script>
+    <script src="../js/admin-clientes.js"></script>
   </body>
 </html>
