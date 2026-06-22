@@ -36,6 +36,7 @@
       </button>
       <nav class="main-nav" id="mainNav">
         <a class="nav-link" href="#inicio">Inicio</a>
+        <a class="nav-link" href="#servicios">Servicios</a>
         <a class="nav-link" href="#programas">Programas</a>
         <a class="nav-link" href="#sobre">Manifiesto</a>
         <a class="nav-link" id="openNarrativa" href="#">Nuestra Narrativa</a>
@@ -103,6 +104,154 @@
             <h3>Comunidad real</h3>
             <p>Inventores, artistas, hackers y visionarios conectados con operadores, fondos de inversión ángel y el mercado. La red que cambia todo.</p>
           </div>
+        </div>
+      </section>
+
+      <!-- NUESTROS SERVICIOS -->
+      <section class="services-section section" id="servicios">
+        <div class="section-header">
+          <h2>Nuestros Servicios</h2>
+          <p>Acompañamos a emprendedores y empresas con soluciones estratégicas, legales, tecnológicas y creativas para impulsar su crecimiento.</p>
+        </div>
+
+        <div class="services-network-container">
+          <!-- Conexiones SVG -->
+          <svg class="services-svg-connections" width="100%" height="100%" aria-hidden="true">
+            <!-- Definición de filtros de brillo neón para las líneas activas -->
+            <defs>
+              <filter id="neon-glow-line" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <!-- Líneas de red -->
+            <line x1="10%" y1="15%" x2="28%" y2="38%" data-from="prop-intel" data-to="contratos" class="connection-line" />
+            <line x1="28%" y1="38%" x2="12%" y2="68%" data-from="contratos" data-to="notaria" class="connection-line" />
+            <line x1="28%" y1="38%" x2="45%" y2="72%" data-from="contratos" data-to="consultoria" class="connection-line" />
+            <line x1="28%" y1="38%" x2="50%" y2="12%" data-from="contratos" data-to="ai-gents" class="connection-line" />
+            <line x1="50%" y1="12%" x2="65%" y2="40%" data-from="ai-gents" data-to="web-tools" class="connection-line" />
+            <line x1="50%" y1="12%" x2="88%" y2="18%" data-from="ai-gents" data-to="film-making" class="connection-line" />
+            <line x1="65%" y1="40%" x2="88%" y2="18%" data-from="web-tools" data-to="film-making" class="connection-line" />
+            <line x1="65%" y1="40%" x2="85%" y2="62%" data-from="web-tools" data-to="marketing" class="connection-line" />
+            <line x1="65%" y1="40%" x2="68%" y2="78%" data-from="web-tools" data-to="contabilidad" class="connection-line" />
+            <line x1="45%" y1="72%" x2="68%" y2="78%" data-from="consultoria" data-to="contabilidad" class="connection-line" />
+            <line x1="85%" y1="62%" x2="88%" y2="18%" data-from="marketing" data-to="film-making" class="connection-line" />
+            <line x1="45%" y1="72%" x2="12%" y2="68%" data-from="consultoria" data-to="notaria" class="connection-line" />
+          </svg>
+
+          <!-- Nodos de Servicios -->
+          
+          <!-- 1. Propiedad Intelectual -->
+          <div class="service-node node-yellow" style="left: 10%; top: 15%; --node-size: 130px; --float-dur: 9s; --float-delay: 0s;" data-node-id="prop-intel">
+            <div class="node-content">
+              <span class="node-icon">🛡️</span>
+              <span class="node-title">Propiedad Intelectual</span>
+            </div>
+            <div class="node-tooltip">
+              <h4>Propiedad Intelectual</h4>
+              <p>Registro de marcas, patentes y derechos de autor ante el IMPI y protección global.</p>
+            </div>
+          </div>
+
+          <!-- 2. Contratos -->
+          <div class="service-node node-blue" style="left: 28%; top: 38%; --node-size: 115px; --float-dur: 8s; --float-delay: -1.5s;" data-node-id="contratos">
+            <div class="node-content">
+              <span class="node-icon">✍️</span>
+              <span class="node-title">Contratos</span>
+            </div>
+            <div class="node-tooltip">
+              <h4>Contratos</h4>
+              <p>Redacción y revisión legal de contratos comerciales, de socios, términos y NDAs.</p>
+            </div>
+          </div>
+
+          <!-- 3. Notaría -->
+          <div class="service-node node-red" style="left: 12%; top: 68%; --node-size: 100px; --float-dur: 7s; --float-delay: -3s;" data-node-id="notaria">
+            <div class="node-content">
+              <span class="node-icon">🏛️</span>
+              <span class="node-title">Notaría</span>
+            </div>
+            <div class="node-tooltip">
+              <h4>Notaría</h4>
+              <p>Constitución de empresas, actas notariales, poderes y fe pública sin fricciones.</p>
+            </div>
+          </div>
+
+          <!-- 4. AI-Gents -->
+          <div class="service-node node-green" style="left: 50%; top: 12%; --node-size: 140px; --float-dur: 10s; --float-delay: -0.5s;" data-node-id="ai-gents">
+            <div class="node-content">
+              <span class="node-icon">🤖</span>
+              <span class="node-title">AI-Gents</span>
+            </div>
+            <div class="node-tooltip">
+              <h4>AI-Gents</h4>
+              <p>Integración y desarrollo de agentes de Inteligencia Artificial para automatizar tu negocio.</p>
+            </div>
+          </div>
+
+          <!-- 5. Herramientas Web -->
+          <div class="service-node node-blue" style="left: 65%; top: 40%; --node-size: 135px; --float-dur: 9.5s; --float-delay: -2s;" data-node-id="web-tools">
+            <div class="node-content">
+              <span class="node-icon">💻</span>
+              <span class="node-title">Herramientas Web</span>
+            </div>
+            <div class="node-tooltip">
+              <h4>Herramientas Web</h4>
+              <p>Desarrollo a medida de plataformas, landings y ERPs modernos de alto rendimiento.</p>
+            </div>
+          </div>
+
+          <!-- 6. Film Making -->
+          <div class="service-node node-orange" style="left: 88%; top: 18%; --node-size: 115px; --float-dur: 7.5s; --float-delay: -4s;" data-node-id="film-making">
+            <div class="node-content">
+              <span class="node-icon">🎬</span>
+              <span class="node-title">Film Making</span>
+            </div>
+            <div class="node-tooltip">
+              <h4>Film Making</h4>
+              <p>Producción audiovisual premium, comerciales, videos para redes y branding.</p>
+            </div>
+          </div>
+
+          <!-- 7. Marketing -->
+          <div class="service-node node-red" style="left: 85%; top: 62%; --node-size: 120px; --float-dur: 8.5s; --float-delay: -1s;" data-node-id="marketing">
+            <div class="node-content">
+              <span class="node-icon">📣</span>
+              <span class="node-title">Marketing</span>
+            </div>
+            <div class="node-tooltip">
+              <h4>Marketing</h4>
+              <p>Campañas de adquisición digital, SEO y embudos que convierten visitas en clientes.</p>
+            </div>
+          </div>
+
+          <!-- 8. Consultoría -->
+          <div class="service-node node-yellow" style="left: 45%; top: 72%; --node-size: 120px; --float-dur: 9s; --float-delay: -2.5s;" data-node-id="consultoria">
+            <div class="node-content">
+              <span class="node-icon">📈</span>
+              <span class="node-title">Consultoría</span>
+            </div>
+            <div class="node-tooltip">
+              <h4>Consultoría</h4>
+              <p>Mentoría en modelo de negocio, unit economics y preparación para levantar capital.</p>
+            </div>
+          </div>
+
+          <!-- 9. Contabilidad -->
+          <div class="service-node node-green" style="left: 68%; top: 78%; --node-size: 100px; --float-dur: 8s; --float-delay: -3.5s;" data-node-id="contabilidad">
+            <div class="node-content">
+              <span class="node-icon">🧮</span>
+              <span class="node-title">Contabilidad</span>
+            </div>
+            <div class="node-tooltip">
+              <h4>Contabilidad</h4>
+              <p>Estrategia fiscal, declaración de impuestos y finanzas claras para tu empresa.</p>
+            </div>
+          </div>
+
         </div>
       </section>
 

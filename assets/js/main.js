@@ -272,7 +272,7 @@ document.addEventListener('keydown', (e) => {
 
 // ── IntersectionObserver ──────────────────────────────────────────────────────
 const animatedElements = document.querySelectorAll(
-  '.card, .timeline-item, .testimonial-card, .program-card, .que-es-card'
+  '.card, .timeline-item, .testimonial-card, .program-card, .que-es-card, .service-node'
 );
 const observer = new IntersectionObserver(
   (entries) => {
@@ -297,3 +297,38 @@ hero?.addEventListener('mouseleave', () => {
   hero.style.setProperty('--tilt-x', '0px');
   hero.style.setProperty('--tilt-y', '0px');
 });
+
+// ── Services Circuit Hover Effect ─────────────────────────────────────────────
+const serviceNodes = document.querySelectorAll('.service-node');
+const connectionLines = document.querySelectorAll('.connection-line');
+
+if (serviceNodes.length > 0 && connectionLines.length > 0) {
+  serviceNodes.forEach((node) => {
+    const nodeId = node.dataset.nodeId;
+
+    node.addEventListener('mouseenter', () => {
+      // Obtener el color de acento del nodo en tiempo de ejecución
+      const accentColor = getComputedStyle(node).getPropertyValue('--accent-color').trim();
+      
+      connectionLines.forEach((line) => {
+        const from = line.dataset.from;
+        const to = line.dataset.to;
+        if (from === nodeId || to === nodeId) {
+          line.classList.add('active-line');
+          line.style.setProperty('--active-line-color', accentColor);
+        }
+      });
+    });
+
+    node.addEventListener('mouseleave', () => {
+      connectionLines.forEach((line) => {
+        const from = line.dataset.from;
+        const to = line.dataset.to;
+        if (from === nodeId || to === nodeId) {
+          line.classList.remove('active-line');
+          line.style.removeProperty('--active-line-color');
+        }
+      });
+    });
+  });
+}
