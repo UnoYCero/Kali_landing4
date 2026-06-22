@@ -356,3 +356,20 @@ if (serviceNodes.length > 0 && connectionLines.length > 0) {
     });
   });
 }
+
+// ── Navegación para Nodos Interactivos de Servicios ───────────────────────────
+const interactiveNodes = document.querySelectorAll('.service-node-interactive');
+interactiveNodes.forEach((node) => {
+  node.addEventListener('click', (e) => {
+    // Si el click fue en el tooltip o dentro de él, no hacemos nada (permitimos interactuar con el tooltip)
+    if (e.target.closest('.node-tooltip')) {
+      return;
+    }
+    const nodeId = node.dataset.nodeId;
+    if (nodeId === 'web-tools') {
+      window.location.href = 'herramientas-web.html';
+    } else if (nodeId === 'ai-gents') {
+      window.location.href = 'ai-gents.html';
+    }
+  });
+});
