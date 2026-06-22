@@ -318,6 +318,15 @@ if (serviceNodes.length > 0 && connectionLines.length > 0) {
           line.style.setProperty('--active-line-color', accentColor);
         }
       });
+
+      // Iluminar el título en un color aleatorio de la paleta del título Hero
+      const colors = ['#00ffa3', '#f3ff3e', '#ff3e7f', '#ffb347'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      const titleEl = node.querySelector('.node-title');
+      if (titleEl) {
+        titleEl.style.color = randomColor;
+        titleEl.style.textShadow = `0 0 10px ${randomColor}, 0 0 20px ${randomColor}`;
+      }
     });
 
     node.addEventListener('mouseleave', () => {
@@ -329,6 +338,13 @@ if (serviceNodes.length > 0 && connectionLines.length > 0) {
           line.style.removeProperty('--active-line-color');
         }
       });
+
+      // Restaurar el color original del título
+      const titleEl = node.querySelector('.node-title');
+      if (titleEl) {
+        titleEl.style.removeProperty('color');
+        titleEl.style.removeProperty('text-shadow');
+      }
     });
   });
 }
