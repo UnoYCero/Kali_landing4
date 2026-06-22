@@ -2401,3 +2401,124 @@ textarea {
     transform: scale(1.08);
   }
 }
+
+/* ==========================================================================
+   AI-GENTS PAGE STYLES (MOCK CHAT & OPERATIVE LISTS)
+   ========================================================================== */
+
+.mock-chat-container {
+  background: #0d0e15;
+  border: 1px solid rgba(0, 255, 163, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0,255,163,0.08);
+  overflow: hidden;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.mock-chat-container:hover {
+  border-color: rgba(0, 255, 163, 0.4);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0,255,163,0.15);
+}
+
+.mock-chat-header {
+  background: rgba(0, 255, 163, 0.05);
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mock-chat-status {
+  width: 10px;
+  height: 10px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--green);
+}
+
+.mock-chat-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-height: 250px;
+  justify-content: flex-end;
+}
+
+.chat-msg {
+  border-radius: 16px;
+  padding: 0.85rem 1rem;
+  max-width: 85%;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.chat-msg--user {
+  align-self: flex-end;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom-right-radius: 0;
+}
+
+.chat-msg--agent {
+  align-self: flex-start;
+  background: rgba(0, 255, 163, 0.03);
+  border: 1px solid rgba(0, 255, 163, 0.15);
+  border-bottom-left-radius: 0;
+  box-shadow: 0 0 15px rgba(0, 255, 163, 0.02);
+}
+
+.mock-chat-footer {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Custom list layout on AI Gents Page */
+.operative-list-card {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.operative-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.operative-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.operative-list li .bullet {
+  color: var(--yellow);
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+}
+
+.custom-dashed-card {
+  background: linear-gradient(135deg, rgba(243, 255, 62, 0.03), rgba(62, 209, 255, 0.03));
+  border: 1.5px dashed rgba(243, 255, 62, 0.3);
+  padding: 2.5rem;
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}

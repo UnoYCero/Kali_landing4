@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Agentes de Inteligencia Artificial de Kaleidoscopio para automatizar tareas, responder clientes, optimizar procesos y escalar tu negocio." />
+    <title>Kaleidoscopio | AI-Gents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="icon" href="assets/img/logo.png" type="image/png" />
+  </head>
+  <body class="tools-detail-page">
+    <div class="neon-particles" aria-hidden="true"></div>
+    <header class="main-header">
+      <div class="brand">
+        <div class="brand-logo-wrapper" aria-hidden="true" style="width: 80px; height: 80px; display: flex; align-items: center;">
+          <img src="assets/img/logo.png" alt="Kaleidoscopio Logo" style="max-width: 100%; height: auto; border-radius: 8px;" />
+        </div>
+        <div>
+          <p class="brand-label">Kaleidoscopio</p>
+          <p class="brand-sub">AI-Gents</p>
+        </div>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="Abrir menú de navegación">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="main-nav" id="mainNav">
+        <a class="nav-link" href="index.html#inicio">Inicio</a>
+        <a class="nav-link" href="index.html#servicios">Servicios</a>
+        <a class="nav-link" href="index.html#programas">Programas</a>
+        <a class="nav-link" href="index.html?open=narrativa">Nuestra Narrativa</a>
+        <a class="nav-link" href="ai-gents.html">AI-Gents</a>
+        <a class="nav-link" href="herramientas-web.html">Herramientas Web</a>
+        <a class="glow-button nav-link" href="clientes/login/">Iniciar Sesión</a>
+      </nav>
+    </header>
+
+    <!-- Botón de Menú Hamburguesa para Soluciones AI -->
+    <button class="tools-hamburger" id="toolsMenuToggle" aria-expanded="false" aria-controls="toolsSidebar" aria-label="Abrir menú de agentes">
+      <span class="tools-hamburger-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      AI-Gents
+    </button>
+
+    <button class="tools-drawer-backdrop" id="toolsDrawerBackdrop" aria-label="Cerrar menú de agentes"></button>
+    <aside class="tools-sidebar" id="toolsSidebar">
+      <div class="sidebar-header">
+        <h3>AI-Gents</h3>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar menú">&times;</button>
+      </div>
+      <div class="sidebar-content">
+        <a href="#medida" class="custom-tool-cta">Un agente hecho a tu medida</a>
+        <a href="aigent-whatsapp.html">AI-Gent de WhatsApp</a>
+        <span class="upcoming-tool">Próximamente: Agente de Ventas</span>
+        <span class="upcoming-tool">Próximamente: Agente de Licitaciones</span>
+        <span class="upcoming-tool">Próximamente: Agente de Compras</span>
+        <span class="upcoming-tool">Próximamente: Agente de Recursos Humanos</span>
+        <span class="upcoming-tool">Próximamente: Agente Financiero</span>
+        <span class="upcoming-tool">Próximamente: Agente de Propiedad Intelectual</span>
+        <span class="upcoming-tool">Próximamente: Agente de Análisis de Mercado</span>
+      </div>
+    </aside>
+
+    <main class="tool-landing">
+      <!-- HERO -->
+      <section class="tools-hero section">
+        <p class="hero-kicker">Automatización Inteligente</p>
+        <h1>Agentes de <span class="hero-word hero-word--green">Inteligencia Artificial</span> para Automatizar tu Negocio</h1>
+        <p class="hero-text">
+          Diseñamos agentes inteligentes capaces de automatizar tareas, responder clientes, procesar información y optimizar operaciones para que tu equipo pueda enfocarse en actividades de mayor valor.
+        </p>
+        <p class="hero-text" style="font-size: 0.95rem; opacity: 0.85; border-left: 2px solid var(--green); padding-left: 1rem; margin-top: -1rem; margin-bottom: 2rem;">
+          Los AI-Gents pueden trabajar 24/7, integrarse con tus procesos actuales y ayudarte a reducir tareas repetitivas mientras mejoras la velocidad y calidad de respuesta de tu organización.
+        </p>
+        <div class="hero-actions">
+          <a class="glow-button" href="https://wa.me/message/KY33KOJKNZILJ1" target="_blank" rel="noopener noreferrer">Solicitar Demo</a>
+          <a class="ghost-button" href="https://wa.me/message/KY33KOJKNZILJ1" target="_blank" rel="noopener noreferrer">Agendar una llamada</a>
+          <a class="ghost-button" href="#medida" style="border-color: rgba(255,255,255,0.15); color: var(--text);">Conoce tu AI-Gent</a>
+        </div>
+      </section>
+
+      <!-- ¿QUÉ ES UN AI-GENT? -->
+      <section class="section" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 5rem;">
+        <div class="section-header" style="max-width: 800px; margin: 0 auto 3rem; text-align: center;">
+          <h2>¿Qué es un AI-Gent?</h2>
+          <p style="font-size: 1.15rem; line-height: 1.6; color: var(--text); margin-bottom: 1rem;">
+            Un agente de inteligencia artificial diseñado para realizar tareas específicas de manera autónoma.
+          </p>
+          <p style="color: var(--muted); line-height: 1.6; font-size: 1.05rem;">
+            Puede interactuar con clientes, analizar información, ejecutar procesos y ayudar a tu negocio a operar de manera más eficiente.
+          </p>
+        </div>
+      </section>
+
+      <!-- BENEFICIOS -->
+      <section class="section">
+        <div class="feature-cards">
+          <article class="feature-card">
+            <div style="font-size: 2rem; margin-bottom: 1rem; color: var(--green);">🕛</div>
+            <h3>Disponible 24/7</h3>
+            <p>Atiende solicitudes y ejecuta tareas sin interrupciones, garantizando disponibilidad inmediata a tus clientes y procesos.</p>
+          </article>
+          <article class="feature-card">
+            <div style="font-size: 2rem; margin-bottom: 1rem; color: var(--blue);">⚡</div>
+            <h3>Automatiza procesos</h3>
+            <p>Reduce trabajo manual y elimina tareas repetitivas, permitiendo un flujo de trabajo constante y libre de errores humanos.</p>
+          </article>
+          <article class="feature-card">
+            <div style="font-size: 2rem; margin-bottom: 1rem; color: var(--yellow);">📈</div>
+            <h3>Escalable</h3>
+            <p>Puede crecer de forma flexible junto con las necesidades, volumen de solicitudes y procesos de tu empresa.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- UN AGENTE HECHO A TU MEDIDA -->
+      <section class="section" id="medida" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 5rem; scroll-margin-top: 100px;">
+        <div class="section-header" style="text-align: left; max-width: 100%; margin-bottom: 3rem;">
+          <span style="font-family: 'Space Mono', monospace; color: var(--yellow); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; display: block; margin-bottom: 0.5rem;">Solución Personalizada</span>
+          <h2>Un agente hecho a tu medida</h2>
+          <p style="font-size: 1.1rem; max-width: 700px;">
+            No todas las empresas tienen los mismos procesos. Diseñamos agentes personalizados capaces de adaptarse a las necesidades específicas de tu operación.
+          </p>
+        </div>
+
+        <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: start; margin-bottom: 4rem;">
+          <!-- Listado de Ejemplos -->
+          <div class="operative-list-card">
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; margin-top: 0; margin-bottom: 1.5rem; color: var(--yellow);">Ejemplos de uso operativo</h3>
+            <ul class="operative-list">
+              <li>
+                <span class="bullet">✔</span> Prospección comercial
+              </li>
+              <li>
+                <span class="bullet">✔</span> Gestión de clientes
+              </li>
+              <li>
+                <span class="bullet">✔</span> Análisis de documentos
+              </li>
+              <li>
+                <span class="bullet">✔</span> Seguimiento de proveedores
+              </li>
+              <li>
+                <span class="bullet">✔</span> Automatización administrativa
+              </li>
+              <li>
+                <span class="bullet">✔</span> Gestión de licitaciones
+              </li>
+              <li>
+                <span class="bullet">✔</span> Monitoreo de competencia
+              </li>
+              <li>
+                <span class="bullet">✔</span> Vigilancia tecnológica
+              </li>
+              <li>
+                <span class="bullet">✔</span> Procesamiento de información
+              </li>
+            </ul>
+          </div>
+
+          <!-- Mensaje destacado & CTA -->
+          <div style="display: grid; gap: 2rem;">
+            <div class="custom-dashed-card">
+              <span style="font-size: 2.2rem; margin-bottom: 0.75rem;">💡</span>
+              <p style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 500; line-height: 1.4; color: var(--text); margin: 0;">
+                "Si puedes describir una tarea repetitiva, probablemente podamos automatizarla."
+              </p>
+            </div>
+            <div style="text-align: center;">
+              <a class="glow-button" href="https://wa.me/message/KY33KOJKNZILJ1" target="_blank" rel="noopener noreferrer" style="width: 100%; padding: 1.1rem; font-size: 1.05rem;">
+                Cuéntanos tu necesidad
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="main-footer">
+      <div>
+        <p class="footer-brand">Kaleidoscopio</p>
+        <p>La evolución de la innovación · 2025</p>
+      </div>
+      <div class="footer-cta">
+        <p>¿Listo para automatizar tu negocio?</p>
+        <a class="glow-button nav-link" href="https://wa.me/message/KY33KOJKNZILJ1" target="_blank" rel="noopener noreferrer">Agenda una llamada</a>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/tools.js"></script>
+  </body>
+</html>

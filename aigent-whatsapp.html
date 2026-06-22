@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AI-Gent para WhatsApp de Kaleidoscopio: Asistente inteligente para atención inmediata, calificación de leads y respuestas automatizadas 24/7." />
+    <title>Kaleidoscopio | AI-Gent para WhatsApp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="icon" href="assets/img/logo.png" type="image/png" />
+  </head>
+  <body class="tools-detail-page">
+    <div class="neon-particles" aria-hidden="true"></div>
+    <header class="main-header">
+      <div class="brand">
+        <div class="brand-logo-wrapper" aria-hidden="true" style="width: 80px; height: 80px; display: flex; align-items: center;">
+          <img src="assets/img/logo.png" alt="Kaleidoscopio Logo" style="max-width: 100%; height: auto; border-radius: 8px;" />
+        </div>
+        <div>
+          <p class="brand-label">Kaleidoscopio</p>
+          <p class="brand-sub">AI-Gents</p>
+        </div>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="Abrir menú de navegación">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="main-nav" id="mainNav">
+        <a class="nav-link" href="index.html#inicio">Inicio</a>
+        <a class="nav-link" href="index.html#servicios">Servicios</a>
+        <a class="nav-link" href="index.html#programas">Programas</a>
+        <a class="nav-link" href="index.html?open=narrativa">Nuestra Narrativa</a>
+        <a class="nav-link" href="ai-gents.html">AI-Gents</a>
+        <a class="nav-link" href="herramientas-web.html">Herramientas Web</a>
+        <a class="glow-button nav-link" href="clientes/login/">Iniciar Sesión</a>
+      </nav>
+    </header>
+
+    <!-- Botón de Menú Hamburguesa para Soluciones AI -->
+    <button class="tools-hamburger" id="toolsMenuToggle" aria-expanded="false" aria-controls="toolsSidebar" aria-label="Abrir menú de agentes">
+      <span class="tools-hamburger-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      AI-Gents
+    </button>
+
+    <button class="tools-drawer-backdrop" id="toolsDrawerBackdrop" aria-label="Cerrar menú de agentes"></button>
+    <aside class="tools-sidebar" id="toolsSidebar">
+      <div class="sidebar-header">
+        <h3>AI-Gents</h3>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar menú">&times;</button>
+      </div>
+      <div class="sidebar-content">
+        <a href="ai-gents.html">Un agente hecho a tu medida</a>
+        <a href="aigent-whatsapp.html" class="is-active">AI-Gent de WhatsApp</a>
+        <span class="upcoming-tool">Próximamente: Agente de Ventas</span>
+        <span class="upcoming-tool">Próximamente: Agente de Licitaciones</span>
+        <span class="upcoming-tool">Próximamente: Agente de Compras</span>
+        <span class="upcoming-tool">Próximamente: Agente de Recursos Humanos</span>
+        <span class="upcoming-tool">Próximamente: Agente Financiero</span>
+        <span class="upcoming-tool">Próximamente: Agente de Propiedad Intelectual</span>
+        <span class="upcoming-tool">Próximamente: Agente de Análisis de Mercado</span>
+      </div>
+    </aside>
+
+    <main class="tool-landing">
+      <!-- HERO -->
+      <section class="tools-hero section">
+        <p class="hero-kicker">Canal Automatizado</p>
+        <h1>AI-Gent para <span class="hero-word hero-word--green">WhatsApp</span></h1>
+        <p class="hero-text">
+          Un asistente inteligente que responde automáticamente a tus clientes desde WhatsApp.
+        </p>
+        <div class="hero-actions">
+          <a class="glow-button" href="https://wa.me/message/KY33KOJKNZILJ1" target="_blank" rel="noopener noreferrer">Solicitar demostración</a>
+          <a class="ghost-button" href="#detalles">Ver capacidades</a>
+        </div>
+      </section>
+
+      <!-- CAPACIDADES, BENEFICIOS Y SIMULADOR -->
+      <section class="section" id="detalles" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 5rem; scroll-margin-top: 100px;">
+        <div style="display: grid; gap: 3rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: center; margin-bottom: 4rem;">
+          <!-- Capacidades y Beneficios -->
+          <div style="display: grid; gap: 2.5rem;">
+            <!-- Capacidades -->
+            <div>
+              <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; color: var(--green); margin-top: 0; margin-bottom: 1.25rem;">Capacidades</h3>
+              <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; font-size: 0.95rem; color: var(--muted); line-height: 1.5;">
+                <li>⚡ Responder preguntas frecuentes de forma inmediata.</li>
+                <li>⚡ Dar seguimiento a prospectos automáticamente.</li>
+                <li>⚡ Calificar leads según tus criterios de negocio.</li>
+                <li>⚡ Agendar citas y sincronizarse con calendarios.</li>
+                <li>⚡ Compartir información comercial (archivos, links).</li>
+                <li>⚡ Registrar solicitudes directo en tu CRM o base de datos.</li>
+                <li>⚡ Escalar conversaciones a humanos cuando sea necesario.</li>
+              </ul>
+            </div>
+            <!-- Beneficios -->
+            <div>
+              <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; color: var(--blue); margin-top: 0; margin-bottom: 1.25rem;">Beneficios</h3>
+              <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; font-size: 0.95rem; color: var(--muted); line-height: 1.5;">
+                <li>✔ <strong style="color: var(--text);">Atención inmediata:</strong> Sin tiempos de espera para el usuario.</li>
+                <li>✔ <strong style="color: var(--text);">Mayor conversión:</strong> Respuestas rápidas significan más cierres.</li>
+                <li>✔ <strong style="color: var(--text);">Menor carga operativa:</strong> Filtra hasta el 80% de chats recurrentes.</li>
+                <li>✔ <strong style="color: var(--text);">Disponibilidad 24/7:</strong> Vende y asesora incluso fuera de oficina.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Simulador de Chat (Visual) -->
+          <div class="mock-chat-container">
+            <!-- Header del Chat -->
+            <div class="mock-chat-header">
+              <div class="mock-chat-status"></div>
+              <div>
+                <h4 style="margin: 0; font-size: 0.95rem; font-family: 'Space Grotesk', sans-serif;">AI-Gent · Asistente Comercial</h4>
+                <p style="margin: 0; font-size: 0.72rem; color: var(--muted);">En línea - Responde al instante</p>
+              </div>
+            </div>
+            <!-- Cuerpo del Chat -->
+            <div class="mock-chat-body">
+              <!-- Mensaje Usuario -->
+              <div class="chat-msg chat-msg--user">
+                Hola, me interesa conocer la Convocatoria 2025 para el Road to Funding. ¿Tienen cupos disponibles?
+              </div>
+              <!-- Mensaje Agente -->
+              <div class="chat-msg chat-msg--agent">
+                ¡Hola! Sí, la convocatoria para el Cohort de Impulsora está abierta. El programa dura 10 semanas y culmina con la presentación ante inversionistas. 💡
+                <br><br>
+                ¿Te gustaría descargar las bases o prefieres agendar una llamada breve con un asesor para validar si tu proyecto califica?
+              </div>
+            </div>
+            <!-- Footer del Chat -->
+            <div class="mock-chat-footer">
+              Demo interactiva - Integración oficial con WhatsApp Cloud API
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Final de WhatsApp -->
+        <div style="text-align: center; max-width: 700px; margin: 3rem auto 0; padding: 2.5rem 2rem; border-top: 1px solid rgba(255,255,255,0.05);">
+          <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; color: var(--text); margin-bottom: 1rem;">Lleva tu negocio a WhatsApp</h2>
+          <p style="color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+            Agenda una demostración sin compromiso y descubre cómo automatizar tu canal de comunicación más importante.
+          </p>
+          <a class="glow-button" href="https://wa.me/message/KY33KOJKNZILJ1" target="_blank" rel="noopener noreferrer" style="padding: 1.1rem 2.5rem; font-size: 1.05rem; display: inline-flex;">
+            Solicitar demostración
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="main-footer">
+      <div>
+        <p class="footer-brand">Kaleidoscopio</p>
+        <p>La evolución de la innovación · 2025</p>
+      </div>
+      <div class="footer-cta">
+        <p>¿Listo para automatizar tu negocio?</p>
+        <a class="glow-button nav-link" href="https://wa.me/message/KY33KOJKNZILJ1" target="_blank" rel="noopener noreferrer">Agenda una llamada</a>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/tools.js"></script>
+  </body>
+</html>

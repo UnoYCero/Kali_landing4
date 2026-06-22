@@ -220,6 +220,14 @@ narrativaOverlay?.addEventListener('click', (e) => {
   if (e.target === narrativaOverlay) closeNarrativaModal();
 });
 
+// Abrir la Narrativa automáticamente si se pasa el query param ?open=narrativa
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('open') === 'narrativa') {
+    openNarrativaModal();
+  }
+});
+
 // ── Carousel ──────────────────────────────────────────────────────────────────
 const carouselTrack = document.getElementById('carouselTrack');
 const carouselPrev = document.getElementById('carouselPrev');
