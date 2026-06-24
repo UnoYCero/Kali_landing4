@@ -458,6 +458,55 @@
 
               </div>
 
+              <!-- Tarjeta: Configuración de Base de Datos -->
+              <article class="card" style="margin-bottom: 1.5rem; border-color: rgba(0, 255, 163, 0.15);">
+                <h3 style="margin-top:0; font-size:0.9rem; text-transform:uppercase; color:var(--green); letter-spacing:0.05em;">Configuración de Base de Datos (Supabase)</h3>
+                <p style="margin: 0 0 1.25rem 0; color: var(--muted); font-size: 0.8rem;">Vincula una instancia externa de Supabase para que el cliente pueda consultar su base de datos de manera aislada y segura.</p>
+
+                <form id="databaseConfigForm" style="display: flex; flex-direction: column; gap: 1rem;">
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <label for="dbConnName">Nombre de la conexión</label>
+                      <input type="text" id="dbConnName" class="form-control" placeholder="Ej. Supabase Deelish" required />
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <label for="dbConnPlan">Plan de Supabase</label>
+                      <select id="dbConnPlan" class="form-control" required>
+                        <option value="free">Free Plan (500 MB BD / 1 GB Storage)</option>
+                        <option value="pro">Pro Plan (8 GB BD / 100 GB Storage)</option>
+                        <option value="custom">Personalizado (Límite manual)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Límite Personalizado (oculto por defecto) -->
+                  <div class="form-group" id="dbConnCustomLimitGroup" style="margin-bottom: 0; display: none;">
+                    <label for="dbConnTable">Límite de Almacenamiento Base de Datos (MB)</label>
+                    <input type="number" id="dbConnTable" class="form-control" placeholder="Ej. 500" min="1" />
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <label for="dbConnUrl">Supabase URL</label>
+                      <input type="url" id="dbConnUrl" class="form-control" placeholder="https://xxxx.supabase.co" required />
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <label for="dbConnProjectId">Supabase Project ID</label>
+                      <input type="text" id="dbConnProjectId" class="form-control" placeholder="Ej. xxxx" required />
+                    </div>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="dbConnAnonKey">Supabase Anon Key</label>
+                    <input type="text" id="dbConnAnonKey" class="form-control" placeholder="Ej. eyJhbGciOi..." required />
+                  </div>
+
+                  <button type="submit" class="btn-neon" style="width: 100%; justify-content: center; text-transform: uppercase; font-size: 0.85rem; margin-top: 0.5rem; background: linear-gradient(135deg, var(--blue), var(--green)); box-shadow: 0 0 15px rgba(0, 255, 163, 0.2);">
+                    Guardar Configuración de Base de Datos
+                  </button>
+                </form>
+              </article>
+
               <!-- Sección de Bolsa de Horas & Reloj Administrativo -->
               <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
                 

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Kaleidoscopio | Estatus del Proyecto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+    <link rel="stylesheet" href="../css/clientes-styles.css" />
+    <style>
+      /* Estilos para duplicar el panel de Usage Summary de Supabase con estética Kaleidoscopio */
+      .usage-container {
+        background: rgba(14, 16, 26, 0.7);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        padding: 2.5rem;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 55px rgba(62, 209, 255, 0.02);
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 2.5rem;
+        margin-top: 1.5rem;
+      }
+
+      @media (max-width: 991px) {
+        .usage-container {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          padding: 1.75rem;
+        }
+      }
+
+      .usage-intro {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .usage-intro h2 {
+        font-size: 1.6rem;
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--text);
+      }
+
+      .usage-intro p {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .usage-intro-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        border-top: 1px solid var(--border);
+        padding-top: 1.5rem;
+      }
+
+      .usage-link {
+        color: var(--blue);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: color var(--transition-fast);
+      }
+
+      .usage-link:hover {
+        color: var(--text);
+      }
+
+      .usage-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-left: 1px solid var(--border);
+        padding-left: 1.5rem;
+        row-gap: 0;
+        column-gap: 0;
+      }
+
+      @media (max-width: 991px) {
+        .usage-grid {
+          grid-template-columns: 1fr;
+          border-left: none;
+          padding-left: 0;
+          border-top: 1px solid var(--border);
+          padding-top: 2rem;
+        }
+      }
+
+      .metric-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+      }
+
+      /* Column dividers for desktop */
+      @media (min-width: 992px) {
+        /* Odd children (left column) have a right border */
+        .metric-box:nth-child(odd) {
+          border-right: 1px solid var(--border);
+          padding-left: 0;
+        }
+        /* Even children (right column) have no right border, but padding-left */
+        .metric-box:nth-child(even) {
+          padding-left: 2rem;
+        }
+        /* Remove bottom border on the last two children in desktop (last row) */
+        .metric-box:nth-last-child(-n+2) {
+          border-bottom: none;
+        }
+      }
+
+      @media (max-width: 991px) {
+        .metric-box {
+          padding: 1rem 0;
+          border-bottom: 1px solid var(--border);
+        }
+        /* Remove bottom border on the last child in mobile */
+        .metric-box:last-child {
+          border-bottom: none;
+        }
+        .spacer-box {
+          display: none;
+        }
+      }
+
+      .metric-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .metric-title {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--muted);
+        letter-spacing: 0.01em;
+      }
+
+      .metric-value {
+        font-family: var(--font-mono);
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--text);
+        margin: 0.15rem 0;
+      }
+
+      .metric-value-sub {
+        font-size: 0.78rem;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      /* Barra de Progreso Compacta / Línea de progresión minimalista */
+      .metric-progress-bg {
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-top: 0.25rem;
+      }
+
+      .metric-progress-bar {
+        height: 100%;
+        width: 0%;
+        background: var(--blue);
+        border-radius: 2px;
+        transition: width 1s ease-out;
+      }
+
+      .metric-progress-bar.active-meter {
+        background: var(--blue);
+      }
+
+      .metric-progress-bar.warning {
+        background: var(--yellow);
+      }
+
+      .metric-progress-bar.danger {
+        background: var(--red);
+      }
+
+      /* Botón de Upgrade estilo Supabase */
+      .btn-upgrade {
+        background: rgba(0, 255, 163, 0.08);
+        border: 1px solid rgba(0, 255, 163, 0.3);
+        color: var(--green);
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        text-transform: none;
+      }
+
+      .btn-upgrade:hover {
+        background: var(--green);
+        color: #0e101a;
+        box-shadow: 0 0 10px rgba(0, 255, 163, 0.3);
+      }
+
+      /* Estilos para el botón de Refresh Data */
+      .btn-refresh {
+        background: rgba(62, 209, 255, 0.08);
+        border: 1px solid rgba(62, 209, 255, 0.3);
+        color: var(--blue);
+        padding: 0.75rem 1.25rem;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all var(--transition-fast);
+        width: 100%;
+        margin-top: 0.5rem;
+      }
+
+      .btn-refresh:hover:not(:disabled) {
+        background: var(--blue);
+        color: #0e101a;
+        box-shadow: 0 0 15px rgba(62, 209, 255, 0.3);
+      }
+
+      .btn-refresh:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        border-color: var(--border);
+        color: var(--muted);
+      }
+
+      .refresh-spinning {
+        animation: spin 1.5s linear infinite !important;
+      }
+
+      .db-empty-state {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 5rem 2rem;
+        text-align: center;
+        color: var(--muted);
+        backdrop-filter: blur(12px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        margin-top: 1rem;
+      }
+
+      .db-empty-state svg {
+        width: 64px;
+        height: 64px;
+        color: var(--muted);
+        opacity: 0.3;
+      }
+
+      /* Alert Card */
+      .rpc-error-alert {
+        background: rgba(255, 179, 71, 0.04);
+        border: 1px solid rgba(255, 179, 71, 0.15);
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        display: none;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .rpc-error-title {
+        color: #ffb347;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .sql-code-block {
+        background: #060608;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1rem;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: #e2e8f0;
+        overflow-x: auto;
+        margin-top: 0.5rem;
+      }
+
+      .plan-badge {
+        background: rgba(0, 255, 163, 0.05);
+        border: 1px solid rgba(0, 255, 163, 0.15);
+        color: var(--green);
+        padding: 0.25rem 0.75rem;
+        border-radius: 99px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        width: fit-content;
+      }
+    </style>
+    <link rel="icon" href="../../assets/img/logo.png" type="image/png" />
+  </head>
+  <body class="client-layout">
+    <div class="neon-particles" aria-hidden="true"></div>
+
+    <div class="client-container">
+      <!-- SIDEBAR -->
+      <aside class="client-sidebar" id="clientSidebar">
+        <div class="client-sidebar-header">
+          <div class="client-sidebar-brand">
+            <img src="../../assets/img/logo.png" alt="Kaleidoscopio Logo" />
+            <div class="client-sidebar-brand-text">
+              <span class="client-sidebar-brand-name">Kaleidoscopio</span>
+              <span class="client-sidebar-brand-sub">Portal Clientes</span>
+            </div>
+          </div>
+        </div>
+
+        <nav class="client-sidebar-nav">
+          <a href="../dashboard/" class="client-nav-item">
+            <!-- Icono Dashboard / Inicio -->
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+              <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+              <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+              <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+            </svg>
+            Mi Cuenta
+          </a>
+
+          <a href="./" class="client-nav-item active">
+            <!-- Icono Base de Datos (Cilindro BD) -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px;">
+              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+              <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
+            </svg>
+            Base de Datos
+          </a>
+
+          <!-- Placeholders para futuras herramientas en el menú (deshabilitadas) -->
+          <a class="client-nav-item placeholder-nav" title="Próximamente: Tickets de Soporte">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            Soporte y Tickets
+          </a>
+
+          <a class="client-nav-item placeholder-nav" title="Próximamente: Mis Proyectos">
+            <svg viewBox="0 0 24 24">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
+            Proyectos Activos
+          </a>
+
+          <a class="client-nav-item placeholder-nav" title="Próximamente: Herramientas SaaS">
+            <svg viewBox="0 0 24 24">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            Herramientas Digitales
+          </a>
+        </nav>
+
+        <div class="client-sidebar-footer">
+          <button class="btn-logout" id="logoutBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Cerrar Sesión
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENIDO PRINCIPAL -->
+      <main class="client-main">
+        <!-- BARRA SUPERIOR -->
+        <header class="client-topbar">
+          <div class="client-topbar-title">
+            <h1 id="welcomeTitle">Cargando Estatus del Proyecto...</h1>
+            <p id="welcomeSubtitle">Monitorea el uso de recursos y límites de tu servidor de base de datos</p>
+          </div>
+          <div class="client-user-badge">
+            <div class="avatar-dot"></div>
+            <span id="userBadgeName">Cliente</span>
+          </div>
+        </header>
+
+        <!-- SECCIÓN DE DASHBOARD -->
+        <section id="dbViewSection" style="position: relative; width: 100%;">
+          <!-- Spinner de Carga -->
+          <div class="db-empty-state" id="dbLoadingState">
+            <svg class="loading-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1.5s linear infinite; width:48px; height:48px;">
+              <circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="8"></circle>
+            </svg>
+            <p style="margin: 0; font-size: 1rem;">Conectando con tu instancia de Supabase...</p>
+          </div>
+
+          <!-- Estado 1: No configurada -->
+          <div class="db-empty-state" id="dbNotConfiguredState" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+            <div>
+              <h3 style="margin: 0 0 0.5rem 0; color: var(--text); font-size: 1.3rem;">Servicio de Base de Datos no asignado</h3>
+              <p style="margin: 0; font-size: 0.95rem; max-width: 500px; line-height: 1.6;">
+                Tu cuenta comercial aún no tiene vinculada una base de datos externa de Supabase. Por favor, solicita esta integración a tu asesor comercial de Kaleidoscopio.
+              </p>
+            </div>
+          </div>
+
+          <!-- Estado 2: Configurada (Visor de Almacenamiento) -->
+          <div id="dbConfiguredState" class="usage-container" style="display: none;">
+            
+            <!-- Columna Izquierda: Introducción del Plan -->
+            <div class="usage-intro">
+              <h2>Resumen de Uso</h2>
+              <p>El resumen de uso incluye una cantidad limitada de recursos según el plan de tu base de datos de Supabase. Si se exceden los límites, tu servicio podría experimentar restricciones temporales. El panel de Supabase puede tardar hasta 1 hora en actualizarse.</p>
+              
+              <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                <span style="font-size:0.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em;">Plan del Servidor:</span>
+                <span id="supabasePlanBadge" class="plan-badge">Plan Gratuito</span>
+              </div>
+
+              <div class="usage-intro-links">
+                <a href="https://supabase.com/docs/guides/platform/billing" target="_blank" rel="noopener noreferrer" class="usage-link">
+                  Cómo funciona la facturación
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+                <a href="https://supabase.com/pricing" target="_blank" rel="noopener noreferrer" class="usage-link">
+                  Planes de Supabase
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
+
+              <!-- Control de actualización manual y marca de tiempo -->
+              <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; border-top: 1px dashed var(--border); padding-top: 1.25rem;">
+                <button id="btnRefreshData" class="btn-refresh">
+                  <svg id="refreshIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                  </svg>
+                  Actualizar Datos
+                </button>
+                <span id="txtLastUpdated" style="font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 0.25rem;">Cargando...</span>
+                <span id="txtRefreshWarning" style="font-size: 0.72rem; color: var(--red); text-align: center; display: none;"></span>
+              </div>
+            </div>
+
+            <!-- Columna Derecha: Cuadrícula de Métricas (12 celdas para grilla de 2x6 exacta) -->
+            <div class="usage-grid">
+              
+              <!-- Fila 1 Columna 1: Database Size -->
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-title">Database Size ›</span>
+                </div>
+                <div class="metric-value" id="valDbSize">0.000 GB</div>
+                <div class="metric-value-sub" id="subDbSize">Cargando...</div>
+                <div class="metric-progress-bg">
+                  <div id="progressDbSize" class="metric-progress-bar"></div>
+                </div>
+              </div>
+
+              <!-- Fila 1 Columna 2: Egress -->
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-title">Egress ›</span>
+                </div>
+                <div class="metric-value" id="valEgress">0.000 GB</div>
+                <div class="metric-value-sub" id="subEgress">Cargando...</div>
+                <div class="metric-progress-bg">
+                  <div id="progressEgress" class="metric-progress-bar"></div>
+                </div>
+              </div>
+
+              <!-- Fila 2 Columna 1: Monthly Active Users -->
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-title">Monthly Active Users ›</span>
+                </div>
+                <div class="metric-value" id="valMAU">0 MAU</div>
+                <div class="metric-value-sub" id="subMAU">Cargando...</div>
+                <div class="metric-progress-bg">
+                  <div id="progressMAU" class="metric-progress-bar"></div>
+                </div>
+              </div>
+
+              <!-- Fila 2 Columna 2: Cached Egress -->
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-title">Cached Egress ›</span>
+                </div>
+                <div class="metric-value" id="valCachedEgress">0 GB</div>
+                <div class="metric-value-sub" id="subCachedEgress">Cargando...</div>
+                <div class="metric-progress-bg">
+                  <div id="progressCachedEgress" class="metric-progress-bar"></div>
+                </div>
+              </div>
+
+              <!-- Fila 3 Columna 1: Monthly Active Third-Party Users -->
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-title">Monthly Active Third-Party Users</span>
+                </div>
+                <div class="metric-value" id="valThirdPartyMAU">0 MAU</div>
+                <div class="metric-value-sub" id="subThirdPartyMAU">Límite: 50,000 MAU</div>
+              </div>
+
+              <!-- Fila 3 Columna 2: Storage Size -->
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-title">Storage Size ›</span>
+                </div>
+                <div class="metric-value" id="valStorageSize">0.000 GB</div>
+                <div class="metric-value-sub" id="subStorageSize">Cargando...</div>
+                <div class="metric-progress-bg">
+                  <div id="progressStorageSize" class="metric-progress-bar"></div>
+                </div>
+              </div>
+
+              <!-- Fila 4 Columna 1: Realtime Concurrent Peak Connections -->
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-title">Realtime Concurrent Peak Connections ›</span>
+                </div>
+                <div class="metric-value" id="valRealtimeConn">0</div>
+                <div class="metric-value-sub" id="subRealtimeConn">Límite: 200 conexiones</div>
+              </div>
+
+              <!-- Fila 4 Columna 2: Realtime Messages -->
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-title">Realtime Messages ›</span>
+                </div>
+                <div class="metric-value" id="valRealtimeMessages">0</div>
+                <div class="metric-value-sub" id="subRealtimeMessages">Límite: 2,000,000 mensajes</div>
+              </div>
+
+              <!-- Fila 5 Columna 1: Edge Function Invocations -->
+              <div class="metric-box">
+                <div class="metric-header">
+                  <span class="metric-title">Edge Function Invocations ›</span>
+                </div>
+                <div class="metric-value" id="valEdgeInvocations">0</div>
+                <div class="metric-value-sub" id="subEdgeInvocations">Límite: 500,000 invocaciones</div>
+              </div>
+
+              <!-- Fila 5 Columna 2: Monthly Active SSO Users -->
+              <div class="metric-box">
+                <div class="metric-header" style="justify-content: flex-start; gap: 0.5rem; align-items: center;">
+                  <span class="metric-title">Monthly Active SSO Users</span>
+                  <a href="https://supabase.com/pricing" target="_blank" rel="noopener noreferrer" class="btn-upgrade">Upgrade</a>
+                </div>
+                <div class="metric-value" id="valSSOUsers">0 MAU</div>
+                <div class="metric-value-sub" id="subSSOUsers">No incluido en plan gratuito</div>
+              </div>
+
+              <!-- Fila 6 Columna 1: Storage Image Transformations -->
+              <div class="metric-box">
+                <div class="metric-header" style="justify-content: flex-start; gap: 0.5rem; align-items: center;">
+                  <span class="metric-title">Storage Image Transformations</span>
+                  <a href="https://supabase.com/pricing" target="_blank" rel="noopener noreferrer" class="btn-upgrade">Upgrade</a>
+                </div>
+                <div class="metric-value" id="valImageTransformations">0</div>
+                <div class="metric-value-sub" id="subImageTransformations">No incluido en plan gratuito</div>
+              </div>
+
+              <!-- Fila 6 Columna 2: Spacer para simetría de grilla de Supabase -->
+              <div class="metric-box spacer-box">
+              </div>
+
+            </div>
+
+            <!-- Alerta Técnica: RPC get_database_size Faltante (Se activa con error de RPC) -->
+            <div class="rpc-error-alert" id="dbRpcErrorAlert" style="grid-column: span 2;">
+              <div class="rpc-error-title">
+                <span>⚠️ Funciones de Métricas Requeridas</span>
+              </div>
+              <p style="margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.6;">
+                No se pudieron consultar todos los recursos de almacenamiento porque tu base de datos no tiene instaladas las funciones auxiliares de PostgreSQL.
+                Por favor, ejecuta la siguiente instrucción SQL en el **SQL Editor** de tu consola de Supabase:
+              </p>
+              <pre class="sql-code-block">-- 1. Tamaño de la Base de Datos
+create or replace function get_database_size()
+returns bigint language sql security definer as $$
+  select pg_database_size(current_database());
+$$;
+
+-- 2. Tamaño de Almacenamiento (Storage Files)
+create or replace function get_storage_size()
+returns bigint language sql security definer as $$
+  select coalesce(sum((metadata->>'size')::bigint), 0)::bigint from storage.objects;
+$$;
+
+-- 3. Conteo de Usuarios Activos (MAU)
+create or replace function get_monthly_active_users()
+returns bigint language sql security definer as $$
+  select count(*)::bigint from auth.users;
+$$;</pre>
+              <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem; color: var(--muted); font-style: italic;">
+                Una vez ejecutada la consulta, refresca esta página para ver las métricas de tu cuenta.
+              </p>
+            </div>
+
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Keyframes para spinner en CSS embebido -->
+    <style>
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../admin/js/config.js" onerror="console.log('Sin config.js')"></script>
+    <script src="../js/clientes-common.js?v=1.1"></script>
+    <script src="../js/base-de-datos.js?v=1.1"></script>
+  </body>
+</html>

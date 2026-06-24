@@ -623,6 +623,8 @@ select.status-select option {
 }
 
 .form-control {
+  width: 100%;
+  box-sizing: border-box;
   background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 12px;

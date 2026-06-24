@@ -158,7 +158,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     await applyManualHoursAdjustment();
   });
 
-  // 9. Activación en tiempo real del botón de ver contrato al escribir
+  // 9. Formulario de Configuración de Base de Datos Submit e Interacción de Plan
+  const dbConfigForm = document.getElementById('databaseConfigForm');
+  const dbPlanSelect = document.getElementById('dbConnPlan');
+  const dbCustomGroup = document.getElementById('dbConnCustomLimitGroup');
+  const dbLimitInput = document.getElementById('dbConnTable');
+
+  if (dbPlanSelect && dbCustomGroup && dbLimitInput) {
+    dbPlanSelect.addEventListener('change', (e) => {
+      if (e.target.value === 'custom') {
+        dbCustomGroup.style.display = 'block';
+        dbLimitInput.setAttribute('required', 'true');
+      } else {
+        dbCustomGroup.style.display = 'none';
+        dbLimitInput.removeAttribute('required');
+      }
+    });
+  }
+
+  if (dbConfigForm) {
+    dbConfigForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await saveDatabaseConfig();
+    });
+  }
+
+  // 10. Activación en tiempo real del botón de ver contrato al escribir
   const contractInput = document.getElementById('commContractUrl');
   const btnContract = document.getElementById('btnViewContract');
   contractInput.addEventListener('input', (e) => {
@@ -399,6 +424,51 @@ async function loadFichaCliente(clienteId) {
 
     if (auditLogsError) throw auditLogsError;
     renderAuditLogsTable(auditLogs);
+
+    // F2. Consultar Configuración de Base de Datos
+    const { data: dbConn, error: dbConnError } = await window.supabaseClient
+      .from('cliente_conexiones')
+      .select('nombre_conexion, tabla_principal, supabase_url, supabase_project_id, supabase_anon_key')
+      .eq('cliente_id', clienteId)
+      .maybeSingle();
+
+    if (dbConnError) {
+      console.error('Error al obtener conexion de BD:', dbConnError);
+    }
+
+    if (dbConn) {
+      document.getElementById('dbConnName').value = dbConn.nombre_conexion || '';
+      document.getElementById('dbConnUrl').value = dbConn.supabase_url || '';
+      document.getElementById('dbConnProjectId').value = dbConn.supabase_project_id || '';
+      document.getElementById('dbConnAnonKey').value = dbConn.supabase_anon_key || '';
+      
+      const planVal = dbConn.tabla_principal || 'free';
+      const selectPlanEl = document.getElementById('dbConnPlan');
+      const customGroupEl = document.getElementById('dbConnCustomLimitGroup');
+      const tableInputEl = document.getElementById('dbConnTable');
+
+      if (planVal === 'free' || planVal === 'pro') {
+        selectPlanEl.value = planVal;
+        customGroupEl.style.display = 'none';
+        tableInputEl.value = '';
+        tableInputEl.removeAttribute('required');
+      } else {
+        selectPlanEl.value = 'custom';
+        customGroupEl.style.display = 'block';
+        tableInputEl.value = planVal;
+        tableInputEl.setAttribute('required', 'true');
+      }
+    } else {
+      document.getElementById('dbConnName').value = '';
+      document.getElementById('dbConnUrl').value = '';
+      document.getElementById('dbConnProjectId').value = '';
+      document.getElementById('dbConnAnonKey').value = '';
+      
+      document.getElementById('dbConnPlan').value = 'free';
+      document.getElementById('dbConnCustomLimitGroup').style.display = 'none';
+      document.getElementById('dbConnTable').value = '';
+      document.getElementById('dbConnTable').removeAttribute('required');
+    }
 
     // Mostrar panel detallado y ocultar vacío
     document.getElementById('emptyDetailState').style.display = 'none';
@@ -902,6 +972,44 @@ function escapeHtml(string) {
     "'": '&#039;'
   };
   return String(string).replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+// Guardar la configuración de base de datos del cliente en Supabase
+async function saveDatabaseConfig() {
+  if (!selectedClienteId || !window.supabaseClient) return;
+
+  const connName = document.getElementById('dbConnName').value.trim();
+  const connPlan = document.getElementById('dbConnPlan').value;
+  const connUrl = document.getElementById('dbConnUrl').value.trim();
+  const connProjectId = document.getElementById('dbConnProjectId').value.trim();
+  const connAnonKey = document.getElementById('dbConnAnonKey').value.trim();
+
+  // Si el plan es custom, la tabla almacena el límite en MB, de lo contrario la clave del plan ('free' o 'pro')
+  const connTable = connPlan === 'custom' 
+    ? document.getElementById('dbConnTable').value.trim() 
+    : connPlan;
+
+  try {
+    const { error } = await window.supabaseClient
+      .from('cliente_conexiones')
+      .upsert({
+        cliente_id: selectedClienteId,
+        nombre_conexion: connName,
+        tabla_principal: connTable,
+        supabase_url: connUrl,
+        supabase_project_id: connProjectId,
+        supabase_anon_key: connAnonKey,
+        actualizado_en: new Date().toISOString()
+      }, { onConflict: 'cliente_id' });
+
+    if (error) throw error;
+
+    alert('Configuración de base de datos guardada con éxito.');
+  } catch (err) {
+    console.error('Error al guardar configuración de base de datos:', err);
+    const detailMsg = err.message || err.details || (typeof err === 'object' ? JSON.stringify(err) : String(err));
+    alert('No se pudo guardar la configuración de la base de datos:\n' + detailMsg);
+  }
 }
 
 // Módulos adicionales inactivos

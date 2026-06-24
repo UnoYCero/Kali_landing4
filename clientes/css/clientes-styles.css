@@ -491,6 +491,17 @@ body.client-layout {
   gap: 1rem;
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-control {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 @media (max-width: 576px) {
   .auth-form-grid {
     grid-template-columns: 1fr;

@@ -176,3 +176,31 @@ CREATE POLICY "Permitir todo a anon en auditoria_horas" ON auditoria_horas FOR A
 CREATE INDEX IF NOT EXISTS idx_auditoria_horas_cliente_id ON auditoria_horas(cliente_id);
 
 
+-- ==========================================================================
+-- AMPLIACIÓN DE CUENTAS - CONEXIONES DE BASE DE DATOS (VERSIÓN 3)
+-- ==========================================================================
+
+-- 1. Tabla para almacenar credenciales de Supabase del proyecto de cada cliente
+CREATE TABLE IF NOT EXISTS cliente_conexiones (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    cliente_id UUID REFERENCES clientes(id) ON DELETE CASCADE UNIQUE,
+    nombre_conexion VARCHAR(255) NOT NULL,
+    supabase_url TEXT NOT NULL,
+    supabase_project_id VARCHAR(100) NOT NULL,
+    supabase_anon_key TEXT NOT NULL,
+    tabla_principal VARCHAR(255) NOT NULL,
+    creado_en TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    actualizado_en TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+);
+
+-- 2. Habilitar RLS
+ALTER TABLE cliente_conexiones ENABLE ROW LEVEL SECURITY;
+
+-- 3. Políticas públicas para permitir todo a anon (consistente con el resto del esquema)
+DROP POLICY IF EXISTS "Permitir todo a anon en cliente_conexiones" ON cliente_conexiones;
+CREATE POLICY "Permitir todo a anon en cliente_conexiones" ON cliente_conexiones FOR ALL USING (true) WITH CHECK (true);
+
+-- 4. Crear índice
+CREATE INDEX IF NOT EXISTS idx_cliente_conexiones_cliente_id ON cliente_conexiones(cliente_id);
+
+
