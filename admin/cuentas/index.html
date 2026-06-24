@@ -262,9 +262,156 @@
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        cursor: not-allowed;
         opacity: 0.6;
         user-select: none;
+      }
+
+      /* Estilos para duplicar el panel de Usage Summary de Supabase en Admin */
+      .admin-usage-container {
+        background: rgba(14, 16, 26, 0.7);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 1.5rem;
+        backdrop-filter: blur(16px);
+        margin-top: 1.5rem;
+        display: none;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .admin-usage-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 0;
+        column-gap: 0;
+        border-top: 1px solid var(--border);
+        margin-top: 0.5rem;
+      }
+      @media (max-width: 768px) {
+        .admin-usage-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .admin-metric-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+      }
+      @media (min-width: 769px) {
+        .admin-metric-box:nth-child(odd) {
+          border-right: 1px solid var(--border);
+          padding-left: 0;
+        }
+        .admin-metric-box:nth-child(even) {
+          padding-left: 1.5rem;
+          padding-right: 0;
+        }
+        .admin-metric-box:nth-last-child(-n+2) {
+          border-bottom: none;
+        }
+      }
+      @media (max-width: 768px) {
+        .admin-metric-box {
+          padding: 0.75rem 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .admin-metric-box:last-child {
+          border-bottom: none;
+        }
+      }
+      .admin-metric-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .admin-metric-title {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--muted);
+        letter-spacing: 0.01em;
+      }
+      .admin-metric-value {
+        font-family: var(--font-mono);
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text);
+        margin: 0.1rem 0;
+      }
+      .admin-metric-value-sub {
+        font-size: 0.75rem;
+        color: var(--muted);
+        line-height: 1.3;
+      }
+      .admin-metric-progress-bg {
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-top: 0.2rem;
+      }
+      .admin-metric-progress-bar {
+        height: 100%;
+        width: 0%;
+        background: var(--blue);
+        border-radius: 2px;
+        transition: width 1s ease-out;
+      }
+      .admin-metric-progress-bar.active-meter {
+        background: var(--blue);
+      }
+      .admin-metric-progress-bar.warning {
+        background: var(--yellow);
+      }
+      .admin-metric-progress-bar.danger {
+        background: var(--red);
+      }
+      .admin-btn-upgrade {
+        background: rgba(0, 255, 163, 0.08);
+        border: 1px solid rgba(0, 255, 163, 0.3);
+        color: var(--green);
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        display: inline-block;
+        text-transform: none;
+      }
+      .btn-refresh {
+        background: rgba(62, 209, 255, 0.08);
+        border: 1px solid rgba(62, 209, 255, 0.3);
+        color: var(--blue);
+        padding: 0.75rem 1.25rem;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all var(--transition-fast);
+        width: 100%;
+        margin-top: 0.5rem;
+      }
+      .btn-refresh:hover:not(:disabled) {
+        background: var(--blue);
+        color: #0e101a;
+        box-shadow: 0 0 15px rgba(62, 209, 255, 0.3);
+      }
+      .btn-refresh:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        border-color: var(--border);
+        color: var(--muted);
+      }
+      .refresh-spinning {
+        animation: spin 1.5s linear infinite !important;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
       }
     </style>
     <link rel="icon" href="../../assets/img/logo.png" type="image/png" />
@@ -505,6 +652,192 @@
                     Guardar Configuración de Base de Datos
                   </button>
                 </form>
+
+                <!-- Botón: Ver Espacio (Para desplegar métricas de Supabase) -->
+                <button type="button" id="btnAdminShowUsage" class="btn-refresh" style="width: 100%; justify-content: center; margin-top: 0.75rem; gap: 0.5rem; display: none;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px; height:14px;">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                    <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
+                  </svg>
+                  Ver Espacio
+                </button>
+
+                <!-- Panel Expandible de Consumo en Supabase -->
+                <div id="adminUsageSection" class="admin-usage-container">
+                  <!-- Control de actualización manual y marca de tiempo -->
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text);">Consumo en Supabase</span>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                      <span id="adminTxtLastUpdated" style="font-size: 0.72rem; color: var(--muted);"></span>
+                      <button type="button" id="btnAdminRefreshData" class="btn-upgrade" style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; padding: 0.25rem 0.5rem; background: rgba(62, 209, 255, 0.08); border: 1px solid rgba(62, 209, 255, 0.3); color: var(--blue);">
+                        <svg id="adminRefreshIcon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                        </svg>
+                        Refrescar
+                      </button>
+                    </div>
+                  </div>
+                  <div id="adminTxtRefreshWarning" style="font-size: 0.72rem; color: var(--red); display: none; margin-top: -0.5rem; text-align: right;"></div>
+
+                  <!-- Loader State -->
+                  <div id="adminUsageLoading" style="display: none; padding: 1.5rem; text-align: center; color: var(--muted); font-size: 0.85rem;">
+                    <svg class="loading-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1.5s linear infinite; width:24px; height:24px; margin: 0 auto 0.75rem auto; display: block;">
+                      <circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="8"></circle>
+                    </svg>
+                    Conectando con Supabase y obteniendo métricas...
+                  </div>
+
+                  <!-- Grilla de Métricas -->
+                  <div id="adminUsageGrid" class="admin-usage-grid" style="display: none;">
+                    <!-- Fila 1 Columna 1: Database Size -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header">
+                        <span class="admin-metric-title">Database Size ›</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValDbSize">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubDbSize">Cargando...</div>
+                      <div class="admin-metric-progress-bg">
+                        <div id="adminProgressDbSize" class="admin-metric-progress-bar"></div>
+                      </div>
+                    </div>
+
+                    <!-- Fila 1 Columna 2: Egress -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header">
+                        <span class="admin-metric-title">Egress ›</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValEgress">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubEgress">Cargando...</div>
+                      <div class="admin-metric-progress-bg">
+                        <div id="adminProgressEgress" class="admin-metric-progress-bar"></div>
+                      </div>
+                    </div>
+
+                    <!-- Fila 2 Columna 1: Monthly Active Users -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header">
+                        <span class="admin-metric-title">Monthly Active Users ›</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValMAU">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubMAU">Cargando...</div>
+                      <div class="admin-metric-progress-bg">
+                        <div id="adminProgressMAU" class="admin-metric-progress-bar"></div>
+                      </div>
+                    </div>
+
+                    <!-- Fila 2 Columna 2: Cached Egress -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header">
+                        <span class="admin-metric-title">Cached Egress ›</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValCachedEgress">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubCachedEgress">Cargando...</div>
+                      <div class="admin-metric-progress-bg">
+                        <div id="adminProgressCachedEgress" class="admin-metric-progress-bar"></div>
+                      </div>
+                    </div>
+
+                    <!-- Fila 3 Columna 1: Monthly Active Third-Party Users -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header">
+                        <span class="admin-metric-title">Monthly Active Third-Party Users</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValThirdPartyMAU">0 MAU</div>
+                      <div class="admin-metric-value-sub" id="adminSubThirdPartyMAU">Límite de usuarios externos</div>
+                    </div>
+
+                    <!-- Fila 3 Columna 2: Storage Size -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header">
+                        <span class="admin-metric-title">Storage Size ›</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValStorageSize">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubStorageSize">Cargando...</div>
+                      <div class="admin-metric-progress-bg">
+                        <div id="adminProgressStorageSize" class="admin-metric-progress-bar"></div>
+                      </div>
+                    </div>
+
+                    <!-- Fila 4 Columna 1: Realtime Concurrent Peak Connections -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header">
+                        <span class="admin-metric-title">Realtime Concurrent Peak Connections ›</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValRealtimeConn">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubRealtimeConn">Límite de conexiones simultáneas</div>
+                    </div>
+
+                    <!-- Fila 4 Columna 2: Realtime Messages -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header">
+                        <span class="admin-metric-title">Realtime Messages ›</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValRealtimeMessages">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubRealtimeMessages">Límite de mensajes mensuales</div>
+                    </div>
+
+                    <!-- Fila 5 Columna 1: Edge Function Invocations -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header">
+                        <span class="admin-metric-title">Edge Function Invocations ›</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValEdgeInvocations">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubEdgeInvocations">Límite de invocaciones mensuales</div>
+                    </div>
+
+                    <!-- Fila 5 Columna 2: Monthly Active SSO Users -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header" style="justify-content: flex-start; gap: 0.5rem; align-items: center;">
+                        <span class="admin-metric-title">Monthly Active SSO Users</span>
+                        <span class="admin-btn-upgrade" id="adminBtnUpgradeSSO">Upgrade</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValSSOUsers">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubSSOUsers">-</div>
+                    </div>
+
+                    <!-- Fila 6 Columna 1: Storage Image Transformations -->
+                    <div class="admin-metric-box">
+                      <div class="admin-metric-header" style="justify-content: flex-start; gap: 0.5rem; align-items: center;">
+                        <span class="admin-metric-title">Storage Image Transformations</span>
+                        <span class="admin-btn-upgrade" id="adminBtnUpgradeImg">Upgrade</span>
+                      </div>
+                      <div class="admin-metric-value" id="adminValImageTransformations">-</div>
+                      <div class="admin-metric-value-sub" id="adminSubImageTransformations">-</div>
+                    </div>
+
+                    <!-- Fila 6 Columna 2: Spacer -->
+                    <div class="admin-metric-box" style="border-bottom: none;">
+                    </div>
+                  </div>
+
+                  <!-- Alerta Técnica: RPC Faltante -->
+                  <div class="rpc-error-alert" id="adminDbRpcErrorAlert" style="margin-top: 0.5rem; display: none; background: rgba(255, 179, 71, 0.04); border: 1px solid rgba(255, 179, 71, 0.15); border-radius: 12px; padding: 1rem;">
+                    <div class="rpc-error-title" style="font-size: 0.8rem; color: #ffb347; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                      <span>⚠️ Funciones de Métricas Faltantes en el Proyecto de Supabase</span>
+                    </div>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.75rem; color: var(--muted); line-height: 1.5;">
+                      La base de datos del cliente no tiene instaladas las funciones auxiliares de PostgreSQL. Ejecuta esto en su SQL Editor en Supabase:
+                    </p>
+                    <pre class="sql-code-block" style="font-size: 0.72rem; padding: 0.75rem; margin-top: 0.5rem; background: #060608; border: 1px solid var(--border); border-radius: 8px; font-family: monospace; color: #e2e8f0; overflow-x: auto;">-- 1. Tamaño de la BD
+create or replace function get_database_size()
+returns bigint language sql security definer as $$
+  select pg_database_size(current_database());
+$$;
+
+-- 2. Tamaño de Storage
+create or replace function get_storage_size()
+returns bigint language sql security definer as $$
+  select coalesce(sum((metadata->>'size')::bigint), 0)::bigint from storage.objects;
+$$;
+
+-- 3. Usuarios Activos (MAU)
+create or replace function get_monthly_active_users()
+returns bigint language sql security definer as $$
+  select count(*)::bigint from auth.users;
+$$;</pre>
+                  </div>
+                </div>
               </article>
 
               <!-- Sección de Bolsa de Horas & Reloj Administrativo -->
@@ -710,6 +1043,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/config.js?v=3" onerror="console.log('Sin config.js')"></script>
     <script src="../js/admin-common.js?v=3"></script>
-    <script src="../js/admin-cuentas.js?v=3"></script>
+    <script src="../js/admin-cuentas.js?v=4"></script>
   </body>
 </html>

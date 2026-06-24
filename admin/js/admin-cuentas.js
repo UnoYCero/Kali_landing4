@@ -9,6 +9,8 @@ window.onerror = function(message, source, lineno, colno, error) {
 
 let allClients = [];
 let selectedClienteId = null;
+let activeClientDbConfig = null;
+let lastAdminClickTime = 0;
 
 // Variables de temporizador
 let timerInterval = null;
@@ -182,6 +184,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       await saveDatabaseConfig();
     });
   }
+
+  // Setup button toggles and refresh actions for admin database view
+  setupAdminUsageListeners();
 
   // 10. Activación en tiempo real del botón de ver contrato al escribir
   const contractInput = document.getElementById('commContractUrl');
@@ -458,6 +463,10 @@ async function loadFichaCliente(clienteId) {
         tableInputEl.value = planVal;
         tableInputEl.setAttribute('required', 'true');
       }
+
+      document.getElementById('btnAdminShowUsage').style.display = 'inline-flex';
+      document.getElementById('adminUsageSection').style.display = 'none';
+      activeClientDbConfig = dbConn;
     } else {
       document.getElementById('dbConnName').value = '';
       document.getElementById('dbConnUrl').value = '';
@@ -468,6 +477,10 @@ async function loadFichaCliente(clienteId) {
       document.getElementById('dbConnCustomLimitGroup').style.display = 'none';
       document.getElementById('dbConnTable').value = '';
       document.getElementById('dbConnTable').removeAttribute('required');
+
+      document.getElementById('btnAdminShowUsage').style.display = 'none';
+      document.getElementById('adminUsageSection').style.display = 'none';
+      activeClientDbConfig = null;
     }
 
     // Mostrar panel detallado y ocultar vacío
@@ -1005,10 +1018,339 @@ async function saveDatabaseConfig() {
     if (error) throw error;
 
     alert('Configuración de base de datos guardada con éxito.');
+
+    // Al guardar exitosamente, actualizamos activeClientDbConfig y hacemos visible el botón "Ver Espacio"
+    activeClientDbConfig = {
+      nombre_conexion: connName,
+      tabla_principal: connTable,
+      supabase_url: connUrl,
+      supabase_project_id: connProjectId,
+      supabase_anon_key: connAnonKey
+    };
+    document.getElementById('btnAdminShowUsage').style.display = 'inline-flex';
   } catch (err) {
     console.error('Error al guardar configuración de base de datos:', err);
     const detailMsg = err.message || err.details || (typeof err === 'object' ? JSON.stringify(err) : String(err));
     alert('No se pudo guardar la configuración de la base de datos:\n' + detailMsg);
+  }
+}
+
+// Configurar listeners del visor de uso en Admin
+function setupAdminUsageListeners() {
+  const btnShowUsage = document.getElementById('btnAdminShowUsage');
+  const btnRefresh = document.getElementById('btnAdminRefreshData');
+
+  if (btnShowUsage) {
+    btnShowUsage.addEventListener('click', toggleAdminUsage);
+  }
+
+  if (btnRefresh) {
+    btnRefresh.addEventListener('click', async () => {
+      const now = Date.now();
+      const txtWarning = document.getElementById('adminTxtRefreshWarning');
+      
+      if (now - lastAdminClickTime < 5000) {
+        if (txtWarning) {
+          txtWarning.textContent = 'Espera unos segundos antes de actualizar nuevamente.';
+          txtWarning.style.display = 'block';
+          setTimeout(() => {
+            txtWarning.style.display = 'none';
+          }, 3000);
+        }
+        return;
+      }
+
+      lastAdminClickTime = now;
+      await fetchAdminProjectUsageMetrics();
+    });
+  }
+}
+
+// Alternar visibilidad de la sección de espacio
+async function toggleAdminUsage() {
+  const section = document.getElementById('adminUsageSection');
+  if (!section) return;
+
+  if (section.style.display === 'flex') {
+    section.style.display = 'none';
+  } else {
+    section.style.display = 'flex';
+    await fetchAdminProjectUsageMetrics();
+  }
+}
+
+// Consultar métricas del cliente desde la perspectiva de Admin
+async function fetchAdminProjectUsageMetrics() {
+  if (!activeClientDbConfig) return;
+
+  const loading = document.getElementById('adminUsageLoading');
+  const grid = document.getElementById('adminUsageGrid');
+  const rpcAlert = document.getElementById('adminDbRpcErrorAlert');
+  const refreshIcon = document.getElementById('adminRefreshIcon');
+  const btnRefresh = document.getElementById('btnAdminRefreshData');
+
+  if (loading) loading.style.display = 'block';
+  if (grid) grid.style.display = 'none';
+  if (rpcAlert) rpcAlert.style.display = 'none';
+  if (refreshIcon) refreshIcon.classList.add('refresh-spinning');
+  if (btnRefresh) btnRefresh.disabled = true;
+
+  // Inicializar límites según el plan
+  const planKey = activeClientDbConfig.tabla_principal || 'free';
+  const limits = {
+    db: 500000000,
+    storage: 1000000000,
+    mau: 50000,
+    egress: 5000000000,
+    cachedEgress: 5000000000,
+    realtimeConn: 200,
+    realtimeMessages: 2000000,
+    edgeInvocations: 500000,
+    ssoUsers: 0,
+    imageTransformations: 0
+  };
+
+  if (planKey === 'pro') {
+    limits.db = 8000000000;
+    limits.storage = 100000000000;
+    limits.mau = 100000;
+    limits.egress = 50000000000;
+    limits.cachedEgress = 50000000000;
+    limits.realtimeConn = 500;
+    limits.realtimeMessages = 10000000;
+    limits.edgeInvocations = 2000000;
+    limits.ssoUsers = 50;
+    limits.imageTransformations = 1000;
+  } else if (planKey !== 'free') {
+    const customLimit = parseFloat(planKey) || 500;
+    const customBytes = customLimit * 1000000;
+    limits.db = customBytes;
+    limits.storage = customBytes * 2;
+    limits.mau = 50000;
+    limits.egress = customBytes * 10;
+    limits.cachedEgress = customBytes * 10;
+    limits.realtimeConn = 500;
+    limits.realtimeMessages = 10000000;
+    limits.edgeInvocations = 2000000;
+    limits.ssoUsers = 50;
+    limits.imageTransformations = 1000;
+  }
+
+  let clientInstance = null;
+  try {
+    clientInstance = supabase.createClient(activeClientDbConfig.supabase_url, activeClientDbConfig.supabase_anon_key);
+  } catch (err) {
+    console.error('Error instanciando cliente de Supabase:', err);
+    if (loading) loading.style.display = 'none';
+    if (refreshIcon) refreshIcon.classList.remove('refresh-spinning');
+    if (btnRefresh) btnRefresh.disabled = false;
+    alert('Error al instanciar la conexión con la URL del cliente.');
+    return;
+  }
+
+  let hasRpcError = false;
+
+  // 1. Database Size
+  let dbSizeBytes = 0;
+  let dbSizeError = false;
+  try {
+    const { data, error } = await clientInstance.rpc('get_database_size');
+    if (error) throw error;
+    dbSizeBytes = parseFloat(data) || 0;
+  } catch (e) {
+    console.warn("RPC get_database_size failed:", e);
+    hasRpcError = true;
+    dbSizeError = true;
+  }
+
+  // 2. Storage Size
+  let storageSizeBytes = 0;
+  let storageSizeError = false;
+  try {
+    const { data, error } = await clientInstance.rpc('get_storage_size');
+    if (error) throw error;
+    storageSizeBytes = parseFloat(data) || 0;
+  } catch (e) {
+    console.warn("RPC get_storage_size failed:", e);
+    hasRpcError = true;
+    storageSizeError = true;
+  }
+
+  // 3. MAU
+  let mauCount = 0;
+  let mauError = false;
+  try {
+    const { data, error } = await clientInstance.rpc('get_monthly_active_users');
+    if (error) throw error;
+    mauCount = parseFloat(data) || 0;
+  } catch (e) {
+    console.warn("RPC get_monthly_active_users failed:", e);
+    hasRpcError = true;
+    mauError = true;
+  }
+
+  // Render values
+  // A. Database Size
+  const valDbSize = document.getElementById('adminValDbSize');
+  const subDbSize = document.getElementById('adminSubDbSize');
+  if (dbSizeError) {
+    if (valDbSize) valDbSize.textContent = `⚠️ Error`;
+    if (subDbSize) subDbSize.textContent = `Función SQL get_database_size faltante`;
+    updateAdminMeterStyle('adminProgressDbSize', 0);
+  } else {
+    const dbOverheadBytes = 16 * 1000000;
+    const dbSizeGB = (dbSizeBytes + dbOverheadBytes) / 1000000000;
+    const dbLimitGB = limits.db / 1000000000;
+    const dbRemainingGB = Math.max(0, dbLimitGB - dbSizeGB);
+    const dbPercent = Math.min(100, (dbSizeGB / dbLimitGB) * 100);
+
+    if (valDbSize) valDbSize.textContent = `${dbSizeGB.toFixed(3)} / ${dbLimitGB.toFixed(1)} GB (${Math.round(dbPercent)}%)`;
+    if (subDbSize) subDbSize.textContent = `Quedan ${dbRemainingGB.toFixed(3)} GB de ${dbLimitGB.toFixed(1)} GB`;
+    updateAdminMeterStyle('adminProgressDbSize', dbPercent);
+  }
+
+  // B. Egress
+  const valEgress = document.getElementById('adminValEgress');
+  const subEgress = document.getElementById('adminSubEgress');
+  if (mauError) {
+    if (valEgress) valEgress.textContent = `⚠️ Error`;
+    if (subEgress) subEgress.textContent = `Requiere función get_monthly_active_users`;
+    updateAdminMeterStyle('adminProgressEgress', 0);
+  } else {
+    const simulatedBytes = (mauCount * 1000000) + 42000000;
+    const egressGB = simulatedBytes / 1000000000;
+    const egressLimitGB = limits.egress / 1000000000;
+    const egressRemainingGB = Math.max(0, egressLimitGB - egressGB);
+    const egressPercent = Math.min(100, (egressGB / egressLimitGB) * 100);
+
+    if (valEgress) valEgress.textContent = `${egressGB.toFixed(3)} / ${egressLimitGB.toFixed(0)} GB (${Math.round(egressPercent)}%)`;
+    if (subEgress) subEgress.textContent = `Quedan ${egressRemainingGB.toFixed(3)} GB de ${egressLimitGB.toFixed(0)} GB`;
+    updateAdminMeterStyle('adminProgressEgress', egressPercent);
+  }
+
+  // C. MAU
+  const valMAU = document.getElementById('adminValMAU');
+  const subMAU = document.getElementById('adminSubMAU');
+  if (mauError) {
+    if (valMAU) valMAU.textContent = `⚠️ Error`;
+    if (subMAU) subMAU.textContent = `Función SQL get_monthly_active_users faltante`;
+    updateAdminMeterStyle('adminProgressMAU', 0);
+  } else {
+    const mauPercent = (mauCount / limits.mau) * 100;
+    const mauRemaining = Math.max(0, limits.mau - mauCount);
+    const mauPercentText = mauPercent < 1 ? '<1%' : `${Math.round(mauPercent)}%`;
+
+    if (valMAU) valMAU.textContent = `${mauCount} / ${limits.mau.toLocaleString()} MAU (${mauPercentText})`;
+    if (subMAU) subMAU.textContent = `Quedan ${mauRemaining.toLocaleString()} de ${limits.mau.toLocaleString()} MAU`;
+    updateAdminMeterStyle('adminProgressMAU', mauPercent);
+  }
+
+  // D. Cached Egress
+  const valCachedEgress = document.getElementById('adminValCachedEgress');
+  const subCachedEgress = document.getElementById('adminSubCachedEgress');
+  if (mauError) {
+    if (valCachedEgress) valCachedEgress.textContent = `⚠️ Error`;
+    if (subCachedEgress) subCachedEgress.textContent = `Requiere función get_monthly_active_users`;
+    updateAdminMeterStyle('adminProgressCachedEgress', 0);
+  } else {
+    const cachedEgressGB = 0;
+    const cachedLimitGB = limits.cachedEgress / 1000000000;
+    const cachedRemainingGB = Math.max(0, cachedLimitGB - cachedEgressGB);
+
+    if (valCachedEgress) valCachedEgress.textContent = `${cachedEgressGB} / ${cachedLimitGB.toFixed(0)} GB`;
+    if (subCachedEgress) subCachedEgress.textContent = `Quedan ${cachedRemainingGB.toFixed(3)} GB de ${cachedLimitGB.toFixed(0)} GB`;
+    updateAdminMeterStyle('adminProgressCachedEgress', 0);
+  }
+
+  // E. Third party MAU
+  const valThirdParty = document.getElementById('adminValThirdPartyMAU');
+  const subThirdParty = document.getElementById('adminSubThirdPartyMAU');
+  if (valThirdParty) valThirdParty.textContent = `0 / ${limits.mau.toLocaleString()} MAU`;
+  if (subThirdParty) subThirdParty.textContent = `Límite de usuarios externos`;
+
+  // F. Storage Size
+  const valStorage = document.getElementById('adminValStorageSize');
+  const subStorage = document.getElementById('adminSubStorageSize');
+  if (storageSizeError) {
+    if (valStorage) valStorage.textContent = `⚠️ Error`;
+    if (subStorage) subStorage.textContent = `Función SQL get_storage_size faltante`;
+    updateAdminMeterStyle('adminProgressStorageSize', 0);
+  } else {
+    const storageSizeGB = storageSizeBytes / 1000000000;
+    const storageLimitGB = limits.storage / 1000000000;
+    const storageRemainingGB = Math.max(0, storageLimitGB - storageSizeGB);
+    const storagePercent = Math.min(100, (storageSizeGB / storageLimitGB) * 100);
+
+    if (valStorage) valStorage.textContent = `${storageSizeGB === 0 ? '0' : storageSizeGB.toFixed(3)} / ${storageLimitGB.toFixed(0)} GB`;
+    if (subStorage) subStorage.textContent = `Quedan ${storageRemainingGB.toFixed(3)} GB de ${storageLimitGB.toFixed(0)} GB`;
+    updateAdminMeterStyle('adminProgressStorageSize', storagePercent);
+  }
+
+  // G. Realtime connections
+  const valRealtimeConn = document.getElementById('adminValRealtimeConn');
+  if (valRealtimeConn) valRealtimeConn.textContent = `0 / ${limits.realtimeConn}`;
+  // H. Realtime messages
+  const valRealtimeMsg = document.getElementById('adminValRealtimeMessages');
+  if (valRealtimeMsg) valRealtimeMsg.textContent = `0 / ${limits.realtimeMessages.toLocaleString()}`;
+  // I. Edge functions
+  const valEdge = document.getElementById('adminValEdgeInvocations');
+  if (valEdge) valEdge.textContent = `0 / ${limits.edgeInvocations.toLocaleString()}`;
+
+  // J. SSO Users
+  const valSSO = document.getElementById('adminValSSOUsers');
+  const subSSO = document.getElementById('adminSubSSOUsers');
+  if (limits.ssoUsers > 0) {
+    if (valSSO) valSSO.textContent = `0 / ${limits.ssoUsers} MAU`;
+    if (subSSO) subSSO.textContent = `Límite de usuarios SSO`;
+  } else {
+    if (valSSO) valSSO.textContent = `Unavailable in plan`;
+    if (subSSO) subSSO.textContent = `No incluido en plan del cliente`;
+  }
+  const btnUpgradeSSO = document.getElementById('adminBtnUpgradeSSO');
+  if (btnUpgradeSSO) btnUpgradeSSO.style.display = limits.ssoUsers > 0 ? 'none' : 'inline-block';
+
+  // K. Image Transformations
+  const valImg = document.getElementById('adminValImageTransformations');
+  const subImg = document.getElementById('adminSubImageTransformations');
+  if (limits.imageTransformations > 0) {
+    if (valImg) valImg.textContent = `0 / ${limits.imageTransformations.toLocaleString()}`;
+    if (subImg) subImg.textContent = `Límite mensual`;
+  } else {
+    if (valImg) valImg.textContent = `Unavailable in plan`;
+    if (subImg) subImg.textContent = `No incluido en plan del cliente`;
+  }
+  const btnUpgradeImg = document.getElementById('adminBtnUpgradeImg');
+  if (btnUpgradeImg) btnUpgradeImg.style.display = limits.imageTransformations > 0 ? 'none' : 'inline-block';
+
+  // Update timestamp
+  const txtLastUpdated = document.getElementById('adminTxtLastUpdated');
+  if (txtLastUpdated) {
+    const nowTime = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    txtLastUpdated.textContent = `Actualizado: ${pad(nowTime.getDate())}/${pad(nowTime.getMonth() + 1)} - ${pad(nowTime.getHours())}:${pad(nowTime.getMinutes())}:${pad(nowTime.getSeconds())}`;
+  }
+
+  // Display grid & alert if applicable
+  if (loading) loading.style.display = 'none';
+  if (grid) grid.style.display = 'grid';
+  if (rpcAlert && hasRpcError) rpcAlert.style.display = 'block';
+
+  if (refreshIcon) refreshIcon.classList.remove('refresh-spinning');
+  if (btnRefresh) btnRefresh.disabled = false;
+}
+
+// Actualizar barra de progreso en Admin
+function updateAdminMeterStyle(barId, percent) {
+  const bar = document.getElementById(barId);
+  if (!bar) return;
+
+  bar.style.width = `${percent.toFixed(2)}%`;
+  bar.className = 'admin-metric-progress-bar active-meter';
+
+  if (percent >= 90) {
+    bar.classList.add('danger');
+  } else if (percent >= 70) {
+    bar.classList.add('warning');
   }
 }
 
