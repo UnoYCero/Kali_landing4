@@ -1904,6 +1904,23 @@ textarea {
 
 .tools-sidebar .is-active { border: 1px solid rgba(0, 255, 163, 0.45); }
 
+.sidebar-well-io-option {
+  display: flex !important;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+}
+.sidebar-tool-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.sidebar-tool-subtitle {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+}
+
+
 /* ── Sidebar Drawer Enhancements ─────────────────────────────────────────── */
 .sidebar-header {
   display: flex;
