@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Kaleidoscopio | Gestor de Contraseñas</title>
+  
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="../assets/img/logo.png" type="image/png" />
+</head>
+<body>
+  <!-- Fondo con partículas neón -->
+  <div class="neon-particles" aria-hidden="true"></div>
+
+  <!-- NOTIFICACIÓN DE COPIADO / TOAST -->
+  <div id="toast" class="toast hidden">Copiado al portapapeles</div>
+
+  <!-- 1. PANTALLA DE INICIO DE SESIÓN -->
+  <main id="authScreen" class="auth-container">
+    <div class="glass-card login-card">
+      <div class="login-header">
+        <img src="../assets/img/logo.png" alt="Kaleidoscopio" class="login-logo" />
+        <h2>Gestor de Accesos</h2>
+        <p>Introduce tus credenciales de acceso privado</p>
+      </div>
+
+      <div id="loginError" class="error-msg hidden">Usuario o contraseña incorrectos.</div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginUser">Usuario</label>
+          <input type="text" id="loginUser" required placeholder="nombre.usuario" autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn-neon">Iniciar Sesión</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- 2. PANTALLA DE CONFIGURACIÓN DE CONTRASEÑA DEFINITIVA (PRIMER INICIO) -->
+  <main id="setupScreen" class="auth-container hidden">
+    <div class="glass-card login-card">
+      <div class="login-header">
+        <h2>Crear Contraseña Definitiva</h2>
+        <p>Hola <span id="setupUserName">Usuario</span>, por seguridad debes establecer tu contraseña definitiva antes de ingresar.</p>
+      </div>
+
+      <form id="setupForm">
+        <div class="form-group">
+          <label for="newPassword">Nueva Contraseña</label>
+          <input type="password" id="newPassword" required placeholder="Mínimo 8 caracteres" autocomplete="new-password" />
+          
+          <!-- Indicador de Fortaleza -->
+          <div class="strength-meter-container">
+            <div class="strength-bar" id="strengthBar"></div>
+          </div>
+          <span class="strength-text" id="strengthText">Seguridad: Ninguna</span>
+          
+          <ul class="strength-requirements">
+            <li id="reqLength" class="req-item">Mínimo 8 caracteres</li>
+            <li id="reqUpper" class="req-item">Al menos una mayúscula</li>
+            <li id="reqNumber" class="req-item">Al menos un número o carácter especial</li>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar Contraseña</label>
+          <input type="password" id="confirmPassword" required placeholder="Repite la contraseña" autocomplete="new-password" />
+          <span class="error-text hidden" id="matchError">Las contraseñas no coinciden</span>
+        </div>
+
+        <button type="submit" id="setupSubmitBtn" class="btn-neon" disabled>Guardar y Entrar</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- 3. INTERFAZ PRINCIPAL DEL GESTOR (DASHBOARD) -->
+  <main id="appScreen" class="app-layout hidden">
+    
+    <!-- BARRA SUPERIOR DE LA APLICACIÓN -->
+    <header class="app-header">
+      <div class="brand">
+        <img src="../assets/img/logo.png" alt="Logo" />
+        <span class="brand-title">KALEIDOSCOPIO <span class="badge">CREDENTIALS</span></span>
+      </div>
+
+      <div class="header-actions">
+        <div class="user-profile">
+          <div class="avatar" id="userAvatar">U</div>
+          <div class="user-info">
+            <span class="user-name" id="profileName">Nombre Usuario</span>
+            <span class="user-role">Acceso Autorizado</span>
+          </div>
+        </div>
+
+        <div class="lock-setting">
+          <label for="lockTimerSelect">Autobloqueo:</label>
+          <select id="lockTimerSelect">
+            <option value="5">5 min</option>
+            <option value="15" selected>15 min</option>
+            <option value="30">30 min</option>
+            <option value="60">1 hora</option>
+          </select>
+        </div>
+
+        <button id="logoutBtn" class="btn-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          Cerrar Sesión
+        </button>
+      </div>
+    </header>
+
+    <div class="main-container">
+      
+      <!-- COLUMNA 1: SIDEBAR (PROYECTOS Y SERVICIOS) -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h3>Proyectos</h3>
+          <button class="btn-icon-add" id="btnNewProject" title="Nuevo Proyecto">+</button>
+        </div>
+
+        <div class="search-box">
+          <input type="text" id="searchProject" placeholder="Buscar proyecto..." />
+        </div>
+
+        <div class="projects-list" id="projectsList">
+          <!-- Dinámico -->
+        </div>
+      </aside>
+
+      <!-- COLUMNA 2: DETALLES DE SERVICIOS Y CREDENCIALES -->
+      <section class="credentials-panel">
+        
+        <!-- INDICADORES / CONTADORES GENERALES -->
+        <div class="stats-header" id="statsHeader">
+          <div class="stat-card">
+            <span class="stat-value" id="statProjects">0</span>
+            <span class="stat-label">Proyectos</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statServices">0</span>
+            <span class="stat-label">Servicios</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statTotalCreds">0</span>
+            <span class="stat-label">Credenciales</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statShared">0</span>
+            <span class="stat-label">Compartidas</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statPrivate">0</span>
+            <span class="stat-label">Privadas</span>
+          </div>
+        </div>
+
+        <!-- LISTA DE CREDENCIALES DEL SERVICIO SELECCIONADO -->
+        <div class="credentials-list-section">
+          <div class="section-title-bar">
+            <div>
+              <h2 id="selectedPathTitle">Todos los accesos</h2>
+              <p id="selectedPathDesc">Selecciona un proyecto o servicio para ver las credenciales asociadas.</p>
+            </div>
+            <button class="btn-neon hidden" id="btnNewCredential">
+              Nuevo Ingreso
+            </button>
+          </div>
+
+          <div class="search-box creds-search">
+            <input type="text" id="searchCredential" placeholder="Buscar por nombre, correo, usuario, URL..." />
+          </div>
+
+          <div class="credentials-table-container">
+            <table class="creds-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Usuario</th>
+                  <th>URL</th>
+                  <th>Visibilidad</th>
+                </tr>
+              </thead>
+              <tbody id="credentialsTableBody">
+                <tr>
+                  <td colspan="5" class="empty-state">Selecciona un servicio de la barra lateral.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUMNA 3: VISTA DE DETALLES Y COPIADO -->
+      <section class="details-panel" id="detailsPanel">
+        <div class="empty-details" id="emptyDetails">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <p>Selecciona una credencial para ver sus detalles</p>
+        </div>
+
+        <div class="details-content hidden" id="detailsContent">
+          <!-- Detalle dinámico -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       MODALES / VENTANAS EMERGENTES
+       ========================================== -->
+
+  <!-- MODAL: CREAR PROYECTO -->
+  <div class="modal-overlay hidden" id="modalProject">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Nuevo Proyecto</h3>
+        <button class="modal-close" id="btnCloseProjectModal">&times;</button>
+      </div>
+      <form id="formProject">
+        <div class="form-group">
+          <label for="projectName">Nombre del Proyecto *</label>
+          <input type="text" id="projectName" required placeholder="Ej. Nuva-Well" />
+        </div>
+        <div class="form-group">
+          <label for="projectDesc">Descripción (opcional)</label>
+          <textarea id="projectDesc" rows="3" placeholder="Detalles o descripción corta del proyecto..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="projectColor">Color del Proyecto</label>
+          <div class="color-picker-grid">
+            <label class="color-radio" style="background: #3ed1ff;"><input type="radio" name="projColor" value="#3ed1ff" checked></label>
+            <label class="color-radio" style="background: #00ffa3;"><input type="radio" name="projColor" value="#00ffa3"></label>
+            <label class="color-radio" style="background: #f3ff3e;"><input type="radio" name="projColor" value="#f3ff3e"></label>
+            <label class="color-radio" style="background: #ff3e7f;"><input type="radio" name="projColor" value="#ff3e7f"></label>
+            <label class="color-radio" style="background: #ffb347;"><input type="radio" name="projColor" value="#ffb347"></label>
+            <label class="color-radio" style="background: #a855f7;"><input type="radio" name="projColor" value="#a855f7"></label>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-outline" id="btnCancelProject">Cancelar</button>
+          <button type="submit" class="btn-neon">Crear Proyecto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CREAR SERVICIO -->
+  <div class="modal-overlay hidden" id="modalService">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Agregar Servicio</h3>
+        <button class="modal-close" id="btnCloseServiceModal">&times;</button>
+      </div>
+      <form id="formService">
+        <input type="hidden" id="serviceProjectId" />
+        <div class="form-group">
+          <label>Proyecto Destino</label>
+          <input type="text" id="serviceProjectName" readonly class="input-readonly" />
+        </div>
+        <div class="form-group">
+          <label for="serviceName">Nombre del Servicio *</label>
+          <input type="text" id="serviceName" required placeholder="Ej. Netlify, Supabase, Stripe" />
+        </div>
+        <div class="form-group">
+          <label for="serviceDesc">Descripción (opcional)</label>
+          <textarea id="serviceDesc" rows="3" placeholder="Detalles de este servicio..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-outline" id="btnCancelService">Cancelar</button>
+          <button type="submit" class="btn-neon">Agregar Servicio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CREAR INGRESO / CREDENCIAL -->
+  <div class="modal-overlay hidden" id="modalCredential">
+    <div class="modal-card modal-large">
+      <div class="modal-header">
+        <h3 id="credentialModalTitle">Nuevo Ingreso</h3>
+        <button class="modal-close" id="btnCloseCredModal">&times;</button>
+      </div>
+      <form id="formCredential">
+        <input type="hidden" id="credId" />
+        <input type="hidden" id="credServiceId" />
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="credName">Nombre del Acceso *</label>
+            <input type="text" id="credName" required placeholder="Ej. Acceso Administrador, API ReadOnly" />
+          </div>
+          <div class="form-group">
+            <label for="credVisibility">Visibilidad</label>
+            <select id="credVisibility">
+              <option value="privado">Privado (Solo yo puedo verlo)</option>
+              <option value="compartido">Compartido (Todos los usuarios autorizados)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="credEmail">Correo *</label>
+            <input type="email" id="credEmail" required placeholder="admin@proyecto.com" />
+          </div>
+          <div class="form-group">
+            <label for="credUser">Usuario (opcional)</label>
+            <input type="text" id="credUser" placeholder="admin" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="credPassword">Contraseña *</label>
+            <div class="password-input-wrapper">
+              <input type="password" id="credPassword" required placeholder="••••••••" />
+              <button type="button" class="btn-toggle-eye" id="btnModalPassEye" title="Mostrar/Ocultar Contraseña">👁️</button>
+              <button type="button" class="btn-generate" id="btnModalPassGen" title="Generar Contraseña Segura">Generar</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="credUrl">URL del Servicio *</label>
+            <input type="url" id="credUrl" required placeholder="https://app.netlify.com" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="credNotes">Notas (opcional)</label>
+          <textarea id="credNotes" rows="4" placeholder="Especificaciones, tokens de recuperación, etc."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-outline" id="btnCancelCred">Cancelar</button>
+          <button type="submit" class="btn-neon" id="btnSubmitCred">Guardar Ingreso</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Reutilizamos el archivo de configuración existente para el url y anon key -->
+  <script src="../admin/js/config.js" onerror="console.log('Sin archivo config.js predefinido en admin. Se usarán variables de entorno.')"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
